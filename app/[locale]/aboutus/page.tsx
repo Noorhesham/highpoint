@@ -124,4 +124,4 @@ const page = async({ params: { locale } }: { params: { locale: string } }) => {
   );
 };
 
-export default Page;
+export default page;
