@@ -6,12 +6,14 @@ import { MessageCircleIcon, MapPinIcon, MailIcon, PhoneIcon } from "lucide-react
 import React from "react";
 import AboutCard from "@/app/components/AboutCard";
 import MaxWidthWrapper from "@/app/components/defaults/MaxWidthWrapper";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, unstable_setRequestLocale } from "next-intl/server";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { GrEmoji } from "react-icons/gr";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-const Page = async () => {
+
+const page = ({ params: { locale } }: { params: { locale: string } }) => {
+  unstable_setRequestLocale(locale);
   const t = await getTranslations();
 
   const cards = [

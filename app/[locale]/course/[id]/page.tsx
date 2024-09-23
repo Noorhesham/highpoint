@@ -4,11 +4,13 @@ import Paragraph from "@/app/components/defaults/Paragraph";
 import Head from "@/app/components/Head";
 import { Button } from "@/components/ui/button";
 import { CheckIcon, CodeIcon, Heading1 } from "lucide-react";
+import { unstable_setRequestLocale } from "next-intl/server";
 import Image from "next/image";
 import React from "react";
 import { GrDocumentDownload } from "react-icons/gr";
 
-const page = () => {
+const page = ({ params: { locale } }: { params: { locale: string } }) => {
+  unstable_setRequestLocale(locale);
   return (
     <section className=" pt-32">
       <MaxWidthWrapper className=" text-gray-800">

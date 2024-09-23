@@ -1,4 +1,4 @@
-import { getTranslations } from "next-intl/server";
+import { getTranslations, unstable_setRequestLocale } from "next-intl/server";
 import Head from "../components/Head";
 import Paragraph from "../components/defaults/Paragraph";
 import MaxWidthWrapper from "../components/defaults/MaxWidthWrapper";
@@ -16,6 +16,7 @@ import { AppleCardsCarouselDemo } from "../components/CardsCarousel";
 import { cn } from "@/lib/utils";
 
 export default async function Home({ params: { locale } }: { params: { locale: string } }) {
+  unstable_setRequestLocale(locale);
   const t = await getTranslations();
 
   const features = [
