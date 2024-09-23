@@ -12,7 +12,7 @@ import { GrEmoji } from "react-icons/gr";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
-const page = ({ params: { locale } }: { params: { locale: string } }) => {
+const page = async({ params: { locale } }: { params: { locale: string } }) => {
   unstable_setRequestLocale(locale);
   const t = await getTranslations();
 
