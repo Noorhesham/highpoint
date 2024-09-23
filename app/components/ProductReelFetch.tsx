@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { unstable_cache } from "next/cache";
 // import { getCourses, getEntities } from "../actions/actions";
 import ProductCard from "./Product";
@@ -158,24 +158,27 @@ const ProductReelFetch = async ({
   // const courses = data;
   // console.log(courses);
   return (
-    <section className=" pt-32">
-      <MaxWidthWrapper className="flex flex-col items-center gap-5">
-        <h1 className="text-6xl  font-bold text-black ">Courses</h1>
-        {/* <ToolBox /> */}
-        <GridContainer cols={3}>
-          {courses.length > 0 ? (
-            <>
-              {courses.map((product: any, i: number) => (
-                <ProductCard index={i} key={product.id} product={product} />
-              ))}
-            </>
-          ) : (
-            <Empty />
-          )}
-          <PaginationDemo totalPages={4} />
-        </GridContainer>
-      </MaxWidthWrapper>
-    </section>
+    <Suspense>
+      {" "}
+      <section className=" pt-32">
+        <MaxWidthWrapper className="flex flex-col items-center gap-5">
+          <h1 className="text-6xl  font-bold text-black ">Courses</h1>
+          {/* <ToolBox /> */}
+          <GridContainer cols={3}>
+            {courses.length > 0 ? (
+              <>
+                {courses.map((product: any, i: number) => (
+                  <ProductCard index={i} key={product.id} product={product} />
+                ))}
+              </>
+            ) : (
+              <Empty />
+            )}
+            <PaginationDemo totalPages={4} />
+          </GridContainer>
+        </MaxWidthWrapper>
+      </section>
+    </Suspense>
   );
 };
 
