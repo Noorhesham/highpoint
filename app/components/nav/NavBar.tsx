@@ -28,10 +28,10 @@ const NavBar = () => {
 
       href: "/aboutus",
     },
-    {
-      text: t("nav.contactus"),
-      href: "/contactus",
-    },
+    // {
+    //   text: t("nav.contactus"),
+    //   href: "/contactus",
+    // },
   ];
   const [isScrollingDown, setIsScrollingDown] = useState(false);
   const [active, setIsActive] = useState(false);
@@ -56,15 +56,15 @@ const NavBar = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY, isTopPage]);
-  const isHome = pathName === "/en"||pathName === "/ar";
+  const isHome = pathName === "/en" || pathName === "/ar";
   return (
     <header className=" w-full">
       <nav
         className={`${
           isHome
             ? "text-gray-900 font-semibold placeholder:text-gray-800 "
-            : `    font-semibold placeholder:text-gray-800"  ${isScrollingDown && "bg-white/80"}`
-        } fixed inset-0 z-50 max-h-[5rem] lg:max-h-[7rem]  bg-white  flex flex-col gap-2  py-4 transition-all duration-300 ${
+            : `    font-semibold placeholder:text-gray-50"  ${isScrollingDown && "bg-white/80"}`
+        } fixed inset-0 z-50 max-h-[5rem] lg:max-h-[5rem]  bg-main flex flex-col gap-2   transition-all duration-300 ${
           isScrollingDown
             ? "translate-y-[-110%]"
             : !isTopPage && !isScrollingDown
@@ -86,10 +86,10 @@ const NavBar = () => {
             </MotionItem>
           )}
         </AnimatePresence>
-        <MaxWidthWrapper noPadding>
+        <MaxWidthWrapper className="lg:py-0 xl:py-0"  noPadding>
           <div
             className={cn(
-              "flex relative z-20 items-center   ",
+              "flex relative z-20 items-center    ",
               !isTopPage && !isScrollingDown ? "justify-center lg:justify-between" : "justify-between"
             )}
           >

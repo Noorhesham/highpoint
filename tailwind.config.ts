@@ -53,7 +53,7 @@ const config: Config = {
           "4": "hsl(var(--chart-4))",
           "5": "hsl(var(--chart-5))",
         },
-        main: "#060915",
+        main: "#012951",
         main2: "#07bfaa",
       },
 

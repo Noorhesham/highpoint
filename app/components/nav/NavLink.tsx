@@ -27,7 +27,7 @@ const NavLink = ({
   const pathName = usePathname();
   const local = useLocale();
   const linkStyles =
-    "uppercase  text-gray-900 font-semibold  group flex relative items-center gap-2 text-sm  xl:text-base  ";
+    "uppercase  text-gray-50 font-semibold  group flex relative items-center gap-2 text-sm  xl:text-base  ";
   console.log(pathName.replace(`/${local}`, "").trim() === "", isHome);
   const active = isHome
     ? pathName.replace(`/${local}`, "").trim() === href?.replace(`/`, "").trim()
@@ -39,9 +39,9 @@ const NavLink = ({
         className={`${linkStyles} ${
           active
             ? `text-primary 
-       after:w-full after:h-[2px]  after:bg-blue-500 after:absolute after:-bottom-1 w-fit after:left-0`
-            : ""
-        }`}
+       after:w-full after:h-[2px]  after:bg-blue-500  after:absolute after:-bottom-1 w-fit after:left-0`
+            : "after:w-0 "
+        } hover:after:bg-yellow-400 hover:after:w-full after:duration-150 after:absolute after:-bottom-1  after:left-0 hover:after:h-[2px]`}
       >
         {text}
       </Link>
