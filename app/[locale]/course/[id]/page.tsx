@@ -14,6 +14,7 @@ import List from "@/app/components/LIst";
 import MiniHeading from "@/app/components/MiniHeading";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import FlexWrapper from "@/app/components/defaults/FlexWrapper";
 
 const page = ({ params: { locale } }: { params: { locale: string } }) => {
   unstable_setRequestLocale(locale);
@@ -26,67 +27,69 @@ const page = ({ params: { locale } }: { params: { locale: string } }) => {
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
         }}
-        className=" relative h-[28rem]"
+        className=" relativeh-[30rem]"
       >
-        <div className=" px-8 py-4 absolute top-40  items-end flex flex-col gap-2 right-10">
-          <h1 className=" font-semibold text-3xl text-white">دورة LPC- باور بي آي Power BI</h1>
-          <div className=" flex items-center gap-2 ">
-            <Button className="  text-gray-50 bg-yellow-500 hover:bg-yellow-400 duration-150" size={"sm"}>
-              متوفر ايضا اونلاين
-            </Button>
-            <Button className=" text-gray-50 bg-main hover:bg-main/50 duration-150" size={"sm"}>
-              الإدارة والقيادة{" "}
-            </Button>
-          </div>
-        </div>
-        <div className="flex   flex-col 0 font-medium absolute top-10 left-44">
-          <h1 className=" rounded-t-xl text-white px-4 py-2 bg-main ">معلومات عن الدورة</h1>
-          <div className=" bg-white rounded-b-xl ">
-            <div className="flex  px-4 py-1 gap-2 items-center justify-between ">
-              <div className=" flex items-center gap-1">
-                <p>التاريخ:</p>
-                <CalendarIcon />
-              </div>
-              <p className=" text-muted-foreground">Sep-30-2024</p>
-            </div>
-            <div className="flex  px-4 py-1 gap-2 items-center justify-between ">
-              <div className=" flex items-center gap-1">
-                <p>المدة :</p>
-                <Timer />
-              </div>
-              <p className=" text-muted-foreground">1 أسبوع</p>
-            </div>
-            <div className="flex  px-4 py-1 gap-2 items-center justify-between ">
-              <div className=" flex items-center gap-1">
-                <p>الرسوم :</p>
-                <FaMoneyBill />
-              </div>
-              <p className=" text-muted-foreground">4,350</p>
-            </div>
-            <div className="flex  px-4 py-1 gap-2 items-center justify-between ">
-              <div className=" flex items-center gap-1">
-                <p>النوع :</p>
-                <Laptop />
-              </div>
-              <p className=" text-muted-foreground">في الغرفة الصفية</p>
-            </div>
-            <div className="flex  px-4 py-1 gap-2 flex-col ">
-              <Button className=" text-gray-50 bg-yellow-500 hover:bg-yellow-400 duration-150" size={"sm"}>
-                سجل الان
+        <FlexWrapper className=" flex items-center justify-between ">
+          <div className=" px-8 py-4  items-end flex flex-col gap-2 right-10">
+            <h1 className=" font-semibold text-3xl text-white">دورة LPC- باور بي آي Power BI</h1>
+            <div className=" flex items-center gap-2 ">
+              <Button className="  text-gray-50 bg-yellow-500 hover:bg-yellow-400 duration-150" size={"sm"}>
+                متوفر ايضا اونلاين
               </Button>
               <Button className=" text-gray-50 bg-main hover:bg-main/50 duration-150" size={"sm"}>
-                ابق علي تواصل
-              </Button>
-              <Button className=" text-gray-50 bg-red-500 hover:bg-red-400 duration-150" size={"sm"}>
-                تنزيل النشرة
+                الإدارة والقيادة{" "}
               </Button>
             </div>
           </div>
-        </div>
+          <div className="flex   flex-col 0 font-medium ">
+            <h1 className=" rounded-t-xl text-white px-4 py-2 bg-main ">معلومات عن الدورة</h1>
+            <div className=" bg-white rounded-b-xl ">
+              <div className="flex  px-4 py-1 gap-2 items-center justify-between ">
+                <div className=" flex items-center gap-1">
+                  <p>التاريخ:</p>
+                  <CalendarIcon />
+                </div>
+                <p className=" text-muted-foreground">Sep-30-2024</p>
+              </div>
+              <div className="flex  px-4 py-1 gap-2 items-center justify-between ">
+                <div className=" flex items-center gap-1">
+                  <p>المدة :</p>
+                  <Timer />
+                </div>
+                <p className=" text-muted-foreground">1 أسبوع</p>
+              </div>
+              <div className="flex  px-4 py-1 gap-2 items-center justify-between ">
+                <div className=" flex items-center gap-1">
+                  <p>الرسوم :</p>
+                  <FaMoneyBill />
+                </div>
+                <p className=" text-muted-foreground">4,350</p>
+              </div>
+              <div className="flex  px-4 py-1 gap-2 items-center justify-between ">
+                <div className=" flex items-center gap-1">
+                  <p>النوع :</p>
+                  <Laptop />
+                </div>
+                <p className=" text-muted-foreground">في الغرفة الصفية</p>
+              </div>
+              <div className="flex  px-4 py-1 gap-2 flex-col ">
+                <Button className=" text-gray-50 bg-yellow-500 hover:bg-yellow-400 duration-150" size={"sm"}>
+                  سجل الان
+                </Button>
+                <Button className=" text-gray-50 bg-main hover:bg-main/50 duration-150" size={"sm"}>
+                  ابق علي تواصل
+                </Button>
+                <Button className=" text-gray-50 bg-red-500 hover:bg-red-400 duration-150" size={"sm"}>
+                  تنزيل النشرة
+                </Button>
+              </div>
+            </div>
+          </div>
+        </FlexWrapper>
       </div>
 
       <MaxWidthWrapper>
-        <GridContainer cols={2}>
+        <div className=" gap-4 grid md:grid-cols-2 grid-cols-1">
           <div>
             <h1 className=" rounded-t-xl text-white px-4 py-2 bg-main ">معلومات عن الدورة</h1>
             <div className=" flex items-center justify-between py-2 ">
@@ -171,7 +174,7 @@ const page = ({ params: { locale } }: { params: { locale: string } }) => {
               </Button>
             </div>
           </div>
-        </GridContainer>
+        </div>
       </MaxWidthWrapper>
       <MaxWidthWrapper>
         <GridContainer className=" gap-4" cols={5}>
