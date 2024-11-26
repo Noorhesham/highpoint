@@ -10,6 +10,7 @@ import { AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import Language from "../Language";
+import User from "../User";
 
 const NavBar = () => {
   const t = useTranslations();
@@ -72,7 +73,6 @@ const NavBar = () => {
             : "translate-y-0"
         }`}
       >
-        {" "}
         <AnimatePresence>
           {(isHome || pathName.includes("aboutus")) && !isTopPage && !isScrollingDown && (
             <MotionItem
@@ -86,7 +86,7 @@ const NavBar = () => {
             </MotionItem>
           )}
         </AnimatePresence>
-        <MaxWidthWrapper className="lg:py-0 xl:py-0"  noPadding>
+        <MaxWidthWrapper className="lg:py-0 xl:py-0" noPadding>
           <div
             className={cn(
               "flex relative z-20 items-center    ",
@@ -110,7 +110,7 @@ const NavBar = () => {
               <div className={`z-[999] duration-150 h-full  relative lg:hidden block`}>
                 <PhoneNav isHome={isHome} navigation={links} />
               </div>
-              <Language />
+              <Language /> <User />
             </div>
           </div>
         </MaxWidthWrapper>

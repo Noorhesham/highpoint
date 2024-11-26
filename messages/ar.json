@@ -72,5 +72,8 @@
     "emailDescription": "أرسل لنا بريدًا إلكترونيًا سريعًا",
     "phoneTitle": "اتصل بنا",
     "phoneDescription": "يمكنك الاتصال بنا في أي وقت"
+  },
+  "languageSwitcher": {
+    "selectLanguage": "اختر اللغة"
   }
 }
