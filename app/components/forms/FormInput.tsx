@@ -5,12 +5,12 @@ import { useFormContext } from "react-hook-form";
 const FormInput = ({
   name,
   label,
-  placeHolder,
+  placeholder,
   type,
 }: {
   name: string;
   label?: string;
-  placeHolder: string;
+  placeholder: string;
   type?: string;
 }) => {
   const form = useFormContext();
@@ -19,10 +19,10 @@ const FormInput = ({
       control={form.control}
       name={name}
       render={({ field }) => (
-        <FormItem>
+        <FormItem className=" flex items-start flex-col">
           {label && <FormLabel>{label}</FormLabel>}
           <FormControl>
-            <Input type={type || "text"} placeholder={placeHolder || "Enter ..."} {...field} />
+            <Input type={type || "text"} placeholder={placeholder || "Enter ..."} {...field} />
           </FormControl>
           <FormMessage className=" text-red-500 font-semibold" />
         </FormItem>

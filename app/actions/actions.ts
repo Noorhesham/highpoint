@@ -8,6 +8,7 @@ import Course from "../models/Course";
 import { ModelProps } from "../constant";
 import bcrypt from "bcryptjs";
 import { revalidatePath, revalidateTag } from "next/cache";
+import { cookies } from "next/headers";
 const getModel = (modelName: ModelProps) => {
   const models: Record<ModelProps, any> = {
     User,
@@ -83,11 +84,12 @@ export const getEntities = async (
   page = 1,
   filter?: any,
   all = false,
-  locale = "en",
+
   dash = false
 ) => {
   try {
     await connect();
+    // const locale = cookies().get("NEXT_LOCALE")?.value;
     const Model = getModel(modelName);
     const skip = (page - 1) * 10;
     let query: any = {};
@@ -99,18 +101,18 @@ export const getEntities = async (
         query.category = new mongoose.Types.ObjectId(filter.category);
       }
     }
-    console.log(filter, query);
-    const projection = {
-      name: all && !dash ? 1 : { $ifNull: [`$name.${locale}`, `$name.en`] },
-      description: all && !dash ? 1 : { $ifNull: [`$description.${locale}`, `$description.en`] },
-      price: 1,
-      images: 1,
-      category: 1,
-      photo: 1,
-    };
+
+    // const projection = {
+    //   name: all && !dash ? 1 : { $ifNull: [`$name.${locale}`, `$name.en`] },
+    //   description: all && !dash ? 1 : { $ifNull: [`$description.${locale}`, `$description.en`] },
+    //   price: 1,
+    //   images: 1,
+    //   category: 1,
+    //   photo: 1,
+    // };
 
     const entities = all
-      ? await Model.aggregate([{ $match: query }, { $project: projection }])
+      ? await Model.aggregate([{ $match: query }])
       : await Model.aggregate([
           { $match: query },
           {
@@ -124,7 +126,7 @@ export const getEntities = async (
           { $unwind: { path: "$category", preserveNullAndEmptyArrays: true } }, // Unwind to flatten the category array to a single object
           { $skip: skip },
           { $limit: 10 },
-          { $project: projection },
+          // { $project: projection },
         ]);
 
     const totalPages = Math.ceil((await Model.countDocuments(query)) / 10);

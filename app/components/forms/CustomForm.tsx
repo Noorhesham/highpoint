@@ -4,8 +4,10 @@ import { Form } from "@/components/ui/form";
 
 import { Button } from "@/components/ui/button";
 import BabySpinner from "../BabySpinner";
+import ArabicEnglishForm from "./ArabicEnglishForm";
 
 export interface CustomFormProps {
+  multiLang?: boolean;
   src?: string;
   serverError?: string[] | string | null;
   title?: string;
@@ -26,16 +28,21 @@ export interface CustomFormProps {
   cancel?: any;
   inputs: any;
 }
-const CustomForm = ({ inputs, title, form, onSubmit, children, isPending }: CustomFormProps) => {
+
+const CustomForm = ({ inputs, title, form, onSubmit, children, isPending, multiLang }: CustomFormProps) => {
   return (
     <Form {...form}>
       <form className="flex w-full  h-full items-stretch gap-2" onSubmit={form.handleSubmit(onSubmit)}>
         <div className="flex flex-1 gap-2 flex-col">
           {title && <h1>{title}</h1>}
           <div className="flex pt-4 flex-col gap-2">
-            {inputs.map((input: any) => (
-              <FormInput phone={input.phone || false} key={input.name} {...input} />
-            ))}
+            {inputs.map((input: any) =>
+              input.multiLang ? (
+                <ArabicEnglishForm name={input.name} key={input.name} />
+              ) : (
+                <FormInput phone={input.phone || false} key={input.name} {...input} />
+              )
+            )}
           </div>
           {children}
           <Button className=" mt-auto" disabled={isPending}>

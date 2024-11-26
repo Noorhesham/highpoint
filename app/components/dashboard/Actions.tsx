@@ -6,26 +6,40 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import ModalCustom from "../components/ModalCustom";
-import { DialogClose } from "@/components/ui/dialog";
-import EmployeeForm from "../components/EmployeeForm";
-import { buttonVariants } from "@/components/ui/button";
-import { MoreHorizontal } from "lucide-react";
+
 import { useRouter } from "next/navigation";
-import { DeleteEmployee } from "../actions/actions";
 import { toast } from "react-toastify";
-import CustomButton from "./CustomButton";
-const Actions = ({ data }: { data: any }) => {
+import { Button, buttonVariants } from "@/components/ui/button";
+import ModalCustom from "../defaults/ModalCustom";
+import { MoreHorizontal } from "lucide-react";
+import { deleteEntity } from "@/app/actions/actions";
+import { DialogClose } from "@/components/ui/dialog";
+import { ModelProps } from "@/app/constant";
+import CategoriesForm from "../forms/CategoriesForm";
+
+const Actions = ({ data, entity }: { data: any; entity: ModelProps }) => {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
   const handleDelete = (id: string) => {
     startTransition(async () => {
-      const res = await DeleteEmployee(id);
+      const res = await deleteEntity(entity, id);
       if (res.success) {
-        toast.success(res.message);
+        toast.success(res.success);
         router.refresh();
       } else toast.error(res.error);
     });
+  };
+  const returnFormFromEntity = (entity: string) => {
+    switch (entity) {
+      case "Employee":
+        return EmployeeForm;
+      case "Category":
+        return <CategoriesForm categories={data} />;
+      case "City":
+        return CityForm;
+      default:
+        return null;
+    }
   };
   return (
     <DropdownMenu modal={false}>
@@ -41,22 +55,25 @@ const Actions = ({ data }: { data: any }) => {
         <div className=" flex flex-col gap-2">
           <ModalCustom
             title="Update user data"
-            btn={<div className={`${buttonVariants({ variant: "default" })} w-full`}>Edit</div>}
-            content={<EmployeeForm defaultData={data} />}
+            btn={<div className={`${buttonVariants({ variant: "default" })} cursor-pointer w-full`}>Edit</div>}
+            content={returnFormFromEntity(entity)}
           />
           <ModalCustom
             title="Update user data"
-            btn={<div className={`${buttonVariants({ variant: "destructive" })} w-full`}> Delete</div>}
+            btn={<div className={`${buttonVariants({ variant: "destructive" })} cursor-pointer w-full`}> Delete</div>}
             content={
-              <div className=" w-full flex flex-col gap-4">
+              <div className=" w-full flex items-center gap-5 flex-col ">
                 <p>Are you sure you want to delete this employee ?</p>
-                <div className=" flex items-center gap-4">
-                  <CustomButton
+                <div className="  w-full flex items-center gap-4 max-w-lg mx-auto">
+                  <DialogClose className={`${buttonVariants({ variant: "outline" })} w-full `}>Cancel</DialogClose>
+                  <Button
+                    variant="destructive"
+                    className=" w-full"
                     onClick={() => handleDelete(data._id)}
                     disabled={isPending}
-                    text={` Delete ${data.name.slice(0, 10)} ?`}
-                  />
-                  <DialogClose className={`${buttonVariants({ variant: "destructive" })} `}>Cancel</DialogClose>
+                  >
+                    Delete this {entity} ?
+                  </Button>
                 </div>
               </div>
             }

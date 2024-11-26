@@ -65,7 +65,7 @@ const NavBar = () => {
           isHome
             ? "text-gray-900 font-semibold placeholder:text-gray-800 "
             : `    font-semibold placeholder:text-gray-50"  ${isScrollingDown && "bg-white/80"}`
-        } fixed inset-0 z-50 max-h-[5rem] lg:max-h-[5rem]  bg-main flex flex-col gap-2   transition-all duration-300 ${
+        } fixed inset-0 z-50 max-h-[5rem] lg:max-h-[6rem]  bg-main flex flex-col gap-2   transition-all duration-300 ${
           isScrollingDown
             ? "translate-y-[-110%]"
             : !isTopPage && !isScrollingDown
@@ -73,7 +73,7 @@ const NavBar = () => {
             : "translate-y-0"
         }`}
       >
-        <AnimatePresence>
+        {/* <AnimatePresence>
           {(isHome || pathName.includes("aboutus")) && !isTopPage && !isScrollingDown && (
             <MotionItem
               nohover
@@ -85,8 +85,8 @@ const NavBar = () => {
               {null}
             </MotionItem>
           )}
-        </AnimatePresence>
-        <MaxWidthWrapper className="lg:py-0 xl:py-0" noPadding>
+        </AnimatePresence> */}
+        <MaxWidthWrapper className="lg:py-0 xl:py-4" noPadding>
           <div
             className={cn(
               "flex relative z-20 items-center    ",
