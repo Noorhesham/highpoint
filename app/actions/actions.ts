@@ -1,14 +1,13 @@
 "use server";
 import { z } from "zod";
-import connect from "@/lib/clientPromise";
-import mongoose from "mongoose";
+import mongoose, { model } from "mongoose";
 import User from "../models/User";
 import Category from "../models/Category";
 import Course from "../models/Course";
 import { ModelProps } from "../constant";
 import bcrypt from "bcryptjs";
 import { revalidatePath, revalidateTag } from "next/cache";
-import { cookies } from "next/headers";
+import connect from "@/lib/clientPromise";
 const getModel = (modelName: ModelProps) => {
   const models: Record<ModelProps, any> = {
     User,
@@ -49,6 +48,7 @@ export const createEntity = async (modelName: ModelProps, data: any) => {
     revalidatePath("/");
     return { success: `${modelName} created successfully`, data: entityObj };
   } catch (error: any) {
+    console.log(error);
     return { error: `Error creating ${modelName}`, details: error.message };
   }
 };
@@ -79,60 +79,40 @@ export const deleteEntity = async (modelName: ModelProps, id: string) => {
     return { error: `Error deleting ${modelName}`, details: error.message };
   }
 };
-export const getEntities = async (
-  modelName: ModelProps,
-  page = 1,
-  filter?: any,
-  all = false,
-
-  dash = false
-) => {
+export const getEntities = async (modelName: ModelProps, page = 1, filter?: any, all = false, populate = "") => {
   try {
     await connect();
-    // const locale = cookies().get("NEXT_LOCALE")?.value;
     const Model = getModel(modelName);
     const skip = (page - 1) * 10;
-    let query: any = {};
-    if (filter) {
-      if (filter.courseId) {
-        query.courseId = new mongoose.Types.ObjectId(filter.courseId);
-      }
-      if (filter.category) {
-        query.category = new mongoose.Types.ObjectId(filter.category);
-      }
+    const query = Object.fromEntries(
+      Object.entries(filter).map(([key, value]) => {
+        if (mongoose.isValidObjectId(value)) {
+          return [key, new mongoose.Types.ObjectId(value)];
+        }
+        return [key, value];
+      })
+    );
+    console.log(query);
+    let queryBuilder = Model.find(query).skip(skip).limit(10);
+    console.log(queryBuilder);
+    if (all) {
+      queryBuilder = Model.find(query);
     }
 
-    // const projection = {
-    //   name: all && !dash ? 1 : { $ifNull: [`$name.${locale}`, `$name.en`] },
-    //   description: all && !dash ? 1 : { $ifNull: [`$description.${locale}`, `$description.en`] },
-    //   price: 1,
-    //   images: 1,
-    //   category: 1,
-    //   photo: 1,
-    // };
-
-    const entities = all
-      ? await Model.aggregate([{ $match: query }])
-      : await Model.aggregate([
-          { $match: query },
-          {
-            $lookup: {
-              from: "categories", // Ensure this matches the actual collection name in your database
-              localField: "category", // This should match the field in your document that stores the category ID
-              foreignField: "_id", // The field in the "categories" collection that matches "localField"
-              as: "category",
-            },
-          },
-          { $unwind: { path: "$category", preserveNullAndEmptyArrays: true } }, // Unwind to flatten the category array to a single object
-          { $skip: skip },
-          { $limit: 10 },
-          // { $project: projection },
-        ]);
+    // Apply population if specified
+    if (populate) {
+      queryBuilder = queryBuilder.populate({
+        path: populate,
+      });
+    }
+    const entities = await queryBuilder.exec();
 
     const totalPages = Math.ceil((await Model.countDocuments(query)) / 10);
+    const data = JSON.parse(JSON.stringify(entities));
+    console.log(entities);
     return {
       success: `${modelName} fetched successfully`,
-      data: { data: entities, totalPages },
+      data: { data, totalPages },
     };
   } catch (error) {
     console.log(error);

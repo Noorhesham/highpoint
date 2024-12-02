@@ -16,6 +16,7 @@ import { deleteEntity } from "@/app/actions/actions";
 import { DialogClose } from "@/components/ui/dialog";
 import { ModelProps } from "@/app/constant";
 import CategoriesForm from "../forms/CategoriesForm";
+import CoursesForm from "../forms/CoursesForm";
 
 const Actions = ({ data, entity }: { data: any; entity: ModelProps }) => {
   const [isPending, startTransition] = useTransition();
@@ -37,6 +38,8 @@ const Actions = ({ data, entity }: { data: any; entity: ModelProps }) => {
         return <CategoriesForm categories={data} />;
       case "City":
         return CityForm;
+      case "Course":
+        return <CoursesForm course={data} />;
       default:
         return null;
     }

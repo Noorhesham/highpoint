@@ -13,13 +13,13 @@ export default async function RootLayout({
 }>) {
   unstable_setRequestLocale(locale);
   return (
-    <MaxWidthWrapper>
-      <GridContainer cols={12} className=" pt-32">
-        <div className=" col-span-2">
+    <div>
+      <GridContainer cols={12} className=" relative min-h-screen w-screen pt-32">
+        <div className=" pl-10  col-span-2">
           <SideBar />
         </div>
-        <div className=" col-span-10">{children}</div>
+        <MaxWidthWrapper className=" col-span-10">{children}</MaxWidthWrapper>
       </GridContainer>
-    </MaxWidthWrapper>
+    </div>
   );
 }

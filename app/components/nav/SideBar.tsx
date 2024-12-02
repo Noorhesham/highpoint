@@ -43,9 +43,9 @@ const SideBar = ({ iconsOnly = false, person }: { iconsOnly?: boolean; person?: 
     <div
       className={`flex items-center ${
         iconsOnly ? "sticky top-0" : "lg:sticky lg:top-0"
-      } lg bg-light rounded-xl h-fit pb-5 flex-col  col-span-full lg:col-span-2 gap-3`}
+      } lg bg-light rounded-xl h-fit bg-main/50 pb-5 flex-col  col-span-full lg:col-span-2 gap-3`}
     >
-      <h1 className="py-3 mt-4 text-main2 font-semibold">{!iconsOnly ? "DASHBOARD" : "HIGH POINT"}</h1>
+      <h1 className="py-3 mt-4 text-gray-100 font-semibold">{!iconsOnly ? "DASHBOARD" : "HIGH POINT"}</h1>
       <ul
         style={iconsOnly ? { alignItems: "center", padding: "15px" } : {}}
         className={`text-xs :text-sm items-start ${

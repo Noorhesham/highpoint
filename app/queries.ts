@@ -1,11 +1,12 @@
+"use client";
 import { useQuery } from "@tanstack/react-query";
-import { getEntity } from "./actions/actions";
+import { getEntities, getEntity } from "./actions/actions";
+import { ModelProps } from "./constant";
 
-export const useGetEntity = ({ entityName }: { entityName: string }) => {
+export const useGetEntity = ({ entityName, key }: { entityName: ModelProps; key: string }) => {
   const { data, isLoading } = useQuery({
-    queryKey: [entityName],
-    queryFn: async () => {
-      getEntity(entityName, "", "");
-    },
+    queryKey: [key],
+    queryFn: async () => await getEntities(entityName, 1, "", true),
   });
+  return { data, isLoading };
 };

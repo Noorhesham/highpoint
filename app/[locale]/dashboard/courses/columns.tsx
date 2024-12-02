@@ -2,6 +2,7 @@
 
 import Actions from "@/app/components/dashboard/Actions";
 import { CourseProps } from "@/app/models/Course";
+import { Checkbox } from "@/components/ui/checkbox";
 import { ColumnDef } from "@tanstack/react-table";
 
 export const columns: ColumnDef<CourseProps>[] = [
@@ -52,6 +53,6 @@ export const columns: ColumnDef<CourseProps>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => <Actions data={row.original} />,
+    cell: ({ row }) => <Actions entity="Course" data={row.original} />,
   },
 ];

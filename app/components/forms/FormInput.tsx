@@ -19,7 +19,7 @@ const FormInput = ({
       control={form.control}
       name={name}
       render={({ field }) => (
-        <FormItem className=" flex items-start flex-col">
+        <FormItem className=" flex  w-full items-start flex-col">
           {label && <FormLabel>{label}</FormLabel>}
           <FormControl>
             <Input type={type || "text"} placeholder={placeholder || "Enter ..."} {...field} />

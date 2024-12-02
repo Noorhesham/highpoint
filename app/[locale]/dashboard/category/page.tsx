@@ -2,15 +2,14 @@ import { Button } from "@/components/ui/button";
 
 import { columns } from "./columns";
 import MaxWidthWrapper from "@/app/components/defaults/MaxWidthWrapper";
-import { createEntity, deleteEntity, getEntities } from "@/app/actions/actions";
+import { deleteEntity, getEntities } from "@/app/actions/actions";
 import ModalCustom from "@/app/components/defaults/ModalCustom";
-import CustomForm from "@/app/components/forms/CustomForm";
-import FormContainer from "@/app/components/forms/FormContainer";
+
 import { DataTable } from "@/app/components/DataTable";
 import CategoriesForm from "@/app/components/forms/CategoriesForm";
 
 const Page = async ({ params: { locale } }: { params: { locale: string } }) => {
-  const { data } = await getEntities("Category", 1, "",true);
+  const { data } = await getEntities("Category", 1, "", true);
   console.log(data);
   return (
     <MaxWidthWrapper noPadding className="flex flex-col mt-5">

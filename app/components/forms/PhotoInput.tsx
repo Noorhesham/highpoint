@@ -19,7 +19,7 @@ const PhotoInput = ({ value, name, noimg }: { value: any; name: string; noimg?: 
   console.log(value);
   const form = useFormContext();
   return (
-    <div className="w-full">
+    <div className="flex flex-col gap-2 items-start">
       {!noimg && (
         <div className="  w-40 h-40 mx-auto my-2 relative ">
           <Image src={preview || value || ""} fill alt="preview" className="rounded-full object-cover " />
