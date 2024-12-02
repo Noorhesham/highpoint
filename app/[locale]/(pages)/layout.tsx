@@ -1,5 +1,4 @@
 import Footer from "@/app/components/Footer";
-import "../globals.css";
 
 import { unstable_setRequestLocale } from "next-intl/server";
 
