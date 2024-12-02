@@ -1,3 +1,4 @@
+"use client";
 import Login from "@/app/components/forms/LoginForm";
 import React from "react";
 
