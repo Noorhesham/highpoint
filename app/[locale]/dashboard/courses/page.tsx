@@ -17,7 +17,6 @@ const Page = async ({ params: { locale } }: { params: { locale: string } }) => {
         title="Add Course"
         content={<CoursesForm />}
       />
-
       <DataTable handleDeleteAll={deleteEntity} columns={columns} data={data?.data} entity="Course" />
     </MaxWidthWrapper>
   );

@@ -19,6 +19,7 @@ import FormInput from "./FormInput";
 import FlexWrapper from "../defaults/FlexWrapper";
 import GridContainer from "../defaults/GridContainer";
 import FileUpload from "./FileUpload";
+import ExportToPDF from "../ExportToPdf";
 const CoursesSchema = z.object({
   name: z.object({
     ar: z.string().min(1, { message: "Required" }),
@@ -112,6 +113,7 @@ const CoursesForm = ({ course }: { course?: CourseProps | null }) => {
 
   return (
     <Form {...form}>
+      <ExportToPDF item={course} />
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4 p-4">
         <GridContainer cols={fields.length < 2 ? 1 : 2}>
           {fields.map((field, index) => (
