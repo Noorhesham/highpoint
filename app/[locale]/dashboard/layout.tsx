@@ -18,7 +18,7 @@ export default async function RootLayout({
         <div className=" pl-10  col-span-2">
           <SideBar />
         </div>
-        <MaxWidthWrapper className=" col-span-10">{children}</MaxWidthWrapper>
+        <div className=" col-span-10">{children}</div>
       </GridContainer>
     </div>
   );
