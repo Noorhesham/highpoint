@@ -26,7 +26,7 @@ const Login = () => {
         redirect: false,
       });
       console.log(res);
-      if (res?.ok) router.push("/dashboard");
+      if (res?.ok) router.push("/dashboard/category");
       if (res?.error) setServerError(res.error);
     });
   };
