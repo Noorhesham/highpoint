@@ -27,7 +27,7 @@ const NavLink = ({
   const pathName = usePathname();
   const local = useLocale();
   const linkStyles =
-    "uppercase  text-gray-50 font-semibold  group flex relative items-center gap-2 text-sm  xl:text-base  ";
+    "uppercase  text-gray-800 font-semibold  group flex relative items-center gap-2 text-sm  xl:text-base  ";
   console.log(pathName.replace(`/${local}`, "").trim() === "", isHome);
   const active = isHome
     ? pathName.replace(`/${local}`, "").trim() === href?.replace(`/`, "").trim()

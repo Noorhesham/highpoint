@@ -65,7 +65,7 @@ const NavBar = () => {
           isHome
             ? "text-gray-900 font-semibold placeholder:text-gray-800 "
             : `    font-semibold placeholder:text-gray-50"  ${isScrollingDown && "bg-white/80"}`
-        } fixed inset-0 z-50 max-h-[5rem] lg:max-h-[6rem]  bg-main flex flex-col gap-2   transition-all duration-300 ${
+        } fixed inset-0 z-50 max-h-[5rem] lg:max-h-[6rem]  bg-white/80 flex flex-col gap-2   transition-all duration-300 ${
           isScrollingDown
             ? "translate-y-[-110%]"
             : !isTopPage && !isScrollingDown

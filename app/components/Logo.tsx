@@ -4,8 +4,11 @@ import React from "react";
 
 const Logo = ({ size = "sm", isdark }: { size?: "sm" | "lg"; isdark?: boolean }) => {
   return (
-    <Link href={"/"} className={` rounded-full aspect-square overflow-hidden relative ${size === "sm" ? "w-16 h-16" : "w-44 h-44"}`}>
-      <Image src={"/logo1.jpg"} className=" object-cover" alt="logo" fill />
+    <Link
+      href={"/"}
+      className={` rounded-full aspect-square overflow-hidden relative ${size === "sm" ? "h-16 w-64 " : "w-52 h-52"}`}
+    >
+      <Image src={"/photo_2024-12-03_13-07-38-removebg-preview.png"} className=" object-contain" alt="logo" fill />
     </Link>
   );
 };
