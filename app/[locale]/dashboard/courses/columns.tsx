@@ -1,6 +1,7 @@
 "use client";
 
 import Actions from "@/app/components/dashboard/Actions";
+import ExportToPDF from "@/app/components/ExportToPdf";
 import { CourseProps } from "@/app/models/Course";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ColumnDef } from "@tanstack/react-table";
@@ -54,5 +55,10 @@ export const columns: ColumnDef<CourseProps>[] = [
   {
     id: "actions",
     cell: ({ row }) => <Actions entity="Course" data={row.original} />,
+  },
+  {
+    id: "export-nodates",
+    accessorKey: "Download Pdf",
+    cell: ({ row }) => <ExportToPDF item={row.original} />,
   },
 ];

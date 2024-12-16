@@ -103,6 +103,11 @@ const FileUpload: React.FC<FileUploadProps> = ({
           />
           {preview ? (
             <div className=" w-full h-64 relative">
+              <Trash2Icon
+                onClick={handleRemove}
+                size={25}
+                className="absolute top-2 right-2 text-red-500 cursor-pointer"
+              />
               <Image src={preview} alt="preview" className="object-cover" fill />
             </div>
           ) : (

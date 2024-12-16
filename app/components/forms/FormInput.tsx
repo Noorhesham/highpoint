@@ -1,19 +1,49 @@
-import React from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useFormContext } from "react-hook-form";
+import CalendarInput from "./CalendarInput";
+export interface CalendarProps {
+  control: any;
+  name: string;
+  label?: string;
+}
+type CalendarComponentType = React.ComponentType<CalendarProps>;
+
 const FormInput = ({
   name,
   label,
   placeholder,
   type,
+  calendar,
 }: {
   name: string;
   label?: string;
   placeholder: string;
   type?: string;
+  calendar?: boolean;
 }) => {
   const form = useFormContext();
+  const [CalendarComponent, setCalendarComponent] = useState<CalendarComponentType>();
+  useEffect(() => {
+    if (calendar) {
+      const loadCalendar = async () => {
+        const { default: CalendarInput } = await import("./CalendarInput");
+        //@ts-ignore
+        setCalendarComponent(() => CalendarInput);
+      };
+      loadCalendar();
+    }
+  }, [calendar]);
+  if (calendar && CalendarComponent)
+    return (
+      <Suspense>
+        <div className=" relative w-full">
+          <CalendarComponent label={label} name={name || ""} control={form.control} />
+        </div>
+      </Suspense>
+    );
+
   return (
     <FormField
       control={form.control}

@@ -8,6 +8,14 @@ import { ModelProps } from "../constant";
 import bcrypt from "bcryptjs";
 import { revalidatePath, revalidateTag } from "next/cache";
 import connect from "@/lib/clientPromise";
+import { v2 as cloudinary } from "cloudinary";
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
 const getModel = (modelName: ModelProps) => {
   const models: Record<ModelProps, any> = {
     User,
@@ -92,9 +100,7 @@ export const getEntities = async (modelName: ModelProps, page = 1, filter?: any,
         return [key, value];
       })
     );
-    console.log(query);
     let queryBuilder = Model.find(query).skip(skip).limit(10);
-    console.log(queryBuilder);
     if (all) {
       queryBuilder = Model.find(query);
     }
@@ -138,5 +144,14 @@ export const getEntity = async (modelName: ModelProps, id: string, locale: strin
     return { success: `${modelName} fetched successfully`, data: localizedEntity };
   } catch (error) {
     return { error: `Error fetching ${modelName}`, details: error };
+  }
+};
+export const deleteImage = async (publicId: string, Id: string, ModelName: string) => {
+  try {
+    const res = await cloudinary.uploader.destroy(id);
+
+    return res;
+  } catch (error) {
+    console.log(error);
   }
 };

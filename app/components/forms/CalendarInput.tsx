@@ -1,6 +1,6 @@
 "use client";
-import React from "react";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import React, { useState } from "react";
+import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
@@ -19,6 +19,8 @@ const CalendarInput = ({
   label?: string;
   disabled?: boolean;
 }) => {
+  const [popoverOpen, setPopoverOpen] = useState(false); // Control popover state
+
   return (
     <FormField
       control={control}
@@ -26,15 +28,17 @@ const CalendarInput = ({
       disabled={disabled}
       render={({ field }) => {
         return (
-          <FormItem className={` relative z-[60] w-full`}>
+          <FormItem className="relative w-full">
             <FormLabel className="duration-200 uppercase">{label || "Date"}</FormLabel>
-            <Popover>
+            <Popover modal={true}
+  
+            >
               <PopoverTrigger asChild>
-                <FormControl className="">
+                <FormControl>
                   <Button
-                    variant={"outline"}
+                    variant="outline"
                     className={cn(
-                      "w-full pl-3 flex  space-y-0  mt-0 justify-between text-left rounded-lg font-normal",
+                      "w-full pl-3 flex space-y-0 mt-0 justify-between text-left rounded-lg font-normal",
                       !field.value && "text-muted-foreground"
                     )}
                   >
@@ -47,9 +51,14 @@ const CalendarInput = ({
                   </Button>
                 </FormControl>
               </PopoverTrigger>
-              <PopoverContent sideOffset={-40} className="w-full  relative z-[9999] p-0" align="end">
+              <PopoverContent
+                onClick={(e) => e.stopPropagation()} // Prevents the dialog from closing
+                sideOffset={-40}
+                className="w-full z-[51] relative p-0"
+                align="end"
+              >
                 <Calendar
-                  className=" relative z-[9999] w-full"
+                  className="relative w-full"
                   mode="single"
                   captionLayout="dropdown-buttons"
                   fromYear={1990}
@@ -57,15 +66,14 @@ const CalendarInput = ({
                   selected={field.value}
                   onSelect={(date) => {
                     if (!date) return;
-                    const formattedDate = format(date, "yyyy-MM-dd");
-                    field.onChange(formattedDate);
+                    field.onChange(date);
+                    setPopoverOpen(false); // Close the popover after selection
                   }}
                   disabled={(date) => date < new Date("1900-01-01")}
                   initialFocus
                 />
               </PopoverContent>
             </Popover>
-            {/* <FormDescription>Your date of birth is used to calculate your age.</FormDescription> */}
           </FormItem>
         );
       }}

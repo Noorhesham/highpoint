@@ -7,6 +7,7 @@ const User = () => {
   const { data: session } = useSession();
   const { user } = session || {};
   console.log(user);
+  if (!user) return null;
   return (
     <div className="flex items-center gap-3">
       <div>

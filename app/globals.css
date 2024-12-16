@@ -70,3 +70,18 @@
 .card-hover:hover {
   transform: scale(1.2);
 }
+.form-control {
+  @apply py-2 px-4  w-full  border-none pl-14 !important;
+}
+.special-label {
+  display: none !important;
+}
+.react-tel-input {
+  padding: 0 !important;
+}
+.form-control {
+  @apply py-2 px-4  w-full  border-none pl-14 !important;
+}
+.react-datepicker {
+  z-index: 1050; /* Adjust as needed to ensure visibility */
+}

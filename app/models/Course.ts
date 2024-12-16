@@ -19,6 +19,9 @@ export interface CourseProps {
   serialNumber: number;
   duration: number;
   _id: string;
+  startDate: Date;
+  endDate: Date;
+  status: "draft" | "published" | "archived";
 }
 
 const courseSchema = new Schema({
@@ -26,9 +29,17 @@ const courseSchema = new Schema({
   description: localizedStringSchema,
   price: { type: Number, required: true },
   images: [imageSchema],
-  category: { type: Schema.Types.ObjectId, ref: "Category" }, // If "Category" is now a course, adjust here.
+  category: { type: Schema.Types.ObjectId, ref: "Category" },
   serialNumber: { type: Number, required: true },
   duration: { type: Number, required: true },
+  startDate: { type: Date, required: true },
+  endDate: { type: Date, required: true },
+  status: {
+    type: String,
+    enum: ["draft", "published", "archived"],
+    default: "draft",
+    required: true,
+  },
 });
 
 courseSchema.pre("find", function (this) {
