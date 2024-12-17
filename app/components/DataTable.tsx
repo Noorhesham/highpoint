@@ -79,7 +79,7 @@ export function DataTable<TData extends TableData, TValue>({
   const locale = useLocale();
   console.log( table.getRowModel().rows.map(row=>row.original));
   return (
-    <div className="">
+    <div className=" w-full">
       {chosen.length > 0 && (
         <PopUp entity={entity} count={chosen.length} chosen={chosen} handleDelete={handleDeleteAll} />
       )}

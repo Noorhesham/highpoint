@@ -11,7 +11,7 @@ import ExportCoursesToPDF from "@/app/components/ExportAll";
 const Page = async () => {
   const { data } = await getEntities("Course", 1, "", true, "category");
   return (
-    <MaxWidthWrapper noPadding className="flex flex-col mt-5">
+    <MaxWidthWrapper  className="flex px-4 flex-col mt-5">
       <div className="flex items-center gap-2">
         <ModalCustom
           btn={<Button className="self-end">Add Course</Button>}

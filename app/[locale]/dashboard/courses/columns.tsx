@@ -1,10 +1,13 @@
 "use client";
 
 import Actions from "@/app/components/dashboard/Actions";
-import ExportToPDF from "@/app/components/ExportToPdf";
+import dynamic from "next/dynamic";
+const PDFDownload = dynamic(() => import("@/app/components/ExportToPdf"), { ssr: false });
 import { CourseProps } from "@/app/models/Course";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ColumnDef } from "@tanstack/react-table";
+import CoursePage from "@/app/components/ExportToPdf";
+import ExportToPDF from "@/app/components/ExportToPdf";
 
 export const columns: ColumnDef<CourseProps>[] = [
   {
@@ -59,6 +62,6 @@ export const columns: ColumnDef<CourseProps>[] = [
   {
     id: "export-nodates",
     accessorKey: "Download Pdf",
-    cell: ({ row }) => <ExportToPDF item={row.original} />,
+    cell: ({ row }) => <ExportToPDF course={row.original} />,
   },
 ];
