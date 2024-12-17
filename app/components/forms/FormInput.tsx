@@ -3,6 +3,7 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Input } from "@/components/ui/input";
 import { useFormContext } from "react-hook-form";
 import CalendarInput from "./CalendarInput";
+import RichText from "./RichText";
 export interface CalendarProps {
   control: any;
   name: string;
@@ -15,6 +16,7 @@ const FormInput = ({
   label,
   placeholder,
   type,
+  textarea,
   calendar,
 }: {
   name: string;
@@ -22,6 +24,7 @@ const FormInput = ({
   placeholder: string;
   type?: string;
   calendar?: boolean;
+  textarea?: boolean;
 }) => {
   const form = useFormContext();
   const [CalendarComponent, setCalendarComponent] = useState<CalendarComponentType>();
@@ -52,7 +55,11 @@ const FormInput = ({
         <FormItem className=" flex  w-full items-start flex-col">
           {label && <FormLabel>{label}</FormLabel>}
           <FormControl>
-            <Input type={type || "text"} placeholder={placeholder || "Enter ..."} {...field} />
+            {textarea ? (
+              <RichText description={field.value} onChange={field.onChange} />
+            ) : (
+              <Input type={type || "text"} placeholder={placeholder || "Enter ..."} {...field} />
+            )}
           </FormControl>
           <FormMessage className=" text-red-500 font-semibold" />
         </FormItem>

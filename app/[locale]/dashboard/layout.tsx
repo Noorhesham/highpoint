@@ -1,8 +1,8 @@
 import GridContainer from "@/app/components/defaults/GridContainer";
 import MaxWidthWrapper from "@/app/components/defaults/MaxWidthWrapper";
-import SideBar from "@/app/components/nav/SideBar";
-import SideNav from "@/app/components/nav/SideNav";
 import { unstable_setRequestLocale } from "next-intl/server";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/app/components/nav/SideBar";
 
 export default async function RootLayout({
   children,
@@ -14,12 +14,17 @@ export default async function RootLayout({
   unstable_setRequestLocale(locale);
   return (
     <div>
-      <GridContainer cols={12} className=" relative min-h-screen w-screen pt-32">
-        <div className=" pl-10  col-span-2">
-          <SideBar />
-        </div>
-        <div className=" col-span-10">{children}</div>
-      </GridContainer>
+      <SidebarProvider>
+        <GridContainer cols={12} className=" relative min-h-screen w-screen pt-32">
+          <MaxWidthWrapper noPadding className=" pl-10  col-span-2">
+            <AppSidebar />
+          </MaxWidthWrapper>
+          <div className=" col-span-10">
+            <SidebarTrigger />
+            {children}
+          </div>
+        </GridContainer>
+      </SidebarProvider>
     </div>
   );
 }

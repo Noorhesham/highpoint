@@ -3,23 +3,10 @@ import React from "react";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { Button } from "@/components/ui/button";
+import { CourseProps } from "../models/Course";
 
 interface ExportCoursesToPDFProps {
   courses: CourseProps[];
-}
-
-interface CourseProps {
-  name: { ar: string; en: string };
-  description: { ar: string; en: string };
-  price: number;
-  images: { secure_url: string; public_id: string }[];
-  category: string;
-  serialNumber: number;
-  duration: number;
-  _id: string;
-  startDate: Date;
-  endDate: Date;
-  status: "draft" | "published" | "archived";
 }
 
 const ExportCoursesToPDF: React.FC<ExportCoursesToPDFProps> = ({ courses }) => {

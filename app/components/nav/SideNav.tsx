@@ -5,10 +5,7 @@ import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 const SideNav = ({
-  icon,
-  text,
-  link,
-  iconsOnly,
+
 }: {
   icon: React.ReactNode;
   text: string;

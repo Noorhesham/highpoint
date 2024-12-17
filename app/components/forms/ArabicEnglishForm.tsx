@@ -11,11 +11,11 @@ const ArabicEnglishForm = ({ nodesc = false, name = "name" }: { nodesc?: boolean
       </TabsList>
       <TabsContent className=" flex flex-col gap-4 mt-3" value="en">
         <FormInput label="Name" name={`${name}.en` || "name.en"} placeholder={"Name"} />
-        {!nodesc && <FormInput label="Description" name="description.en" placeholder={"Description"} />}{" "}
+        {!nodesc && <FormInput textarea label="Description" name="description.en" placeholder={"Description"} />}{" "}
       </TabsContent>
       <TabsContent dir="rtl" className=" flex flex-col gap-4 mt-3" value="ar">
         <FormInput label="الاسم بالعربية" name={`${name}.ar` || "name.ar"} placeholder={"Name"} />
-        {!nodesc && <FormInput label=" الوصف العربي" name="description.ar" placeholder={"Description"} />}
+        {!nodesc && <FormInput textarea label=" الوصف العربي" name="description.ar" placeholder={"Description"} />}
       </TabsContent>
     </Tabs>
   );

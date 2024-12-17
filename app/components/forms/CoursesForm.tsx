@@ -77,17 +77,17 @@ const CoursesForm = ({ course }: { course?: CourseProps | null }) => {
     startTransition(async () => {
       try {
         // Filter and process valid images  console.log(course);
-        console.log(course);
+        console.log(data);
 
         const uploadedImages = await Promise.all(
           data.images
-            .filter((img: any) => img) // Remove empty or invalid entries
+            .filter((img: any) => img && Object.keys(img).length > 0)
             ?.map(async (image: File | { secure_url: string; public_id: string }) => {
               console.log(image);
               if (image?.secure_url) {
                 return image;
               }
-
+              if (!image instanceof File) return;
               // Prepare form data for image upload
               const formData = new FormData();
               formData.append("file", image);
