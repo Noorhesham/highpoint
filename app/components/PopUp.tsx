@@ -1,5 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
+import { ModelProps } from "../constant";
+import { Delete } from "./Delete";
 const PopUp = ({
   count,
   handleDelete,
