@@ -1,6 +1,9 @@
 "use client"; // Client-side component
 import React, { useRef } from "react";
-import html2pdf from "html2pdf.js";
+import dynamic from "next/dynamic";
+const html2pdf = dynamic(() => import("html2pdf.js"), {
+  ssr: false,
+});
 import { convertToHTML } from "../utils/fn";
 import Image from "next/image";
 
