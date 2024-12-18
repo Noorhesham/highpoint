@@ -13,13 +13,13 @@ export default async function RootLayout({
 }>) {
   unstable_setRequestLocale(locale);
   return (
-    <main className=" pt-32">
+    <main className=" w-full pt-32">
       <SidebarProvider>
         <AppSidebar />
-        <main>
+        <section className=" w-full">
           <SidebarTrigger />
           {children}
-        </main>
+        </section>
       </SidebarProvider>
     </main>
   );
