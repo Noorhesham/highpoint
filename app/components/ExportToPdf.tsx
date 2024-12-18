@@ -1,40 +1,153 @@
-import React from "react";
-import jsPDF from "jspdf";
-import Image from "next/image";
+"use client"; // Client-side component
+import React, { useRef } from "react";
+import html2pdf from "html2pdf.js";
+import { convertToHTML } from "../utils/fn";
 
-interface ExportToPDFProps {
-  item: any; // Define your data structure as needed
-  includeDates?: boolean; // Flag to include dates
-}
+const ExportToPdf = ({ course }) => {
+  const pdfContentRef = useRef();
 
-const ExportToPDF: React.FC<ExportToPDFProps> = ({ item, includeDates = true }) => {
-  const handleExport = () => {
-    const doc = new jsPDF();
+  // Function to generate and download the PDF
+  const generatePDF = () => {
+    const content = pdfContentRef.current;
 
-    doc.text(`ID: ${item._id}`, 10, 20);
-    doc.text(`Name (EN): ${item.name.en}`, 10, 30);
-    doc.text(`Name (AR): ${item.name.ar}`, 10, 40);
-    doc.text(`Price: ${item.price}`, 10, 50);
-    doc.text(`Serial Number: ${item.serialNumber}`, 10, 60);
-    doc.text(`Duration: ${item.duration}`, 10, 70);
+    // Clone the content for PDF generation (without showing the original content)
+    const clonedContent = content.cloneNode(true);
 
-    if (includeDates) {
-      doc.text(`Start Date: ${item.startDate}`, 10, 80);
-      doc.text(`End Date: ${item.endDate}`, 10, 90);
-    }
+    // You can make some adjustments to the cloned content if needed, like styling
+    // For example, you could make the cloned content visible only when generating the PDF
+    clonedContent.style.visibility = "visible"; // Keep it hidden in the DOM
+    clonedContent.style.display = "block"; // Make it visible in the PDF
+    // Append the cloned content to the body, generate the PDF, then remove it
 
-    doc.save(`export_${includeDates ? "with_dates" : "no_dates"}.pdf`);
+    const options = {
+      margin: 10,
+      filename: `${course.name.en}_Course.pdf`,
+      image: { type: "jpeg", quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true },
+      jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+    };
+
+    // Generate the PDF and save it
+    html2pdf().from(clonedContent).set(options).save();
   };
 
   return (
-    <button
-      className="w-14 h-14 relative"
-      onClick={handleExport}
-      title={includeDates ? "Export with dates" : "Export without dates"}
-    >
-      <Image src="/pdf.png" alt="pdf" fill />
-    </button>
+    <div>
+      {/* PDF content - hidden in browser view */}
+      <div
+        ref={pdfContentRef}
+        className=""
+        style={{
+          fontFamily: "'Cairo', Arial, sans-serif",
+          padding: "20px",
+          direction: "rtl",
+          textAlign: "right",
+          display: "none", // Start with content hidden
+        }}
+      >
+        {/* Header Section */}
+        <header style={{ textAlign: "center", marginBottom: "20px" }}>
+          <h1 style={{ fontSize: "24px", margin: 0 }}>{course.name.en}</h1>
+          <h2 style={{ fontSize: "20px", color: "#888" }}>{course.name.ar}</h2>
+        </header>
+
+        {/* Description Section */}
+        <section>
+          <h3 style={{ borderBottom: "2px solid #ddd", paddingBottom: "5px" }}>الوصف</h3>
+          <div>
+            <div
+              style={{ textAlign: "left", direction: "ltr" }}
+              dangerouslySetInnerHTML={{
+                __html: convertToHTML(course.description.en || ""),
+              }}
+            />
+            <div
+              style={{ textAlign: "right", marginTop: "10px" }}
+              dangerouslySetInnerHTML={{
+                __html: convertToHTML(course.description.ar || ""),
+              }}
+            />
+          </div>
+        </section>
+
+        {/* Course Details */}
+        <section style={{ marginTop: "20px" }}>
+          <h3 style={{ borderBottom: "2px solid #ddd", paddingBottom: "5px" }}>تفاصيل الدورة</h3>
+          <table
+            style={{
+              width: "100%",
+              borderCollapse: "collapse",
+              marginTop: "10px",
+              direction: "ltr",
+            }}
+          >
+            <tbody>
+              <tr>
+                <td style={{ padding: "8px", border: "1px solid #ddd" }}>المدة</td>
+                <td style={{ padding: "8px", border: "1px solid #ddd" }}>{course.duration} hours</td>
+              </tr>
+              <tr>
+                <td style={{ padding: "8px", border: "1px solid #ddd" }}>السعر</td>
+                <td style={{ padding: "8px", border: "1px solid #ddd" }}>${course.price}</td>
+              </tr>
+              <tr>
+                <td style={{ padding: "8px", border: "1px solid #ddd" }}>رقم التسلسل</td>
+                <td style={{ padding: "8px", border: "1px solid #ddd" }}>{course.serialNumber}</td>
+              </tr>
+              <tr>
+                <td style={{ padding: "8px", border: "1px solid #ddd" }}>تاريخ البدء</td>
+                <td style={{ padding: "8px", border: "1px solid #ddd" }}>
+                  {new Date(course.startDate).toLocaleDateString()}
+                </td>
+              </tr>
+              <tr>
+                <td style={{ padding: "8px", border: "1px solid #ddd" }}>تاريخ الانتهاء</td>
+                <td style={{ padding: "8px", border: "1px solid #ddd" }}>
+                  {new Date(course.endDate).toLocaleDateString()}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        {/* Images Section */}
+        <section style={{ marginTop: "20px" }}>
+          <h3 style={{ borderBottom: "2px solid #ddd", paddingBottom: "5px" }}>الصور</h3>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
+            {course.images.map((img, index) => (
+              <img
+                key={index}
+                src={img.secure_url}
+                alt={`Image ${index + 1}`}
+                style={{
+                  width: "200px",
+                  height: "auto",
+                  border: "1px solid #ddd",
+                  borderRadius: "5px",
+                }}
+              />
+            ))}
+          </div>
+        </section>
+      </div>
+
+      {/* Button to trigger PDF generation */}
+      <button
+        onClick={generatePDF}
+        style={{
+          padding: "10px 20px",
+          backgroundColor: "#007BFF",
+          color: "#fff",
+          border: "none",
+          borderRadius: "5px",
+          cursor: "pointer",
+          marginTop: "20px",
+        }}
+      >
+        تحميل PDF
+      </button>
+    </div>
   );
 };
 
-export default ExportToPDF;
+export default ExportToPdf;

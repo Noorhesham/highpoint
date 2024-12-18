@@ -62,6 +62,6 @@ export const columns: ColumnDef<CourseProps>[] = [
   {
     id: "export-nodates",
     accessorKey: "Download Pdf",
-    cell: ({ row }) => <ExportToPDF item={row.original} />,
+    cell: ({ row }) => <ExportToPDF course={row.original} />,
   },
 ];

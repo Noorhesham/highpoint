@@ -50,6 +50,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
     const file = files ? files[0] : null;
 
     if (file) {
+      console.log(file)
       setValue(name, multiple ? files : file, { shouldValidate: true });
 
       const fileType = file.type;

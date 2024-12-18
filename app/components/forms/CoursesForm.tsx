@@ -77,40 +77,39 @@ const CoursesForm = ({ course }: { course?: CourseProps | null }) => {
     startTransition(async () => {
       try {
         // Filter and process valid images  console.log(course);
-        console.log(data);
+        const filteredImages = data.images?.filter((image: any) => image?.secure_url || image instanceof File);
+        console.log(filteredImages);
 
         const uploadedImages = await Promise.all(
-          data.images
-            .filter((img: any) => img && Object.keys(img).length > 0)
-            ?.map(async (image: File | { secure_url: string; public_id: string }) => {
-              console.log(image);
-              if (image?.secure_url) {
-                return image;
-              }
-              if (!image instanceof File) return;
-              // Prepare form data for image upload
-              const formData = new FormData();
-              formData.append("file", image);
-              formData.append("upload_preset", "ml_default");
+          filteredImages?.map(async (image: File | { secure_url: string; public_id: string }) => {
+            console.log(image);
+            if (image?.secure_url) {
+              return image;
+            }
+            if (!image instanceof File) return;
+            // Prepare form data for image upload
+            const formData = new FormData();
+            formData.append("file", image);
+            formData.append("upload_preset", "ml_default");
 
-              // Upload image to Cloudinary
-              const res = await fetch(process.env.NEXT_PUBLIC_CLOUDINARY_URL!, {
-                method: "POST",
-                body: formData,
-              });
+            // Upload image to Cloudinary
+            const res = await fetch(process.env.NEXT_PUBLIC_CLOUDINARY_URL!, {
+              method: "POST",
+              body: formData,
+            });
 
-              if (!res.ok) {
-                const errorResponse = await res.json();
-                console.error("Cloudinary Error:", errorResponse);
-                throw new Error("Failed to upload an image");
-              }
+            if (!res.ok) {
+              const errorResponse = await res.json();
+              console.error("Cloudinary Error:", errorResponse);
+              throw new Error("Failed to upload an image");
+            }
 
-              const cloudinaryData = await res.json();
-              return {
-                secure_url: cloudinaryData.secure_url,
-                public_id: cloudinaryData.public_id,
-              };
-            })
+            const cloudinaryData = await res.json();
+            return {
+              secure_url: cloudinaryData.secure_url,
+              public_id: cloudinaryData.public_id,
+            };
+          })
         );
         console.log(uploadedImages, "Uploaded Images:");
         // Replace images in the data object

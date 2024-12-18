@@ -1,6 +1,29 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+/* Hide the content in browser view */
+.hidden-in-browser {
+  display: none;
+}
+
+/* Show content when generating a PDF */
+@media print {
+  .hidden-in-browser {
+    display: block !important;
+  }
+
+  body * {
+    visibility: hidden;
+  }
+
+  .pdf-content {
+    visibility: visible;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+}
 
 @layer base {
   :root {
