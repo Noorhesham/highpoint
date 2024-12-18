@@ -2,6 +2,7 @@
 import React, { useRef } from "react";
 import html2pdf from "html2pdf.js";
 import { convertToHTML } from "../utils/fn";
+import Image from "next/image";
 
 const ExportToPdf = ({ course }) => {
   const pdfContentRef = useRef();
@@ -132,19 +133,8 @@ const ExportToPdf = ({ course }) => {
       </div>
 
       {/* Button to trigger PDF generation */}
-      <button
-        onClick={generatePDF}
-        style={{
-          padding: "10px 20px",
-          backgroundColor: "#007BFF",
-          color: "#fff",
-          border: "none",
-          borderRadius: "5px",
-          cursor: "pointer",
-          marginTop: "20px",
-        }}
-      >
-        تحميل PDF
+      <button onClick={generatePDF} className=" w-10 h-10 relative">
+        <Image src="/pdf.png" className=" object-contain" fill alt="pdf" />
       </button>
     </div>
   );
