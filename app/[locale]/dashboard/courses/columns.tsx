@@ -8,6 +8,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { ColumnDef } from "@tanstack/react-table";
 import CoursePage from "@/app/components/ExportToPdf";
 import ExportToPDF from "@/app/components/ExportToPdf";
+import NoSSR from "@/app/components/NoSSr";
 
 export const columns: ColumnDef<CourseProps>[] = [
   {
@@ -62,6 +63,10 @@ export const columns: ColumnDef<CourseProps>[] = [
   {
     id: "export-nodates",
     accessorKey: "Download Pdf",
-    cell: ({ row }) => <ExportToPDF course={row.original} />,
+    cell: ({ row }) => (
+      <NoSSR>
+        <ExportToPDF course={row.original} />
+      </NoSSR>
+    ),
   },
 ];

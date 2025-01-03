@@ -4,10 +4,8 @@ import { convertToHTML } from "../utils/fn";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import dynamic from "next/dynamic";
+import html2pdf from "html2pdf.js";
 
-const html2pdf = dynamic(() => import("html2pdf.js"), {
-  ssr: false,
-});
 const ExportCoursesToPDF = ({ courses }) => {
   const pdfContentRef = useRef();
 

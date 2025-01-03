@@ -6,6 +6,7 @@ import { deleteEntity, getEntities } from "@/app/actions/actions";
 import { DataTable } from "@/app/components/DataTable";
 import ExportCoursesToPDF from "@/app/components/ExportAll";
 import Link from "next/link";
+import NoSSR from "@/app/components/NoSSr";
 export const dynamic = "force-dynamic";
 
 const Page = async () => {
@@ -16,7 +17,11 @@ const Page = async () => {
         <Button className="self-end">
           <Link href={"/dashboard/createCourse"}>Add Course</Link>
         </Button>
-        {data?.data && <ExportCoursesToPDF courses={data.data} />}
+        {data?.data && (
+          <NoSSR>
+            <ExportCoursesToPDF courses={data.data} />{" "}
+          </NoSSR>
+        )}
       </div>
       <DataTable handleDeleteAll={deleteEntity} columns={columns} data={data?.data} entity="Course" />
     </MaxWidthWrapper>
