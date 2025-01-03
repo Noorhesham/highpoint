@@ -7,6 +7,7 @@ import ModalCustom from "@/app/components/defaults/ModalCustom";
 
 import { DataTable } from "@/app/components/DataTable";
 import CategoriesForm from "@/app/components/forms/CategoriesForm";
+export const dynamic = "force-dynamic";
 
 const Page = async ({ params: { locale } }: { params: { locale: string } }) => {
   const { data } = await getEntities("Category", 1, "", true);
