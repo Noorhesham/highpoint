@@ -196,6 +196,8 @@ export const getEntities = async (
 };
 export const getEntity = async (modelName: ModelProps, id: string, locale: string) => {
   try {
+    await connect();
+
     const Model = getModel(modelName);
     const entity = await Model.findById(id).lean(); // Use `lean` to get a plain JavaScript object
 
