@@ -6,6 +6,7 @@ import { ProductLoader } from "./ProductReel";
 
 import Link from "next/link";
 import { useLocale } from "next-intl";
+import Paragraph from "./defaults/Paragraph";
 
 const ProductCard = ({ product, index }: { product: any; index: number }) => {
   const [isVisible, setIsVisible] = React.useState(false);
@@ -34,11 +35,11 @@ const ProductCard = ({ product, index }: { product: any; index: number }) => {
               <p className=" mt-1 font-semibold text-sm ">category : {product.category.name[locale || "en"]}</p>
             </div>
             <h3 className="font-medium text-base  ">
-              {product.name.length > 20 ? product.name.substring(0, 20) + "..." : product.name}
+              {product.name.length > 20 ? product.name.substring(0, 20) + "..." : product.name[locale || "en"]}
             </h3>{" "}
           </div>
           <p className=" mt-1 font-medium text-sm ">{product.price}$</p>
-          <p className=" my-2 font-medium   text-xs ">{product.description}</p>
+          <Paragraph description={product.description[locale || "en"]} className="!line-clamp-3" />
         </div>
       </div>
     </Link>

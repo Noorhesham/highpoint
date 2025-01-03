@@ -16,7 +16,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import FlexWrapper from "@/app/components/defaults/FlexWrapper";
 
-const page = ({ params: { locale } }: { params: { locale: string } }) => {
+const page = async ({ params: { locale } }: { params: { locale: string } }) => {
   unstable_setRequestLocale(locale);
   return (
     <section className=" pt-32">

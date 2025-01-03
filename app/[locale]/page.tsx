@@ -16,6 +16,7 @@ import { AppleCardsCarouselDemo } from "../components/CardsCarousel";
 import { cn } from "@/lib/utils";
 import Footer from "../components/Footer";
 import { getEntities } from "../actions/actions";
+import SearchBox from "../components/SearchBox";
 
 export default async function Home({ params: { locale } }: { params: { locale: string } }) {
   unstable_setRequestLocale(locale);
@@ -39,8 +40,7 @@ export default async function Home({ params: { locale } }: { params: { locale: s
     },
   ];
   const page = await getEntities("HomePage", 1, {});
-  const { mainCover, mainTitle, mainDesc, secondaryCover, companies, sections, whoWeAre, partners } =
-    page.data.data[0] || {};
+  const { mainCover, mainTitle, mainDesc, secondaryCover, companies, sections, whoWeAre, partners } = page.data.data[0] || {};
 
   return (
     <section className="">
@@ -59,14 +59,7 @@ export default async function Home({ params: { locale } }: { params: { locale: s
           <div className="flex flex-col gap-4 max-w-lg">
             <Head className=" !text-white" text={mainTitle[locale]} />
             <Paragraph className=" !text-white" description={mainDesc[locale]} />
-            <div className="bg-white overflow-hidden relative rounded-xl border-primary border-2">
-              <div className="flex items-center justify-between py-2 px-4">
-                <input className="w-full outline-none" placeholder={t("searchPlaceholder")} type="text" />
-                <div className="flex p-2 absolute rounded-xl right-0 text-white justify-center items-center bg-blue-800">
-                  <SearchIcon />
-                </div>
-              </div>
-            </div>
+           <SearchBox/>
           </div>
         </MaxWidthWrapper>
         {/* <div className=" w-full md:w-[60%]">
@@ -182,35 +175,3 @@ export default async function Home({ params: { locale } }: { params: { locale: s
     </section>
   );
 }
-/*
-
-main cover 
-
-main title
-main desc
-search
-
-second title
-second desc
-4 categories
-
-third title
-third desc
-categories publish
-all subcategories with icons
-
-forth title
-forth desc
-secondry cover 
-companies
-
-ciry title
-city desc
-cities
-
-top 10 courses slider 
-
-who wea re
-
-partenets
-*/

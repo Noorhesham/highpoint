@@ -45,6 +45,7 @@
     "html2pdf.js": "^0.10.2",
     "jspdf": "^2.5.2",
     "jspdf-autotable": "^3.8.4",
+    "lodash.debounce": "^4.0.8",
     "lucide-react": "^0.441.0",
     "mini-svg-data-uri": "^1.4.4",
     "mongoose": "^8.6.2",
@@ -67,6 +68,7 @@
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
+    "@types/lodash.debounce": "^4.0.9",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

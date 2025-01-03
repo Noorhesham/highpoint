@@ -146,7 +146,9 @@ export const getEntities = async (
   page = 1,
   filter: Record<string, any> = {},
   all = false,
-  populate = ""
+  populate = "",
+  searchField = "", // Specify the field to search, e.g., "title"
+  searchTerm = ""
 ) => {
   try {
     await connect();
@@ -160,6 +162,9 @@ export const getEntities = async (
         return [key, value];
       })
     );
+    if (searchField && searchTerm) {
+      query[searchField] = { $regex: searchTerm, $options: "i" };
+    }
     let queryBuilder = Model.find(query).skip(skip).limit(10);
     if (all) {
       queryBuilder = Model.find(query);
