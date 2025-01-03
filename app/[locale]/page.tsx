@@ -14,6 +14,8 @@ import { FaInnosoft } from "react-icons/fa";
 import { GiFlexibleLamp } from "react-icons/gi";
 import { AppleCardsCarouselDemo } from "../components/CardsCarousel";
 import { cn } from "@/lib/utils";
+import Footer from "../components/Footer";
+import { getEntities } from "../actions/actions";
 
 export default async function Home({ params: { locale } }: { params: { locale: string } }) {
   unstable_setRequestLocale(locale);
@@ -36,34 +38,38 @@ export default async function Home({ params: { locale } }: { params: { locale: s
       description: t("featureGlobalReachDescription"),
     },
   ];
+  const page = await getEntities("HomePage", 1, {});
+  const { mainCover, mainTitle, mainDesc, secondaryCover, companies, sections, whoWeAre, partners } =
+    page.data.data[0] || {};
 
   return (
     <section className="">
       <div
         style={{
-          backgroundImage: "url(/hero.jpg)",
+          backgroundImage: `url("${mainCover.secure_url}")`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
         }}
-        className="h-[35rem]"
+        className="h-[35rem] relative"
       >
-        <FlexWrapper className="py-36 items-center">
-          <div className="flex flex-col gap-2 md:gap-4">
-            <div className="flex flex-col gap-4 max-w-lg">
-              <Head text={t("heroHead")} />
-              <Paragraph description={t("heroDescription")} />
-              <div className="bg-white overflow-hidden relative rounded-xl border-primary border-2">
-                <div className="flex items-center justify-between py-2 px-4">
-                  <input className="w-full outline-none" placeholder={t("searchPlaceholder")} type="text" />
-                  <div className="flex p-2 absolute rounded-xl right-0 text-white justify-center items-center bg-blue-800">
-                    <SearchIcon />
-                  </div>
+        {" "}
+        <div className=" w-full  h-full absolute inset-0  bg-black/40"></div>
+        <MaxWidthWrapper className="flex relative z-30 !pt-32 flex-col gap-2 md:gap-4">
+          <div className="flex flex-col gap-4 max-w-lg">
+            <Head className=" !text-white" text={mainTitle[locale]} />
+            <Paragraph className=" !text-white" description={mainDesc[locale]} />
+            <div className="bg-white overflow-hidden relative rounded-xl border-primary border-2">
+              <div className="flex items-center justify-between py-2 px-4">
+                <input className="w-full outline-none" placeholder={t("searchPlaceholder")} type="text" />
+                <div className="flex p-2 absolute rounded-xl right-0 text-white justify-center items-center bg-blue-800">
+                  <SearchIcon />
                 </div>
               </div>
             </div>
           </div>
-          <div className=" w-full md:w-[60%]">
+        </MaxWidthWrapper>
+        {/* <div className=" w-full md:w-[60%]">
             <SwiperCards
               autoplay
               contain className=" md:h-96 h-64"
@@ -75,98 +81,136 @@ export default async function Home({ params: { locale } }: { params: { locale: s
                 { src: "/banner-Amsterdam.webp" },
               ]}
             />
-          </div>
-        </FlexWrapper>
+          </div> */}
       </div>
-
+      {sections?.map((section, index) => (
+        <MaxWidthWrapper className=" py-10 flex flex-col gap-3" key={index}>
+          <Head text={section.title[locale]} />
+          <Paragraph maxWidth description={section.desc[locale]} />
+        </MaxWidthWrapper>
+      ))}
       <MaxWidthWrapper>
         <GridContainer cols={3}>
           {features.map((feature, index) => (
-            <FeatureCard
-              key={index}
-              Icon={feature.Icon}
-              title={feature.title}
-              description={feature.description}
-            />
+            <FeatureCard key={index} Icon={feature.Icon} title={feature.title} description={feature.description} />
           ))}
         </GridContainer>
         <div className=" grid md:grid-cols-2 grid-cols-1 gap-5 py-10" cols={2}>
           <div className="flex flex-col gap-4">
-          <Head className=" text-black" text={t("valuePropositionTitle")} />
-          <Paragraph  className=" text-gray-700" description={t('valuePropositionText')}/>
-          <Button className=" w-[30%]"> {t("continue")}</Button>
+            <Head className=" text-black" text={t("valuePropositionTitle")} />
+            <Paragraph className=" text-gray-700" description={t("valuePropositionText")} />
+            <Button className=" w-[30%]"> {t("continue")}</Button>
           </div>
           <div>
-          <FeatureCard
-      Icon={GrUserExpert} 
-      title={t("features.expertInstructors")}
-      description={t("features.expertInstructorsdesc")}
-    />
+            <FeatureCard
+              Icon={GrUserExpert}
+              title={t("features.expertInstructors")}
+              description={t("features.expertInstructorsdesc")}
+            />
 
-    <FeatureCard
-      Icon={AiOutlineSolution} 
-      title={t("features.customSolutions")}
-      description={t("features.customSolutionsdesc")}
-    />
+            <FeatureCard
+              Icon={AiOutlineSolution}
+              title={t("features.customSolutions")}
+              description={t("features.customSolutionsdesc")}
+            />
 
-    <FeatureCard
-      Icon={FaInnosoft} 
-      title={t("features.innovativeLearning")}
-      description={t("features.innovativeLearningdesc")}
-    />
+            <FeatureCard
+              Icon={FaInnosoft}
+              title={t("features.innovativeLearning")}
+              description={t("features.innovativeLearningdesc")}
+            />
 
-    <FeatureCard
-      Icon={GiFlexibleLamp} 
-      title={t("features.flexibleDelivery")}
-      description={t("features.flexibleDeliverydesc")}
-    />
-    <FeatureCard
-      Icon={LeafyGreenIcon} 
-      title={t("features.resultsOriented")}
-      description={t("features.resultsOrienteddesc")}
-    />
+            <FeatureCard
+              Icon={GiFlexibleLamp}
+              title={t("features.flexibleDelivery")}
+              description={t("features.flexibleDeliverydesc")}
+            />
+            <FeatureCard
+              Icon={LeafyGreenIcon}
+              title={t("features.resultsOriented")}
+              description={t("features.resultsOrienteddesc")}
+            />
           </div>
-          </div>
+        </div>
       </MaxWidthWrapper>
       <MaxWidthWrapper noPadding>
-        <AppleCardsCarouselDemo/>
+        <AppleCardsCarouselDemo />
       </MaxWidthWrapper>
-      <div className=" flex items-center justify-center" style={{ backgroundImage: "url(/bg-meirc-numbers.png)", backgroundSize: "cover",
-         backgroundPosition: "center", backgroundRepeat: "no-repeat"  }}>
-      <MaxWidthWrapper className={cn(" flex   mr-auto",locale==="ar"?" justify-end":"")}>
-      <div className=" self-end w-fit">
-      <Head className=" text-black" text={t("valuePropositionTitle")} />
-      <Paragraph  className=" text-gray-700" description={t('valuePropositionText')}/>
-      <GridContainer className=" max-w-2xl mt-4" cols={3}>
-        <div className="  px-4 py-2 bg-white shadow-md">
-          <h1 className=" font-semibold text-blue-950 ">65+</h1>
-          <p>Years of Experience</p>
-        </div>
-        <div className="  px-4 py-2 bg-white shadow-md">
-          <h1 className=" font-semibold text-blue-950 ">65+</h1>
-          <p>Years of Experience</p>
-        </div>
-        <div className="  px-4 py-2 bg-white shadow-md">
-          <h1 className=" font-semibold text-blue-950 ">65+</h1>
-          <p>Years of Experience</p>
-        </div>
-        <div className="  px-4 py-2 bg-white shadow-md">
-          <h1 className=" font-semibold text-blue-950 ">65+</h1>
-          <p>Years of Experience</p>
-        </div>
-        <div className="  px-4 py-2 bg-white shadow-md">
-          <h1 className=" font-semibold text-blue-950 ">65+</h1>
-          <p>Years of Experience</p>
-        </div>
-        <div className="  px-4 py-2 bg-white shadow-md">
-          <h1 className=" font-semibold text-blue-950 ">65+</h1>
-          <p>Years of Experience</p>
-        </div>
-      </GridContainer>
-      </div>
+      <div
+        className=" flex items-center justify-center"
+        style={{
+          backgroundImage: "url(/bg-meirc-numbers.png)",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
+        <MaxWidthWrapper className={cn(" flex   mr-auto", locale === "ar" ? " justify-end" : "")}>
+          <div className=" self-end w-fit">
+            <Head className=" text-black" text={t("valuePropositionTitle")} />
+            <Paragraph className=" text-gray-700" description={t("valuePropositionText")} />
+            <GridContainer className=" max-w-2xl mt-4" cols={3}>
+              <div className="  px-4 py-2 bg-white shadow-md">
+                <h1 className=" font-semibold text-blue-950 ">65+</h1>
+                <p>Years of Experience</p>
+              </div>
+              <div className="  px-4 py-2 bg-white shadow-md">
+                <h1 className=" font-semibold text-blue-950 ">65+</h1>
+                <p>Years of Experience</p>
+              </div>
+              <div className="  px-4 py-2 bg-white shadow-md">
+                <h1 className=" font-semibold text-blue-950 ">65+</h1>
+                <p>Years of Experience</p>
+              </div>
+              <div className="  px-4 py-2 bg-white shadow-md">
+                <h1 className=" font-semibold text-blue-950 ">65+</h1>
+                <p>Years of Experience</p>
+              </div>
+              <div className="  px-4 py-2 bg-white shadow-md">
+                <h1 className=" font-semibold text-blue-950 ">65+</h1>
+                <p>Years of Experience</p>
+              </div>
+              <div className="  px-4 py-2 bg-white shadow-md">
+                <h1 className=" font-semibold text-blue-950 ">65+</h1>
+                <p>Years of Experience</p>
+              </div>
+            </GridContainer>
+          </div>
         </MaxWidthWrapper>
       </div>
-
+      <Footer />
     </section>
   );
 }
+/*
+
+main cover 
+
+main title
+main desc
+search
+
+second title
+second desc
+4 categories
+
+third title
+third desc
+categories publish
+all subcategories with icons
+
+forth title
+forth desc
+secondry cover 
+companies
+
+ciry title
+city desc
+cities
+
+top 10 courses slider 
+
+who wea re
+
+partenets
+*/

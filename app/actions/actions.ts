@@ -1,17 +1,19 @@
 "use server";
-import { z } from "zod";
 import mongoose, { model } from "mongoose";
 import User from "../models/User";
 import Category from "../models/Category";
 import Course from "../models/Course";
-import { ModelProps } from "../constant";
+import HomePage from "../models/Home";
+import Page from "../models/Page";
+import SubCategory from "../models/SubCategory";
+import { CascadeDeleteFunction, ModelProps } from "../constant";
 import bcrypt from "bcryptjs";
 import { revalidatePath, revalidateTag } from "next/cache";
 import connect from "@/lib/clientPromise";
 import { v2 as cloudinary } from "cloudinary";
 
 cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
@@ -21,8 +23,20 @@ const getModel = (modelName: ModelProps) => {
     User,
     Category,
     Course,
+    SubCategory,
+    HomePage,
+    Page,
   };
   return models[modelName];
+};
+//this is a way to automate the deletion of relevant entities
+const cascadeDeleteHandlers: Record<string, CascadeDeleteFunction> = {
+  Category: async (id: string) => {
+    // Delete subcategories associated with the category
+    const SubCategoryModel = getModel("SubCategory");
+    await SubCategoryModel.deleteMany({ categoryId: id });
+    console.log(`Deleted all subcategories for Category ID: ${id}`);
+  },
 };
 
 export const signup = async (data: any) => {
@@ -74,20 +88,66 @@ export const updateEntity = async (modelName: ModelProps, id: string, data: any)
     return { error: `Error updating ${modelName}`, details: error.message };
   }
 };
+export const deleteImage = async (publicId: string) => {
+  try {
+    const res = await cloudinary.uploader.destroy(publicId);
+    console.log(`Deleted image with public ID: ${publicId}`, res);
+    return res;
+  } catch (error) {
+    console.error(`Error deleting image with public ID: ${publicId}`, error);
+    throw new Error(`Failed to delete image: ${error.message}`);
+  }
+};
 
 export const deleteEntity = async (modelName: ModelProps, id: string) => {
   try {
     console.log(modelName, id);
     const Model = getModel(modelName);
+
+    // Find the entity to check for associated images
+    const entity = await Model.findById(id);
+
+    if (!entity) {
+      return { error: `${modelName} with ID ${id} not found` };
+    }
+
+    if (entity.images && Array.isArray(entity.images)) {
+      console.log(`Deleting images for ${modelName} with ID ${id}`);
+      const deleteResults = await Promise.all(
+        entity.images.map(async (image: { public_id: string }) => {
+          if (image?.public_id) {
+            return await deleteImage(image.public_id);
+          }
+        })
+      );
+      console.log("Image deletion results:", deleteResults);
+    }
+
+    if (cascadeDeleteHandlers[modelName]) {
+      console.log(`Executing cascade delete logic for ${modelName}`);
+      await cascadeDeleteHandlers[modelName](id);
+    }
+
     await Model.findByIdAndDelete(id);
+
+    // Revalidate cache
     revalidateTag(modelName);
     revalidatePath("/");
+
     return { success: `${modelName} deleted successfully` };
   } catch (error: any) {
+    console.error(`Error deleting ${modelName}:`, error);
     return { error: `Error deleting ${modelName}`, details: error.message };
   }
 };
-export const getEntities = async (modelName: ModelProps, page = 1, filter?: any, all = false, populate = "") => {
+
+export const getEntities = async (
+  modelName: ModelProps,
+  page = 1,
+  filter: Record<string, any> = {},
+  all = false,
+  populate = ""
+) => {
   try {
     await connect();
     const Model = getModel(modelName);
@@ -128,7 +188,7 @@ export const getEntities = async (modelName: ModelProps, page = 1, filter?: any,
 export const getEntity = async (modelName: ModelProps, id: string, locale: string) => {
   try {
     const Model = getModel(modelName);
-    const entity = await Model.findById(id).populate("category").lean(); // Use `lean` to get a plain JavaScript object
+    const entity = await Model.findById(id).lean(); // Use `lean` to get a plain JavaScript object
 
     if (!entity) {
       return { error: `${modelName} not found` };
@@ -141,17 +201,8 @@ export const getEntity = async (modelName: ModelProps, id: string, locale: strin
       description: entity.description ? entity.description[locale] || entity.description.en : undefined,
     };
 
-    return { success: `${modelName} fetched successfully`, data: localizedEntity };
+    return { success: `${modelName} fetched successfully`, data: locale ? localizedEntity : entity };
   } catch (error) {
     return { error: `Error fetching ${modelName}`, details: error };
-  }
-};
-export const deleteImage = async (publicId: string, Id: string, ModelName: string) => {
-  try {
-    const res = await cloudinary.uploader.destroy(id);
-
-    return res;
-  } catch (error) {
-    console.log(error);
   }
 };

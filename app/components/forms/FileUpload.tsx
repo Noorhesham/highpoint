@@ -1,11 +1,13 @@
 import { CloudUploadIcon, FileIcon, ReplaceIcon, Trash2Icon } from "lucide-react"; // Import Trash2Icon for the remove button
 import { useTranslations } from "next-intl";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useTransition } from "react";
 import { useFormContext } from "react-hook-form";
 import MiniTitle from "../defaults/MiniTitle";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import Link from "next/link";
+import { deleteImage } from "@/app/actions/actions";
+import { toast } from "react-toastify";
 
 interface FileUploadProps {
   label: string;
@@ -13,6 +15,8 @@ interface FileUploadProps {
   multiple?: boolean;
   noicon?: boolean;
   mimeTypes?: string[]; // Acceptable MIME types
+  entitiyId?: string;
+  entityName?: string;
 }
 
 const FileUpload: React.FC<FileUploadProps> = ({
@@ -20,20 +24,22 @@ const FileUpload: React.FC<FileUploadProps> = ({
   name,
   multiple = false,
   noicon = false,
-  mimeTypes = ["image/*", "application/pdf"], // Accept images and PDFs by default
+  mimeTypes = ["image/*", "application/pdf"],
+  entitiyId,
+  entityName,
 }) => {
   const { setValue, getValues, formState } = useFormContext();
   const [preview, setPreview] = useState<string | null>(null); // State to store file preview URL or icon
   const [isPdf, setIsPdf] = useState(false); // State to track if the file is a PDF
   const [hasDefault, setHasDefault] = useState<boolean>(false); // State to check if there's a default file
-
+  const [isPending, startTransition] = useTransition();
   const defaultFile = getValues(name) || formState.defaultValues?.[name]; // Get default file
 
   useEffect(() => {
     // If there is a default file, handle the preview
     if (defaultFile && typeof defaultFile === "object") {
-      if (defaultFile.thumbnail) {
-        setPreview(defaultFile.thumbnail);
+      if (defaultFile.secure_url) {
+        setPreview(defaultFile.secure_url);
         setHasDefault(true);
       } else if (defaultFile.type === "application/pdf") {
         setIsPdf(true);
@@ -50,7 +56,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
     const file = files ? files[0] : null;
 
     if (file) {
-      console.log(file)
+      console.log(file);
       setValue(name, multiple ? files : file, { shouldValidate: true });
 
       const fileType = file.type;
@@ -71,15 +77,23 @@ const FileUpload: React.FC<FileUploadProps> = ({
     }
   };
 
-  const handleRemove = () => {
-    setPreview(null);
-    setIsPdf(false);
-    setHasDefault(false);
-    setValue(name, multiple ? [] : null, { shouldValidate: true });
+  const handleRemove = async () => {
+    startTransition(async () => {
+      setPreview(null);
+      setIsPdf(false);
+      if (defaultFile.public_id) {
+        const res = await deleteImage(defaultFile.public_id);
+        console.log(res);
+        if (res.success) {
+          toast.success(res.success);
+        } else toast.error(res.error);
+      }
+      setHasDefault(false);
+      setValue(name, multiple ? [] : null, { shouldValidate: true });
+    });
   };
 
   const t = useTranslations();
-  console.log(defaultFile);
   return (
     <div className="flex flex-col gap-2 items-start">
       <MiniTitle size={noicon ? "sm" : "md"} text={label} />
@@ -107,7 +121,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
               <Trash2Icon
                 onClick={handleRemove}
                 size={25}
-                className="absolute top-2 right-2 text-red-500 cursor-pointer"
+                className="absolute top-2 z-40 right-2 text-red-500 cursor-pointer"
               />
               <Image src={preview} alt="preview" className="object-cover" fill />
             </div>

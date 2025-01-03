@@ -76,5 +76,8 @@
   },
   "languageSwitcher": {
     "selectLanguage": "Select Language"
+  },"category":{
+    "title":"Category",
+    "description":"Select a category"
   }
 }

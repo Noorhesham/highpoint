@@ -17,6 +17,7 @@ import { DialogClose } from "@/components/ui/dialog";
 import { ModelProps } from "@/app/constant";
 import CategoriesForm from "../forms/CategoriesForm";
 import CoursesForm from "../forms/CoursesForm";
+import Link from "next/link";
 
 const Actions = ({ data, entity }: { data: any; entity: ModelProps }) => {
   const [isPending, startTransition] = useTransition();
@@ -56,11 +57,17 @@ const Actions = ({ data, entity }: { data: any; entity: ModelProps }) => {
         <DropdownMenuLabel>Actions</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <div className=" flex flex-col gap-2">
-          <ModalCustom
-            title="Update user data"
-            btn={<div className={`${buttonVariants({ variant: "default" })} cursor-pointer w-full`}>Edit</div>}
-            content={returnFormFromEntity(entity)}
-          />
+          {entity === "Course" ? (
+            <Button className="self-end">
+              <Link href={`/dashboard/editCourse/${data._id}`}>Edit Course</Link>
+            </Button>
+          ) : (
+            <ModalCustom
+              title="Update user data"
+              btn={<div className={`${buttonVariants({ variant: "default" })} cursor-pointer w-full`}>Edit</div>}
+              content={returnFormFromEntity(entity)}
+            />
+          )}
           <ModalCustom
             title="Update user data"
             btn={<div className={`${buttonVariants({ variant: "destructive" })} cursor-pointer w-full`}> Delete</div>}

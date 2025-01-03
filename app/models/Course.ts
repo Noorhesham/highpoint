@@ -22,6 +22,7 @@ export interface CourseProps {
   startDate: Date;
   endDate: Date;
   status: "draft" | "published" | "archived";
+  subCategories: Schema.Types.ObjectId[];
 }
 
 const courseSchema = new Schema({
@@ -40,10 +41,12 @@ const courseSchema = new Schema({
     default: "draft",
     required: true,
   },
+  subCategories: [{ type: Schema.Types.ObjectId, ref: "SubCategory" }],
 });
 
 courseSchema.pre("find", function (this) {
-  this.populate("category"); // Ensure you populate the now relationship model.
+  this.populate("category");
+  this.populate("subCategories");
 });
 
 const Course = mongoose.models.Course || mongoose.model("Course", courseSchema);

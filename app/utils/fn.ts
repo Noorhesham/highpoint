@@ -27,3 +27,19 @@ export function convertToHTML(input: string) {
 
   return html;
 }
+export const uploadImageToCloudinary = async (file: File | Blob) => {
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("upload_preset", "ml_default");
+
+  const response = await fetch(process.env.NEXT_PUBLIC_CLOUDINARY_URL!, {
+    method: "POST",
+    body: formData,
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to upload image to Cloudinary");
+  }
+
+  return response.json(); // Returns { secure_url, public_id }
+};

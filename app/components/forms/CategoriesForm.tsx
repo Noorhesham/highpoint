@@ -1,91 +1,133 @@
 "use client";
+
 import React, { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
-import { Form } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
+import { Form } from "@/components/ui/form";
 import ArabicEnglishForm from "./ArabicEnglishForm";
-import { CategoryProps } from "@/app/models/Category";
-import { createEntity, updateEntity } from "@/app/actions/actions";
 import PhotoInput from "./PhotoInput";
+import MiniTitle from "../defaults/MiniTitle";
+import SubCategoryForm from "./SubCategoryForm";
+import { createEntity, updateEntity } from "@/app/actions/actions";
+import { useGetEntity } from "@/app/queries";
+import { CategoryProps } from "@/app/models/Category";
+import Paragraph from "../defaults/Paragraph";
 
 const CategoriesSchema = z.object({
   name: z.object({
     ar: z.string().min(1, { message: "Required" }),
-    en: z.string().min(1, { message: "الحقل مطلوب" }),
+    en: z.string().min(1, { message: "Required" }),
   }),
   description: z.object({
     ar: z.string().min(1, { message: "Required" }),
-    en: z.string().min(1, { message: "الحقل مطلوب" }),
+    en: z.string().min(1, { message: "Required" }),
   }),
   mainImage: z.any(),
 });
-
+export type SubCategoryType = {
+  _id?: string;
+  name: {
+    ar: string;
+    en: string;
+  };
+};
 const CategoriesForm = ({ categories }: { categories?: CategoryProps }) => {
+  const [subCategoriesState, setSubCategoriesState] = useState<Array<SubCategoryType>>(categories?.subCategories || []);
   const form = useForm<z.infer<typeof CategoriesSchema>>({
     defaultValues: {
-      name: { ar: categories?.name.ar || "", en: categories?.name.en || "" },
-      description: { ar: categories?.description.ar || "", en: categories?.description.en || "" },
-      mainImage: categories?.mainImage || [],
+      name: categories?.name || { ar: "", en: "" },
+      description: categories?.description || { ar: "", en: "" },
+      mainImage: categories?.mainImage[0] || [],
     },
     resolver: zodResolver(CategoriesSchema),
   });
 
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
+  const { reset } = form;
+
+  const handleImageUpload = async (mainImage: any) => {
+    const formData = new FormData();
+    formData.append("file", mainImage);
+    formData.append("upload_preset", "ml_default");
+
+    const res = await fetch(process.env.NEXT_PUBLIC_CLOUDINARY_URL!, {
+      method: "POST",
+      body: formData,
+    });
+
+    if (!res.ok) throw new Error("Failed to upload photo");
+    return res.json();
+  };
 
   const onSubmit = async (data: any) => {
-    console.log(data);
     startTransition(async () => {
-      if (data.mainImage) {
-        const formData = new FormData();
-        formData.append("file", data.mainImage);
-        formData.append("upload_preset", "ml_default");
-        try {
-          const res = await fetch(process.env.NEXT_PUBLIC_CLOUDINARY_URL!, {
-            method: "POST",
-            body: formData,
-          });
-
-          console.log(res);
-          if (!res.ok) {
-            const errorResponse = await res.json(); // Show Cloudinary error details
-            console.error("Cloudinary Error:", errorResponse);
-            throw new Error("Failed to upload photo");
-          }
-
-          const cloudinaryData = await res.json();
-          data.mainImage = {
-            secure_url: cloudinaryData.secure_url,
-            public_id: cloudinaryData.public_id,
-          };
-        } catch (error) {
-          console.error("Photo upload failed:", error);
-          return;
+      try {
+        if (data?.mainImage instanceof File) {
+          const { secure_url, public_id } = await handleImageUpload(data.mainImage);
+          data.mainImage = { secure_url, public_id };
         }
+
+        const res = categories
+          ? await updateEntity("Category", categories._id, data)
+          : await createEntity("Category", data);
+
+        if (res.success) {
+          toast.success(res.success);
+          router.refresh();
+          reset({
+            name: data.name,
+            description: data.description,
+            mainImage: data.mainImage,
+          });
+        } else {
+          toast.error(res.error);
+        }
+      } catch (error) {
+        console.error("Error during submission:", error);
       }
-      const res = categories
-        ? await updateEntity("Category", categories._id, data)
-        : await createEntity("Category", data);
-      console.log(res);
-      if (res.success) {
-        toast.success(res.success);
-        router.refresh();
-      } else toast.error(res.error);
     });
   };
-  console.log(form.formState.errors);
+
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4 p-4">
-        <PhotoInput value={categories?.mainImage} name={"mainImage"} />
-        <ArabicEnglishForm />
-        <Button disabled={isPending}>{categories ? "Update" : "Add"} Categories</Button>
-      </form>
-    </Form>
+    <div>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4 p-4">
+          <PhotoInput value={categories?.mainImage[0]?.secure_url} name="mainImage" />
+          <ArabicEnglishForm name="name" />
+          <Button disabled={isPending}>{categories ? "Update" : "Add"} Category</Button>
+          <MiniTitle text="Sub Categories" size="md" className="my-4" />
+        </form>
+      </Form>
+      {categories &&
+        subCategoriesState.map((subCategory, index) => (
+          <SubCategoryForm
+            parentCategory={categories._id}
+            key={index}
+            index={index}
+            defaultValue={subCategory}
+            stateSetter={setSubCategoriesState}
+          />
+        ))}{" "}
+      {categories ? (
+        <Button
+          type="button"
+          className="my-3 w-fit"
+          onClick={() => setSubCategoriesState([...subCategoriesState, { name: { ar: "", en: "" } }])}
+        >
+          Add Sub Category
+        </Button>
+      ) : (
+        <Paragraph
+          className=" !text-gray-800"
+          description="You can add sub categories only after creating a category"
+        />
+      )}
+    </div>
   );
 };
 

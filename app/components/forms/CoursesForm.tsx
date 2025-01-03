@@ -9,18 +9,13 @@ import { useTransition } from "react";
 import { z } from "zod";
 import { CourseProps } from "@/app/models/Course";
 import { Form } from "@/components/ui/form";
-import PhotoInput from "./PhotoInput";
 import ArabicEnglishForm from "./ArabicEnglishForm";
 import { Button } from "@/components/ui/button";
-import FormSelect from "./FormSelect";
-import { useGetEntity } from "@/app/queries";
-import { useLocale } from "next-intl";
+
 import FormInput from "./FormInput";
-import FlexWrapper from "../defaults/FlexWrapper";
 import GridContainer from "../defaults/GridContainer";
 import FileUpload from "./FileUpload";
-import ExportToPDF from "../ExportToPdf";
-import CalendarInput from "./CalendarInput";
+import CategoriesInput from "./CountriesInput";
 const CoursesSchema = z.object({
   name: z.object({
     ar: z.string().min(1, { message: "Required" }),
@@ -43,6 +38,7 @@ const CoursesSchema = z.object({
   duration: z.union([z.number(), z.string().min(1)]),
   startDate: z.union([z.string().min(1, { message: "Required" }), z.date()]),
   endDate: z.union([z.string().min(1, { message: "Required" }), z.date()]),
+  subCategories: z.array(z.string()),
 });
 const formatDateForInput = (date?: Date) => {
   if (!date) return "";
@@ -55,20 +51,19 @@ const CoursesForm = ({ course }: { course?: CourseProps | null }) => {
     defaultValues: {
       name: { ar: course?.name.ar || "", en: course?.name.en || "" },
       description: { ar: course?.description.ar || "", en: course?.description.en || "" },
-      images: course?.images.map((image) => image.secure_url) || [{}],
+      images: course?.images || [{}],
       category: course?.category || "",
       price: course?.price || 0,
       serialNumber: course?.serialNumber || 0,
       duration: course?.duration || 0,
       startDate: formatDateForInput(course?.startDate) || new Date(),
       endDate: formatDateForInput(course?.endDate) || new Date(),
+      subCategories: course?.subCategories || [],
     },
     resolver: zodResolver(CoursesSchema),
   });
-  const { data, isLoading } = useGetEntity({ entityName: "Category", key: "categories" });
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
-  const locale = useLocale();
   const { fields, append } = useFieldArray({
     control: form.control,
     name: "images",
@@ -77,17 +72,20 @@ const CoursesForm = ({ course }: { course?: CourseProps | null }) => {
     startTransition(async () => {
       try {
         // Filter and process valid images  console.log(course);
-        const filteredImages = data.images?.filter((image: any) => image?.secure_url || image instanceof File);
+        const filteredImages = data.images?.filter((image: any) => {
+          if (image?.secure_url !== "" || image instanceof File) return image;
+        });
         console.log(filteredImages);
 
         const uploadedImages = await Promise.all(
-          filteredImages?.map(async (image: File | { secure_url: string; public_id: string }) => {
-            console.log(image);
-            if (image?.secure_url) {
+          filteredImages.map(async (image: File | { secure_url: string; public_id: string }) => {
+            console.log(image, data);
+            if (image?.secure_url && image?.secure_url !== "") {
               return image;
             }
-            if (!image instanceof File) return;
-            // Prepare form data for image upload
+            if (!(image instanceof File)) {
+              throw new Error("Invalid image type: Expected a File instance");
+            }
             const formData = new FormData();
             formData.append("file", image);
             formData.append("upload_preset", "ml_default");
@@ -156,15 +154,15 @@ const CoursesForm = ({ course }: { course?: CourseProps | null }) => {
           <FormInput calendar name="startDate" label="start date" placeholder="Duration" type="number" />
           <FormInput calendar name="endDate" label="end date" placeholder="Duration" type="number" />
         </GridContainer>
-
-        <FormSelect
+        <CategoriesInput subCategory={"subCategories"} categoryName="category" />
+        {/* <FormSelect
           disabled={isLoading || !data}
           locale={course ? locale : ""}
           options={!isLoading && data ? data?.data?.data.map((p: any) => ({ value: p._id, name: p.name[locale] })) : []}
           name="category"
           label="Category"
           placeholder="Select Category"
-        />
+        /> */}
         <Button disabled={isPending}>{course ? "Update" : "Add"} Course</Button>
       </form>
     </Form>

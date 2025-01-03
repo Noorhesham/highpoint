@@ -75,5 +75,9 @@
   },
   "languageSwitcher": {
     "selectLanguage": "اختر اللغة"
+  },
+  "category": {
+    "title": "التصنيف",
+    "description": "اختر تصنيفا"
   }
 }

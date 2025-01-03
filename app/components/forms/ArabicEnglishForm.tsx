@@ -1,7 +1,21 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import FormInput from "./FormInput";
+import { ReactNode } from "react";
+import FlexWrapper from "../defaults/FlexWrapper";
 
-const ArabicEnglishForm = ({ nodesc = false, name = "name" }: { nodesc?: boolean; name?: any }) => {
+const ArabicEnglishForm = ({
+  nodesc = false,
+  name = "name",
+  children,
+  label,
+  descName = "description",
+}: {
+  nodesc?: boolean;
+  name?: any;
+  children?: ReactNode;
+  label?: string;
+  descName?: string;
+}) => {
   console.log(name, `${name}.en `);
   return (
     <Tabs defaultValue="en" className="w-full">
@@ -10,12 +24,27 @@ const ArabicEnglishForm = ({ nodesc = false, name = "name" }: { nodesc?: boolean
         <TabsTrigger value="ar">العربية</TabsTrigger>
       </TabsList>
       <TabsContent className=" flex flex-col gap-4 mt-3" value="en">
-        <FormInput label="Name" name={`${name}.en` || "name.en"} placeholder={"Name"} />
-        {!nodesc && <FormInput textarea label="Description" name="description.en" placeholder={"Description"} />}{" "}
+        <div className="flex items-center gap-2 w-full">
+          <FormInput label={label || "Name"} name={`${name}.en` || "name.en"} placeholder={"Name"} />
+          {children}
+        </div>
+        {!nodesc && (
+          <FormInput
+            textarea
+            label={"Description"}
+            name={`${descName}.en` || "name.en"}
+            placeholder={"Description"}
+          />
+        )}{" "}
       </TabsContent>
       <TabsContent dir="rtl" className=" flex flex-col gap-4 mt-3" value="ar">
-        <FormInput label="الاسم بالعربية" name={`${name}.ar` || "name.ar"} placeholder={"Name"} />
-        {!nodesc && <FormInput textarea label=" الوصف العربي" name="description.ar" placeholder={"Description"} />}
+        <div className="flex items-center gap-2 w-full">
+          <FormInput label="الاسم بالعربية" name={`${name}.ar` || "name.ar"} placeholder={"Name"} />
+          {children}
+        </div>
+        {!nodesc && (
+          <FormInput textarea label=" الوصف العربي" name={`${descName}.ar` || "desc.ar"} placeholder={"Description"} />
+        )}
       </TabsContent>
     </Tabs>
   );
