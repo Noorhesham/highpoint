@@ -144,7 +144,10 @@ const fetchProducts = async (page: number) => {
 
 // Wrapping the cache around the fetch function
 const cachedFetchProducts = (page: number, filter: any, locale: string) =>
-  unstable_cache(() => fetchProducts(page), [`courses-${page}`], { revalidate: 60 });
+  unstable_cache(() => fetchProducts(page), [`Course-${page}`], {
+    revalidate: 60,
+    tags: [`Course-${page}`],
+  });
 const ProductReelFetch = async ({
   page = 1,
   filter = {},

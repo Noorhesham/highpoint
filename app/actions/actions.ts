@@ -66,7 +66,9 @@ export const createEntity = async (modelName: ModelProps, data: any) => {
     const entity = await Model.create(data);
     const entityObj = JSON.parse(JSON.stringify(entity));
     console.log(entityObj);
-    revalidateTag(modelName);
+    revalidateTag(`${modelName}-1`);
+    revalidateTag(`${modelName}`);
+
     revalidatePath("/");
     return { success: `${modelName} created successfully`, data: entityObj };
   } catch (error: any) {
@@ -81,7 +83,9 @@ export const updateEntity = async (modelName: ModelProps, id: string, data: any)
     const Model = getModel(modelName);
     const entity = await Model.findByIdAndUpdate(id, data, { new: true });
     const entityObj = JSON.parse(JSON.stringify(entity));
-    revalidateTag(modelName);
+    revalidateTag(`${modelName}-1`);
+    revalidateTag(`${modelName}`);
+
     revalidatePath("/");
     return { success: `${modelName} updated successfully`, data: entityObj };
   } catch (error: any) {
