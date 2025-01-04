@@ -59,23 +59,23 @@ const NavBar = () => {
   const links2 = [
     {
       text: t("nav2.search"),
-      href: "/search-training-course",
+      href: "/courses",
     },
     {
       text: t("nav2.guide"),
-      href: "/course-guide",
+      href: "/courses",
     },
     {
       text: t("nav2.places"),
-      href: "/venue-locations",
+      href: "/courses",
     },
     {
       text: t("nav2.certificates"),
-      href: "/accredited-certificates",
+      href: "/courses",
     },
     {
       text: t("nav2.train-tech"),
-      href: "/training-technology",
+      href: "/courses",
     },
   ];
 
