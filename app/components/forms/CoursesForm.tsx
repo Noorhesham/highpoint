@@ -16,6 +16,13 @@ import FormInput from "./FormInput";
 import GridContainer from "../defaults/GridContainer";
 import FileUpload from "./FileUpload";
 import CategoriesInput from "./CountriesInput";
+import { useGetEntity } from "@/app/queries";
+import City from "@/app/models/City";
+import { useLocale } from "next-intl";
+import FormSelect from "./FormSelect";
+import FormTitle from "../FormTitle";
+import OperationForm from "./OperationForm";
+import DescInput from "./DescInput";
 const CoursesSchema = z.object({
   name: z.object({
     ar: z.string().min(1, { message: "Required" }),
@@ -39,6 +46,8 @@ const CoursesSchema = z.object({
   startDate: z.union([z.string().min(1, { message: "Required" }), z.date()]),
   endDate: z.union([z.string().min(1, { message: "Required" }), z.date()]),
   subCategories: z.array(z.string()),
+  city: z.string().min(1, { message: "Required" }),
+  days: z.array(z.object({ ar: z.string(), en: z.string() }).optional()),
 });
 const formatDateForInput = (date?: Date) => {
   if (!date) return "";
@@ -47,6 +56,8 @@ const formatDateForInput = (date?: Date) => {
 
 const CoursesForm = ({ course }: { course?: CourseProps | null }) => {
   console.log(course);
+  const { data: cities, isLoading } = useGetEntity({ entityName: "City", key: "city" });
+  const locale = useLocale();
   const form = useForm<z.infer<typeof CoursesSchema>>({
     defaultValues: {
       name: { ar: course?.name.ar || "", en: course?.name.en || "" },
@@ -59,6 +70,8 @@ const CoursesForm = ({ course }: { course?: CourseProps | null }) => {
       startDate: formatDateForInput(course?.startDate) || new Date(),
       endDate: formatDateForInput(course?.endDate) || new Date(),
       subCategories: course?.subCategories || [],
+      city: course?.city || "",
+      days: course?.days || [""],
     },
     resolver: zodResolver(CoursesSchema),
   });
@@ -67,6 +80,21 @@ const CoursesForm = ({ course }: { course?: CourseProps | null }) => {
   const { fields, append } = useFieldArray({
     control: form.control,
     name: "images",
+  });
+  const [operations, setOperations] = React.useState(course?.operations || []);
+  const removeOperation = (index: number) => {
+    setOperations((prevOperations) => prevOperations.filter((_, i) => i !== index));
+  };
+  const addOperation = () => {
+    setOperations((prevOperations) => [...prevOperations, {}]);
+  };
+  const {
+    fields: days,
+    append: appendDay,
+    remove: removeDay,
+  } = useFieldArray({
+    control: form.control,
+    name: "days",
   });
   const onSubmit = async (data: any) => {
     startTransition(async () => {
@@ -119,6 +147,7 @@ const CoursesForm = ({ course }: { course?: CourseProps | null }) => {
         if (res?.success) {
           toast.success(res?.success);
           router.refresh();
+          setOperations([1]);
         } else {
           toast.error(res.error);
         }
@@ -128,44 +157,83 @@ const CoursesForm = ({ course }: { course?: CourseProps | null }) => {
       }
     });
   };
-
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4 p-4">
-        <GridContainer cols={fields.length < 2 ? 1 : 2}>
-          {fields.map((field, index) => (
-            <FileUpload label="" key={field.id} name={`images.${index}`} />
+    <div>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4 p-4">
+          <GridContainer cols={fields.length < 2 ? 1 : 2}>
+            {fields.map((field, index) => (
+              <FileUpload label="" key={field.id} name={`images.${index}`} />
+            ))}
+          </GridContainer>
+          <Button
+            onClick={(e) => {
+              e.stopPropagation();
+              e.preventDefault();
+              append({});
+            }}
+          >
+            Add More
+          </Button>
+          <ArabicEnglishForm />
+          <GridContainer cols={3} className=" gap-4">
+            <FormInput name="price" label="Price" placeholder="Price" type="number" />
+            <FormInput name="serialNumber" label="Serial Number" placeholder="Serial Number" type="number" />
+            <FormInput name="duration" label="Duration" placeholder="Duration" type="number" />
+            <FormInput calendar name="startDate" label="start date" placeholder="Duration" type="number" />
+            <FormInput calendar name="endDate" label="end date" placeholder="Duration" type="number" />
+          </GridContainer>
+          <CategoriesInput subCategory={"subCategories"} categoryName="category" />
+          <FormSelect
+            disabled={isLoading || !cities}
+            locale={course ? locale : ""}
+            options={
+              !isLoading && cities ? cities?.data?.data.map((p: any) => ({ value: p._id, name: p.name[locale] })) : []
+            }
+            name="city"
+            label="City"
+            placeholder="Select City"
+          />
+          {days.map((day, index) => (
+            <div className="flex  gap-2" key={day.id}>
+              <DescInput name={`days.${index}`} label={`Day ${index + 1}`} />
+              <Button className="self-end w-fit" variant={"destructive"} onClick={() => removeDay(index)}>
+                Delete
+              </Button>
+            </div>
           ))}
-        </GridContainer>
-        <Button
-          onClick={(e) => {
-            e.stopPropagation();
-            e.preventDefault();
-            append({});
-          }}
-        >
-          Add More
-        </Button>
-        <ArabicEnglishForm />
-        <GridContainer cols={3} className=" gap-4">
-          <FormInput name="price" label="Price" placeholder="Price" type="number" />
-          <FormInput name="serialNumber" label="Serial Number" placeholder="Serial Number" type="number" />
-          <FormInput name="duration" label="Duration" placeholder="Duration" type="number" />
-          <FormInput calendar name="startDate" label="start date" placeholder="Duration" type="number" />
-          <FormInput calendar name="endDate" label="end date" placeholder="Duration" type="number" />
-        </GridContainer>
-        <CategoriesInput subCategory={"subCategories"} categoryName="category" />
-        {/* <FormSelect
-          disabled={isLoading || !data}
-          locale={course ? locale : ""}
-          options={!isLoading && data ? data?.data?.data.map((p: any) => ({ value: p._id, name: p.name[locale] })) : []}
-          name="category"
-          label="Category"
-          placeholder="Select Category"
-        /> */}
-        <Button disabled={isPending}>{course ? "Update" : "Add"} Course</Button>
-      </form>
-    </Form>
+          <Button
+            className=" mt-5 w-fit ml-auto"
+            onClick={(e) => {
+              e.stopPropagation();
+              e.preventDefault();
+              appendDay({ en: "", ar: "" });
+            }}
+          >
+            Add Day
+          </Button>
+          <Button disabled={isPending}>{course ? "Update" : "Add"} Course</Button>
+        </form>
+      </Form>
+      {course && (
+        <>
+          {" "}
+          <FormTitle text="Course Convening" />
+          {operations.map((operation, index) => (
+            <div key={index}>
+              <OperationForm
+                removeOperationn={() => removeOperation(index)}
+                courseId={course._id}
+                operation={operation}
+              />
+            </div>
+          ))}
+          <Button className=" mt-5" onClick={() => addOperation()}>
+            Add Convening
+          </Button>
+        </>
+      )}
+    </div>
   );
 };
 export default CoursesForm;

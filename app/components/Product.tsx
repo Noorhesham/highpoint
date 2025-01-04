@@ -40,7 +40,7 @@ const ProductCard = ({ product, index, category = false }: { product: any; index
               {product.name.length > 20 ? product.name.substring(0, 20) + "..." : product.name[locale || "en"]}
             </h3>{" "}
           </div>
-          <p className=" mt-1 font-medium text-sm ">{product.price}$</p>
+          {product.price && <p className=" mt-1 font-medium text-sm ">{product.price}$</p>}
           <Paragraph description={product.description[locale || "en"]} className="!line-clamp-2" />
         </div>
       </div>

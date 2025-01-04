@@ -4,7 +4,9 @@ import User from "../models/User";
 import Category from "../models/Category";
 import Course from "../models/Course";
 import HomePage from "../models/Home";
+import City from "../models/City";
 import Page from "../models/Page";
+import Operation from "../models/Operations";
 import SubCategory from "../models/SubCategory";
 import { CascadeDeleteFunction, ModelProps } from "../constant";
 import bcrypt from "bcryptjs";
@@ -26,6 +28,8 @@ const getModel = (modelName: ModelProps) => {
     SubCategory,
     HomePage,
     Page,
+    City,
+    Operation,
   };
   return models[modelName];
 };
@@ -36,6 +40,12 @@ const cascadeDeleteHandlers: Record<string, CascadeDeleteFunction> = {
     const SubCategoryModel = getModel("SubCategory");
     await SubCategoryModel.deleteMany({ categoryId: id });
     console.log(`Deleted all subcategories for Category ID: ${id}`);
+  },
+  Course: async (id: string) => {
+    // Delete subcategories associated with the category
+    const OperationModel = getModel("Operation");
+    await OperationModel.deleteMany({ course: id });
+    console.log(`Deleted all operations for course ID: ${id}`);
   },
 };
 
@@ -77,7 +87,7 @@ export const createEntity = async (modelName: ModelProps, data: any) => {
   }
 };
 
-export const updateEntity = async (modelName: ModelProps, id: string, data: any,customRevalidatePaths?:string[]) => {
+export const updateEntity = async (modelName: ModelProps, id: string, data: any, customRevalidatePaths?: string[]) => {
   try {
     await connect();
     console.log(data, id, modelName);
@@ -210,18 +220,24 @@ export const getEntities = async (
   }
 };
 
-export const getEntity = async (modelName: ModelProps, id: string, locale: string) => {
+export const getEntity = async (modelName: ModelProps, id: string, locale: string, populateFields: string[] = []) => {
   try {
     await connect();
 
     const Model = getModel(modelName);
-    const entity = await Model.findById(id).lean(); // Use `lean` to get a plain JavaScript object
+
+    let query = Model.findById(id);
+
+    populateFields.forEach((field) => {
+      query = query.populate(field);
+    });
+
+    const entity = await query.lean();
 
     if (!entity) {
       return { error: `${modelName} not found` };
     }
 
-    // Ensure locale fields are correctly set
     const localizedEntity = {
       ...entity,
       name: entity.name ? entity.name[locale] || entity.name.en : undefined,

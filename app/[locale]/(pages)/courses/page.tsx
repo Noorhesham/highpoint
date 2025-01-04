@@ -9,28 +9,31 @@ import React, { Suspense } from "react";
 
 const Page = async ({
   params: { locale },
-  searchParams: { page, category, subCategories },
+  searchParams: { page, category, subCategories, city },
 }: {
   params: { locale: string };
-  searchParams: { page: string; category: string; subCategories: string };
+  searchParams: { page: string; category: string; subCategories: string; city: string };
 }) => {
   unstable_setRequestLocale(locale);
 
   const filters = {
     category: category || "",
-    subCategories: subCategories ? subCategories.split(",") : [],
+    subCategories: subCategories ? subCategories.split("%2C") : [],
+    city: city || "",
   };
   const categories = await getEntities("Category");
+  const cities = await getEntities("City");
+
   const subCategories2 = categories.data?.data.find(
     (category: any) => category._id === filters.category
   )?.subCategories;
   const filterss = [
     { Categories: categories.data?.data, filter: "category" },
     { "Sub Categories": subCategories2 || [], arr: true, filter: "subCategories" },
+    { Cities: cities.data?.data || [], filter: "city" },
   ];
-  console.log(filterss);
   return (
-    <MaxWidthWrapper className=" mt-20 lg:mt-40" noPadding >
+    <MaxWidthWrapper className=" mt-20 lg:mt-40" noPadding>
       {" "}
       <GridContainer className=" gap-5" cols={10}>
         <Suspense fallback={<p>Loading courses...</p>}>

@@ -18,6 +18,7 @@ import { ModelProps } from "@/app/constant";
 import CategoriesForm from "../forms/CategoriesForm";
 import CoursesForm from "../forms/CoursesForm";
 import Link from "next/link";
+import CityForm from "../forms/CityForm";
 
 const Actions = ({ data, entity }: { data: any; entity: ModelProps }) => {
   const [isPending, startTransition] = useTransition();
@@ -38,7 +39,7 @@ const Actions = ({ data, entity }: { data: any; entity: ModelProps }) => {
       case "Category":
         return <CategoriesForm categories={data} />;
       case "City":
-        return CityForm;
+        return <CityForm city={data} />;
       case "Course":
         return <CoursesForm course={data} />;
       default:

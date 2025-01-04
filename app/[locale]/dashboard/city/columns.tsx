@@ -3,46 +3,27 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { CityProps } from "@/app/models/City";
 import Actions from "@/app/components/dashboard/Actions";
+import LocaleData from "@/app/components/LocaleData";
+import Image from "next/image";
 
 export const columns: ColumnDef<CityProps>[] = [
   {
-    accessorKey: "name.en",
-    header: "Name (English)",
+    accessorKey: "name",
+    header: "Name ",
+    cell: ({ row }) => <LocaleData data={row.original.name} />,
   },
   {
-    accessorKey: "name.ar",
-    header: "Name (Arabic)",
-  },
-  {
-    accessorKey: "code",
-    header: "Code",
-  },
-  {
-    accessorKey: "hotelName",
-    header: "Hotel Name",
-  },
-  {
-    accessorKey: "hotelLink",
-    header: "Hotel Link",
+    accessorKey: "mainImage",
+    header: "",
     cell: ({ row }) => (
-      <a href={row.original.hotelLink} target="_blank" rel="noopener noreferrer">
-        Visit
-      </a>
+      <div className="w-16 rounded-xl overflow-hidden h-16 relative">
+        <Image src={row.original.image?.secure_url} alt={row.original.name} className=" object-cover" fill />
+      </div>
     ),
   },
   {
-    accessorKey: "priceForweek",
-    header: "Price for 1 Week",
-    cell: ({ row }) => `$${row.original.priceForweek.toFixed(2)}`,
-  },
-  {
-    accessorKey: "priceFor2weeks",
-    header: "Price for 2 Weeks",
-    cell: ({ row }) => `$${row.original.priceFor2weeks.toFixed(2)}`,
-  },
-  {
     id: "actions",
-    cell: ({ row }) => <Actions data={row.original} />,
+    cell: ({ row }) => <Actions entity="City" data={row.original} />,
   },
 ];
 

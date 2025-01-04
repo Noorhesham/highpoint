@@ -1,13 +1,9 @@
 import mongoose, { Schema } from "mongoose";
 import { localizedStringSchema } from "./Course";
 export interface CityProps {
-  name: string;
-  code: string;
-  images: string[];
-  hotelName: string;
-  hotelLink: string;
-  priceForweek: number;
-  priceFor2weeks: number;
+  name: { en: string; ar: string };
+  image: { secure_url: string; public_id: string }[];
+  _id: string;
 }
 const imageSchema = new Schema({
   secure_url: { type: String, required: true },
@@ -15,13 +11,9 @@ const imageSchema = new Schema({
 });
 const citySchema = new Schema({
   name: localizedStringSchema,
-  code: { type: String },
-  images: [imageSchema],
-  hotelName: { type: String },
-  hotelLink: { type: String },
-  priceForweek: { type: Number },
-  priceFor2weeks: { type: Number },
+  image: imageSchema,
 });
 
-const City = mongoose.models.city || mongoose.model("City", citySchema);
+const City = mongoose.models.City || mongoose.model("City", citySchema);
+
 export default City;

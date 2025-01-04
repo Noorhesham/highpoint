@@ -15,9 +15,12 @@ import MiniHeading from "@/app/components/MiniHeading";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import FlexWrapper from "@/app/components/defaults/FlexWrapper";
+import { getEntity } from "@/app/actions/actions";
 
-const page = async ({ params: { locale } }: { params: { locale: string } }) => {
+const page = async ({ params: { locale, id } }: { params: { locale: string; id: string } }) => {
   unstable_setRequestLocale(locale);
+  const course = await getEntity("Course", id, "", ["operations", "city", "category"]);
+  console.log(course.data);
   return (
     <section className=" pt-32">
       <div

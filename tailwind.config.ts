@@ -54,7 +54,7 @@ const config: Config = {
           "5": "hsl(var(--chart-5))",
         },
         main: "#012951",
-        main2: "#07bfaa",
+        main2: "#012951",
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
