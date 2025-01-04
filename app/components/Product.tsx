@@ -8,7 +8,7 @@ import Link from "next/link";
 import { useLocale } from "next-intl";
 import Paragraph from "./defaults/Paragraph";
 
-const ProductCard = ({ product, index }: { product: any; index: number }) => {
+const ProductCard = ({ product, index, category = false }: { product: any; index: number; category?: boolean }) => {
   const [isVisible, setIsVisible] = React.useState(false);
   const locale = useLocale();
   useEffect(() => {
@@ -18,7 +18,7 @@ const ProductCard = ({ product, index }: { product: any; index: number }) => {
     return () => clearTimeout(timer);
   }, [index]);
   return isVisible ? (
-    <Link className=" bg-white h-full" href={`/course/${product._id}`}>
+    <Link className=" bg-white h-full" href={category ? `/courses?category=${product._id}` : `/course/${product._id}`}>
       <div
         className={`${cn(" opacity-0  bg-white h-full h-full relative w-full cursor-pointer group-main ", {
           " opacity-100 animate-in duration-200 fade-in-5 shadow-md  rounded-xl": isVisible,
@@ -31,9 +31,11 @@ const ProductCard = ({ product, index }: { product: any; index: number }) => {
         />
         <div className=" flex flex-col self-stretch justify-between py-2 px-4 w-full">
           <div className="flex items-start flex-col justify-between">
-            <div className=" flex items-start flex-col ">
-              <p className=" mt-1 font-semibold text-sm ">category : {product.category.name[locale || "en"]}</p>
-            </div>
+            {!category && (
+              <div className=" flex items-start flex-col ">
+                <p className=" mt-1 font-semibold text-sm ">category : {product.category.name[locale || "en"]}</p>
+              </div>
+            )}
             <h3 className="font-medium text-base  ">
               {product.name.length > 20 ? product.name.substring(0, 20) + "..." : product.name[locale || "en"]}
             </h3>{" "}

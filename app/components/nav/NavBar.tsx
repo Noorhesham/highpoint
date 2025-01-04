@@ -63,19 +63,19 @@ const NavBar = () => {
     },
     {
       text: t("nav2.guide"),
-      href: "/courses",
+      href: "/categories",
     },
     {
       text: t("nav2.places"),
-      href: "/courses",
+      href: "/places",
     },
     {
       text: t("nav2.certificates"),
-      href: "/courses",
+      href: "/certificates",
     },
     {
       text: t("nav2.train-tech"),
-      href: "/courses",
+      href: "/train",
     },
   ];
 
