@@ -83,7 +83,7 @@ const SwiperCards = ({
         {items.map(({ src, text, card }: { src: string; text: string; card: ReactNode }, i: number) => (
           <SwiperSlide className={`w-full h-full  ${rounded ? "rounded-2xl" : ""}`} key={i}>
             {card ? (
-              <div className="  w-full"> {card}</div>
+              <div className=" h-full  w-full"> {card}</div>
             ) : (
               <>
                 {

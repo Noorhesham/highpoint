@@ -125,18 +125,12 @@ const NavBar = () => {
         >
           <div className=" w-full bg-gray-100 py-3 ">
             <MaxWidthWrapper noPadding className="flex justify-between ">
-              {/* {<div className=" hidden lg:flex items-center gap-4 text-sm  text-muted-foreground">
-                <p className="flex items-center gap-2">
-                  <MdEmail className="text-black w-3 h-3" />
-                  arabic-support@glomacs.com
-                </p>
-                <p className="flex items-center gap-2">
-                  <Phone className="text-black w-3 h-3" /> +971 4 556 7171
-                </p>
-              </div>} */}
               <div className="  flex items-center gap-2 ">
                 <div className={`z-[999] duration-150 h-full  relative lg:hidden block`}>
                   <PhoneNav isHome={isHome} navigation={links} />
+                </div>
+                <div className="lg:hidden block">
+                  <Logo size="sm" isdark={isHome ? false : true} />
                 </div>
                 <User />
               </div>
@@ -146,7 +140,7 @@ const NavBar = () => {
                   <NavLink isHome={isHome} key={link.text} href={link.href} text={link.text} subLinks={link.subLinks} />
                 ))}
               </div>
-                <Language />
+              <Language />
             </MaxWidthWrapper>
           </div>
 
@@ -160,7 +154,7 @@ const NavBar = () => {
               <div
                 className={`${
                   !isTopPage && "lg:opacity-100  hidden lg:flex  opacity-0"
-                } flex duration-150  items-center`}
+                }  duration-150  lg:flex hidden items-center`}
               >
                 <Logo isdark={isHome ? false : true} />
               </div>

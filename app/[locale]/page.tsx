@@ -22,6 +22,9 @@ import { CategoryProps } from "../models/Category";
 import Link from "next/link";
 import Tabing from "../components/Tabing";
 import HomeCover from "../components/ui-visual/HomeCover";
+import CourseCard from "../components/CourseCard";
+import { CourseProps } from "../models/Course";
+import ProductCard from "../components/Product";
 
 export default async function Home({ params: { locale } }: { params: { locale: string } }) {
   unstable_setRequestLocale(locale);
@@ -46,8 +49,10 @@ export default async function Home({ params: { locale } }: { params: { locale: s
   ];
   const page = await getEntities("HomePage", 1, {});
   const categories = await getEntities("Category", 1, {}, false, "", "", "", { name: 1 }, {});
+  const courses = await getEntities("Course", 1, {}, false, "", "", "", { name: 1 }, {}, 8);
   const { mainCover, mainTitle, mainDesc, secondaryCover, companies, sections, whoWeAre, partners } =
     page.data.data[0] || {};
+    console.log(page.data.data[0])
   return (
     <section className="">
       <HomeCover image={mainCover.secure_url} mainTitle={mainTitle[locale]} mainDesc={mainDesc[locale]}>
@@ -100,6 +105,7 @@ export default async function Home({ params: { locale } }: { params: { locale: s
           })}
         />
       </MaxWidthWrapper>
+
       <MaxWidthWrapper>
         <div className="flex bg-blue-500  justify-between lg:flex-row flex-col items-center gap-2">
           <div
@@ -130,7 +136,8 @@ export default async function Home({ params: { locale } }: { params: { locale: s
             </GridContainer>
           </MaxWidthWrapper>
         </div>
-        <GridContainer cols={3}>
+
+        <GridContainer className=" mt-5" cols={3}>
           {features.map((feature, index) => (
             <FeatureCard key={index} Icon={feature.Icon} title={feature.title} description={feature.description} />
           ))}
@@ -173,9 +180,32 @@ export default async function Home({ params: { locale } }: { params: { locale: s
           </div>
         </div>
       </MaxWidthWrapper>
+      {/*courses*/}
+      <div className=" bg-blue-500">
+        <MaxWidthWrapper>
+          <Head className=" text-white  !text-2xl" text={"الدورات الأكثر طلبا بين الطلاب"} />
+          <Paragraph className=" text-white text-center" maxWidth description={t("coursesDesc")} />
+          <SwiperCards
+            autoplay
+            className=" mt-6 h-96"
+            items={courses.data?.data.map((course: CourseProps, i: number) => {
+              return {
+                card: (
+                  <div key={course._id} className=" h-full bg-white">
+                    <ProductCard product={course} index={i} />
+                  </div>
+                ),
+              };
+            })}
+          />
+        </MaxWidthWrapper>
+      </div>
+
+
       <MaxWidthWrapper noPadding>
         <AppleCardsCarouselDemo />
       </MaxWidthWrapper>
+
       <div
         className=" flex items-center justify-center"
         style={{

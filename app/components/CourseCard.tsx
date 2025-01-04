@@ -14,7 +14,7 @@ const CourseCard: FC<CourseCardProps> = ({ imageSrc, description }) => {
       <div className="w-80 h-80 relative">
         <Image src={imageSrc} className="object-cover" alt="course image" fill />
       </div>
-      <Paragraph className="text-white text-lg" description={description} />
+      <Paragraph className="text-white line-clamp-3 text-lg" description={description} />
     </div>
   );
 };

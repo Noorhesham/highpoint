@@ -18,9 +18,9 @@ const ProductCard = ({ product, index }: { product: any; index: number }) => {
     return () => clearTimeout(timer);
   }, [index]);
   return isVisible ? (
-    <Link href={`/course/${product._id}`}>
+    <Link className=" bg-white h-full" href={`/course/${product._id}`}>
       <div
-        className={`${cn(" opacity-0  h-full relative w-full cursor-pointer group-main ", {
+        className={`${cn(" opacity-0  bg-white h-full h-full relative w-full cursor-pointer group-main ", {
           " opacity-100 animate-in duration-200 fade-in-5 shadow-md  rounded-xl": isVisible,
         })} self-stretch flex flex-col `}
       >
@@ -39,7 +39,7 @@ const ProductCard = ({ product, index }: { product: any; index: number }) => {
             </h3>{" "}
           </div>
           <p className=" mt-1 font-medium text-sm ">{product.price}$</p>
-          <Paragraph description={product.description[locale || "en"]} className="!line-clamp-3" />
+          <Paragraph description={product.description[locale || "en"]} className="!line-clamp-2" />
         </div>
       </div>
     </Link>

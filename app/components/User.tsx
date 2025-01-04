@@ -10,7 +10,7 @@ const User = () => {
   return (
     <div className="flex items-center gap-3">
       <div>
-        <p className=" text-white font-semibold">{user?.name}</p>
+        <p className=" text-white lg:block hidden font-semibold">{user?.name}</p>
         <p className=" text-muted-foreground text-sm">{user?.email}</p>
       </div>
       <Button
