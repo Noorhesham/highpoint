@@ -1,3 +1,4 @@
+"use client";
 // components/NoSSR.tsx
 import React, { useEffect, useState } from "react";
 
