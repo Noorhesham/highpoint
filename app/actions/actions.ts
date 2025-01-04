@@ -79,6 +79,7 @@ export const createEntity = async (modelName: ModelProps, data: any) => {
 
 export const updateEntity = async (modelName: ModelProps, id: string, data: any) => {
   try {
+    await connect();
     console.log(data, id, modelName);
     const Model = getModel(modelName);
     const entity = await Model.findByIdAndUpdate(id, data, { new: true });
