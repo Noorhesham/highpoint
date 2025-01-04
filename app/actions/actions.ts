@@ -151,27 +151,38 @@ export const getEntities = async (
   filter: Record<string, any> = {},
   all = false,
   populate = "",
-  searchField = "", // Specify the field to search, e.g., "title"
-  searchTerm = ""
+  searchField = "",
+  searchTerm = "",
+  sort: Record<string, 1 | -1> = {},
+  filterArray: Record<string, any[]> = {},
+  limit = 10
 ) => {
   try {
     await connect();
     const Model = getModel(modelName);
-    const skip = (page - 1) * 10;
-    const query = Object.fromEntries(
-      Object.entries(filter).map(([key, value]) => {
-        if (mongoose.isValidObjectId(value)) {
-          return [key, new mongoose.Types.ObjectId(value)];
-        }
-        return [key, value];
-      })
+    const skip = (page - 1) * limit;
+    // Prepare query filters
+
+    const validFilter = Object.fromEntries(
+      Object.entries(filter).filter(([key, value]) => value && mongoose.isValidObjectId(value))
     );
+
+    const query = {
+      ...validFilter,
+      ...Object.fromEntries(Object.entries(filterArray).map(([key, values]) => [key, { $in: values }])),
+    };
+
+    console.log(query, filter);
+
     if (searchField && searchTerm) {
       query[searchField] = { $regex: searchTerm, $options: "i" };
     }
-    let queryBuilder = Model.find(query).skip(skip).limit(10);
+
+    let queryBuilder = Model.find(query).skip(skip).limit(limit).sort(sort); // Apply sorting
+
+    // Handle "all" flag to fetch all data
     if (all) {
-      queryBuilder = Model.find(query);
+      queryBuilder = Model.find(query).sort(sort);
     }
 
     // Apply population if specified
@@ -180,11 +191,14 @@ export const getEntities = async (
         path: populate,
       });
     }
+
+    // Execute query
     const entities = await queryBuilder.exec();
 
-    const totalPages = Math.ceil((await Model.countDocuments(query)) / 10);
+    // Calculate total pages based on limit
+    const totalPages = Math.ceil((await Model.countDocuments(query)) / limit);
     const data = JSON.parse(JSON.stringify(entities));
-    console.log(entities);
+
     return {
       success: `${modelName} fetched successfully`,
       data: { data, totalPages },
@@ -194,6 +208,7 @@ export const getEntities = async (
     return { error: `Error fetching ${modelName}`, details: error };
   }
 };
+
 export const getEntity = async (modelName: ModelProps, id: string, locale: string) => {
   try {
     await connect();

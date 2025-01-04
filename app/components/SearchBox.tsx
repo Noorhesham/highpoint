@@ -175,23 +175,17 @@ const SearchBox = ({
           </MotionItem>
         )}
       </AnimatePresence>
-      <div className="bg-white gap-4 sm:gap-0 flex-row  py-3 px-6 rounded-xl flex items-center w-full ">
-        <div className="bg-white w-full overflow-hidden relative rounded-xl border-primary border-2">
-          <div className="flex w-full items-center justify-between py-2 px-4">
+      <div className="bg-white gap-4 sm:gap-2 flex-row  py-3 px-6 rounded-xl flex items-center w-full ">
+        <div className=" flex bg-white w-full overflow-hidden relative rounded-xl border-primary border-2">
+          <div className="flex w-full items-center justify-between py-2 px-8">
             <input
               onKeyDown={handleKeyDown}
               value={val}
               onChange={handleSearchChange}
               className=" w-full outline-none"
               type="text"
-              placeholder="JOB TITLE OR KEYWORD"
+              placeholder="ابحث عن دورة تدريبية معينة"
             />{" "}
-            <Link
-              href={jobs?.length > 1 ? `/courses?query=${query}` : "/courses"}
-              className="flex p-2 absolute rounded-xl right-0 text-white justify-center items-center bg-blue-800"
-            >
-              <SearchIcon />
-            </Link>{" "}
             <XIcon
               onClick={() => {
                 onClose && onClose();
@@ -200,8 +194,14 @@ const SearchBox = ({
               }}
               className=" cursor-pointer hover:text-main duration-150 mr-2"
             />
-          </div>
+          </div>{" "}
         </div>
+        <Link
+          href={jobs?.length > 1 ? `/courses?query=${query}` : "/courses"}
+          className="flex p-2 rounded-xl  text-white justify-center items-center bg-blue-800"
+        >
+          <SearchIcon />
+        </Link>{" "}
       </div>
     </div>
   );

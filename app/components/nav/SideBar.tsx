@@ -51,7 +51,7 @@ export function AppSidebar() {
   const locale = useLocale();
 
   return (
-    <Sidebar>
+    <Sidebar >
       <SidebarContent>
         <SidebarGroup className="py-32">
           <SidebarGroupLabel>Application</SidebarGroupLabel>

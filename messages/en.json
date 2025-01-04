@@ -1,9 +1,30 @@
 {
   "nav": {
     "aboutus": "About Us",
-    "contactus": " Contact Us",
+    "contactus": {
+      "text": "Contact Us",
+      "sublinks": {
+        "inquiry": "Inquiry About a Training Course",
+        "hotelbooking": "Hotel Booking",
+        "mailinglist": "Mailing List",
+        "careers": "Careers"
+      }
+    },
+    "nav2": {
+      "search": "Search for a Training Course",
+      "guide": "Course Guide",
+      "places": "Venue Locations",
+      "certificates": "Accredited Certificates",
+      "train-tech": "Training Technology"
+    },
     "home": "Home",
-    "courses": "Courses"
+    "courses": "Courses",
+    "who-we-are": "Who We Are",
+    "certificates": "Certificates",
+    "clients": "Clients",
+    "opinions": "Opinions",
+    "blogs": "Blogs",
+    "faq": "FAQ"
   },
 
   "heroHead": "Welcome to Our Training Platform",
@@ -76,8 +97,43 @@
   },
   "languageSwitcher": {
     "selectLanguage": "Select Language"
-  },"category":{
-    "title":"Category",
-    "description":"Select a category"
-  }
+  },
+  "category": {
+    "title": "Category",
+    "description": "Select a category"
+  },
+  "placeholder": "search for specific course",
+  "mainCover": "Main Cover Image",
+  "mainTitle": "Main Title",
+  "mainDesc": "Main Description",
+  "secondaryCover": "Secondary Cover Image",
+  "companies": {
+    "title": "Company {index} Title",
+    "image": "Company {index} Image"
+  },
+  "sections": {
+    "title": "Section {index} Title",
+    "desc": "Section {index} Description"
+  },
+  "whoWeAre": {
+    "title": "Who We Are Title",
+    "desc": "Who We Are Description"
+  },
+  "partners": {
+    "title": "Partners Title",
+    "desc": "Partners Description",
+    "image": "Partner {index} Image"
+  },
+  "buttons": {
+    "addSection": "Add Section",
+    "removeSection": "Remove Section",
+    "addCompany": "Add Company",
+    "removeCompany": "Remove Company",
+    "addPartnerImage": "Add Partner Image",
+    "submit": "Submit"
+  },
+  "messages": {
+    "required": "Required"
+  },
+  "Courses": "Courses"
 }

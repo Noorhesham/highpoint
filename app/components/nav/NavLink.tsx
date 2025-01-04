@@ -27,7 +27,7 @@ const NavLink = ({
   const pathName = usePathname();
   const local = useLocale();
   const linkStyles =
-    "uppercase  text-gray-800 font-semibold  group flex relative items-center gap-2 text-sm  xl:text-base  ";
+    "uppercase  text-gray-800 font-semibold  group flex relative items-center gap-2 text-sm  xl:text-sm  ";
   const active = isHome
     ? pathName.replace(`/${local}`, "").trim() === href?.replace(`/`, "").trim()
     : pathName.replace(`/${local}`, "") === href;
@@ -48,13 +48,13 @@ const NavLink = ({
   else
     return (
       <DropdownMenu modal={false}>
-        <DropdownMenuTrigger className={linkStyles}>
-          {text} <ChevronDown />
+        <DropdownMenuTrigger  className={linkStyles}>
+          {text} <ChevronDown className=" w-4 h-4" />
         </DropdownMenuTrigger>
         <DropdownMenuContent align="start" className=" w-full rounded-lg">
           {subLinks.map((link) => (
             <DropdownMenuItem className=" uppercase   rounded-sm" key={link.text}>
-              <Link className=" text-xs pr-20 pl-3   py-2  w-full   font-semibold  uppercase" href={link.href || "#"}>
+              <Link className=" text-xs  px-5   py-2  w-full   font-semibold  uppercase" href={link.href || "#"}>
                 {link.text}
               </Link>
             </DropdownMenuItem>

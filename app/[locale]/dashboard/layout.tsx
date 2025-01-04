@@ -14,7 +14,7 @@ export default async function RootLayout({
 }>) {
   unstable_setRequestLocale(locale);
   await connect();
-  return (
+  return locale === "en" ? (
     <main className=" w-full pt-32">
       <SidebarProvider>
         <AppSidebar />
@@ -22,6 +22,16 @@ export default async function RootLayout({
           <SidebarTrigger />
           {children}
         </section>
+      </SidebarProvider>
+    </main>
+  ) : (
+    <main className=" w-full pt-32">
+      <SidebarProvider>
+        <section className=" w-full">
+          <SidebarTrigger />
+          {children}
+        </section>
+        <AppSidebar />
       </SidebarProvider>
     </main>
   );

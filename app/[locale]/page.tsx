@@ -17,6 +17,11 @@ import { cn } from "@/lib/utils";
 import Footer from "../components/Footer";
 import { getEntities } from "../actions/actions";
 import SearchBox from "../components/SearchBox";
+import Image from "next/image";
+import { CategoryProps } from "../models/Category";
+import Link from "next/link";
+import Tabing from "../components/Tabing";
+import HomeCover from "../components/ui-visual/HomeCover";
 
 export default async function Home({ params: { locale } }: { params: { locale: string } }) {
   unstable_setRequestLocale(locale);
@@ -40,49 +45,91 @@ export default async function Home({ params: { locale } }: { params: { locale: s
     },
   ];
   const page = await getEntities("HomePage", 1, {});
-  const { mainCover, mainTitle, mainDesc, secondaryCover, companies, sections, whoWeAre, partners } = page.data.data[0] || {};
-
+  const categories = await getEntities("Category", 1, {}, false, "", "", "", { name: 1 }, {});
+  const { mainCover, mainTitle, mainDesc, secondaryCover, companies, sections, whoWeAre, partners } =
+    page.data.data[0] || {};
   return (
     <section className="">
-      <div
-        style={{
-          backgroundImage: `url("${mainCover.secure_url}")`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-        }}
-        className="h-[35rem] relative"
-      >
-        {" "}
-        <div className=" w-full  h-full absolute inset-0  bg-black/40"></div>
-        <MaxWidthWrapper className="flex relative z-30 !pt-32 flex-col gap-2 md:gap-4">
-          <div className="flex flex-col gap-4 max-w-lg">
-            <Head className=" !text-white" text={mainTitle[locale]} />
-            <Paragraph className=" !text-white" description={mainDesc[locale]} />
-           <SearchBox/>
-          </div>
+      <HomeCover image={mainCover.secure_url} mainTitle={mainTitle[locale]} mainDesc={mainDesc[locale]}>
+        <SearchBox />
+      </HomeCover>
+      <div className=" bg-gray-200">
+        <MaxWidthWrapper className=" items-center py-10 flex flex-col gap-3">
+          <Head className=" !text-2xl" text={sections[0].title[locale]} />
+          <Paragraph className="text-center" maxWidth description={sections[0].desc[locale]} />
+          <GridContainer cols={4}>
+            {categories.data?.data.slice(0, 4).map((category: CategoryProps) => (
+              <Link href={`/${locale}/courses?category=${category._id}`} key={category._id}>
+                <div className=" rounded-2xl overflow-hidden w-full h-32 relative">
+                  <h2 className=" absolute z-30 text-white top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                    {category.name[locale]}
+                  </h2>
+                  <div className=" w-full  h-full absolute inset-0  z-20 bg-black/60"></div>
+                  <Image src={category.mainImage[0].secure_url} alt="" fill className=" object-cover" />
+                </div>
+              </Link>
+            ))}
+          </GridContainer>
         </MaxWidthWrapper>
-        {/* <div className=" w-full md:w-[60%]">
-            <SwiperCards
-              autoplay
-              contain className=" md:h-96 h-64"
-              slidesPerView={1}
-              items={[
-                { src: "/training-courses-2025.webp" },
-                { src: "/london.webp" },
-                { src: "/Corporate -Retreats.webp" },
-                { src: "/banner-Amsterdam.webp" },
-              ]}
-            />
-          </div> */}
       </div>
-      {sections?.map((section, index) => (
-        <MaxWidthWrapper className=" py-10 flex flex-col gap-3" key={index}>
-          <Head text={section.title[locale]} />
-          <Paragraph maxWidth description={section.desc[locale]} />
-        </MaxWidthWrapper>
-      ))}
+      <MaxWidthWrapper className=" items-start py-10 flex flex-col gap-3">
+        <Head className=" !text-2xl" text={sections[1].title[locale]} />
+        <Paragraph className="text-start" maxWidth description={sections[1].desc[locale]} />
+        <Tabing
+          defaultValue=""
+          options={categories.data?.data.map((category: CategoryProps) => {
+            return {
+              label: category.name[locale],
+              href: category._id,
+              content: (
+                <GridContainer cols={4}>
+                  {category.subCategories.map((subCategory: any) => (
+                    <Link
+                      className=" rounded-2xl overflow-hidden w-full py-3 shadow-sm px-6 border-gray-400 border relative"
+                      href={`/${locale}/courses?category=${subCategory._id}`}
+                      key={subCategory._id}
+                    >
+                      <div className="">
+                        <h2 className=" text-black text-sm ">{subCategory.name[locale]}</h2>
+                      </div>
+                    </Link>
+                  ))}
+                </GridContainer>
+              ),
+            };
+          })}
+        />
+      </MaxWidthWrapper>
       <MaxWidthWrapper>
+        <div className="flex bg-blue-500  justify-between lg:flex-row flex-col items-center gap-2">
+          <div
+            style={{
+              backgroundImage: `url("${secondaryCover.secure_url}")`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+            }}
+            className=" flex w-full  items-center h-[70vh] flex-col gap-2 relative"
+          >
+            <div className=" w-full h-full absolute inset-0  bg-black/60 " />
+            <div className=" z-20 relative  max-w-lg self-center my-auto flex flex-col items-center">
+              <Head className=" text-white !text-2xl" text={sections?.[2]?.title[locale]} />
+              <Paragraph maxWidth className=" text-center text-gray-100" description={sections?.[2]?.desc[locale]} />
+            </div>
+          </div>
+          <MaxWidthWrapper>
+            <GridContainer cols={3} className=" w-full h-full">
+              {companies.map((company: any, index) => (
+                <div key={index} className="  bg-white py-2 px-4 flex flex-col  items-center">
+                  <div className="w-20 h-20 relative">
+                    <Image src={company.image.secure_url} alt="" fill className=" object-contain" />
+                  </div>
+                  <h2 className=" text-muted-foreground text-gray-700">{company.title[locale]}</h2>
+                </div>
+              ))}
+            </GridContainer>
+          </MaxWidthWrapper>
+        </div>
         <GridContainer cols={3}>
           {features.map((feature, index) => (
             <FeatureCard key={index} Icon={feature.Icon} title={feature.title} description={feature.description} />

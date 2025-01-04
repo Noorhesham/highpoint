@@ -1,11 +1,32 @@
 {
   "nav": {
-    "aboutus": "من نحن ؟",
-    "contactus": "اتصل بنا",
-    "home": "الرئيسية",
-    "courses": "الدورات"
+    "aboutus": "عن هاي بوينت للتدريب ؟",
+    "contactus": {
+      "text": "تواصل معنا",
+      "sublinks": {
+        "inquiry": "للاستعلام عن دورة تدريبية",
+        "hotelbooking": "حجز الفندق",
+        "mailinglist": "القائمة البريدية",
+        "careers": "وظائف"
+      }
+    },
+    "home": "الصفحة الرئيسية",
+    "courses": "الدورات التعاقدية",
+    "english": "Training in English",
+    "who-we-are": "من نحن",
+    "certificates": "الشهادات",
+    "clients": "العملاء",
+    "opinions": "الآراء",
+    "blogs": "المدونات",
+    "faq": "الأسئلة الشائعة"
   },
-
+  "nav2": {
+    "search": "البحث عن دورة تدريبية",
+    "guide": "دليل الدورات",
+    "places": "أماكن الانعقاد",
+    "certificates": "الشهادات المعتمدة",
+    "train-tech": "تقنية التدريب"
+  },
   "heroHead": "مرحبًا بك في منصتنا التدريبية",
   "heroDescription": "اكتشف أفضل الدورات لتطوير مسارك المهني.",
   "searchPlaceholder": "ابحث عن دورتك التدريبية",
@@ -79,5 +100,39 @@
   "category": {
     "title": "التصنيف",
     "description": "اختر تصنيفا"
-  }
+  },
+  "placeholder": "ابحث عن دورة تدريبية معينة",
+  "mainCover": "صورة الغلاف الرئيسية",
+  "mainTitle": "العنوان الرئيسي",
+  "mainDesc": "الوصف الرئيسي",
+  "secondaryCover": "صورة الغلاف الثانوي",
+  "companies": {
+    "title": "عنوان الشركة {index}",
+    "image": "صورة الشركة {index}"
+  },
+  "sections": {
+    "title": "عنوان القسم {index}",
+    "desc": "وصف القسم {index}"
+  },
+  "whoWeAre": {
+    "title": "عنوان من نحن",
+    "desc": "وصف من نحن"
+  },
+  "partners": {
+    "title": "عنوان الشركاء",
+    "desc": "وصف الشركاء",
+    "image": "صورة الشريك {index}"
+  },
+  "buttons": {
+    "addSection": "إضافة قسم",
+    "removeSection": "إزالة القسم",
+    "addCompany": "إضافة شركة",
+    "removeCompany": "إزالة الشركة",
+    "addPartnerImage": "إضافة صورة شريك",
+    "submit": "إرسال"
+  },
+  "messages": {
+    "required": "الحقل مطلوب"
+  },
+  "Courses": "دورات التدريب"
 }

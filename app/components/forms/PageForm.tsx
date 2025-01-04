@@ -58,7 +58,7 @@ const PageForm = ({ page }: { page?: any }) => {
     resolver: zodResolver(ReusablePageSchema),
   });
 
-  const { fields: sectionFields, append: appendSection } = useFieldArray({
+  const { fields: sectionFields, append: appendSection, remove: removeSection } = useFieldArray({
     control: form.control,
     name: "sections",
   });
@@ -112,7 +112,16 @@ const PageForm = ({ page }: { page?: any }) => {
               name={`sections.${index}.title`}
               label={`Section ${index + 1} Title`}
             />
-            <FileUpload name={`sections.${index}.image`} label={`Section ${index + 1} Image`} />
+            <FileUpload name={`sections.${index}.image`} label={`Section ${index + 1} Image`} />{" "}
+            <Button
+              className=" w-fit ml-auto"
+              variant={"destructive"}
+              disabled={isPending}
+              type="button"
+              onClick={() => removeSection(index)}
+            >
+              Remove Section
+            </Button>
           </div>
         ))}
         <Button

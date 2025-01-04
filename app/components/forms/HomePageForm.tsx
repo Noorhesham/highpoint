@@ -14,6 +14,7 @@ import { toast } from "react-toastify";
 import { createEntity, updateEntity } from "@/app/actions/actions";
 import { useRouter } from "next/navigation";
 import { HomeProps } from "@/app/models/Home";
+import FormTitle from "../FormTitle";
 
 export const HomePageSchema = z.object({
   mainCover: z.any().optional(),
@@ -66,7 +67,7 @@ export const HomePageSchema = z.object({
       ar: z.string().min(1, { message: "الحقل مطلوب" }),
       en: z.string().min(1, { message: "Required" }),
     }),
-    images: z.array(z.any().optional()),
+    images: z.array(z.any().optional()).optional(),
   }),
 });
 
@@ -90,16 +91,28 @@ const HomePageForm = ({ page }: { page: HomeProps }) => {
     resolver: zodResolver(HomePageSchema),
   });
 
-  const { fields: companyFields, append: appendCompany } = useFieldArray({
+  const {
+    fields: companyFields,
+    append: appendCompany,
+    remove: removeCompany,
+  } = useFieldArray({
     control: form.control,
     name: "companies",
   });
 
-  const { fields: sectionFields, append: appendSection } = useFieldArray({
+  const {
+    fields: sectionFields,
+    append: appendSection,
+    remove: removeSection,
+  } = useFieldArray({
     control: form.control,
     name: "sections",
   });
-  const { fields: partnerFields, append: appendPartner } = useFieldArray({
+  const {
+    fields: partnerFields,
+    append: appendPartner,
+    remove: removePartner,
+  } = useFieldArray({
     control: form.control,
     name: "partners.images",
   });
@@ -163,32 +176,65 @@ const HomePageForm = ({ page }: { page: HomeProps }) => {
         <FileUpload name="mainCover" label="Main Cover Image" />
 
         {/* Main Title and Description */}
+        <FormTitle text="Main " />
         <ArabicEnglishForm descName={"mainDesc"} name="mainTitle" label="Main Title" />
 
         {/* Sections */}
+        <FormTitle text="Sections" />
         {sectionFields.map((field, index) => (
-          <ArabicEnglishForm
-            key={field.id}
-            descName={`sections.${index}.desc`}
-            name={`sections.${index}.title`}
-            label={`Section ${index + 1} Title`}
-          />
+          <div className="flex flex-col gap-3">
+            <ArabicEnglishForm
+              key={field.id}
+              descName={`sections.${index}.desc`}
+              name={`sections.${index}.title`}
+              label={`Section ${index + 1} Title`}
+            />
+            <Button
+              className=" w-fit ml-auto"
+              variant={"destructive"}
+              disabled={isPending}
+              type="button"
+              onClick={() => removeSection(index)}
+            >
+              Remove Section
+            </Button>
+          </div>
         ))}
-        <Button disabled={isPending} onClick={() => appendSection({ title: { ar: "", en: "" }, desc: { ar: "", en: "" } })}>
-          Add Section
-        </Button>
+        <div className="flex gap-3">
+          <Button
+            disabled={isPending}
+            onClick={() => appendSection({ title: { ar: "", en: "" }, desc: { ar: "", en: "" } })}
+          >
+            Add Section
+          </Button>
+        </div>
 
         {/* Secondary Cover */}
         <FileUpload name="secondaryCover" label="Secondary Cover Image" />
 
         {/* Companies */}
         {companyFields.map((field, index) => (
-          <div key={field.id} className="border p-4 rounded-md">
-            <FileUpload name={`companies.${index}.image`} label={`Company ${index + 1} Image`} />
-            <ArabicEnglishForm nodesc name={`companies.${index}.title`} label={`Company ${index + 1} Title`} />
+          <div key={field.id} className="border flex  items-start p-4 rounded-md">
+            <div className=" w-full">
+              <FileUpload name={`companies.${index}.image`} label={`Company ${index + 1} Image`} />
+            </div>
+            <div className="flex w-full flex-col gap-2">
+              <ArabicEnglishForm nodesc name={`companies.${index}.title`} label={`Company ${index + 1} Title`} />
+              <Button
+                className=" w-fit ml-auto"
+                variant={"destructive"}
+                disabled={isPending}
+                type="button"
+                onClick={() => removeCompany(index)}
+              >
+                Remove Company
+              </Button>
+            </div>
           </div>
         ))}
-        <Button disabled={isPending} onClick={() => appendCompany({ image: null, title: { ar: "", en: "" } })}>Add Company</Button>
+        <Button disabled={isPending} onClick={() => appendCompany({ image: null, title: { ar: "", en: "" } })}>
+          Add Company
+        </Button>
 
         {/* Who We Are */}
         <ArabicEnglishForm descName="whoWeAre.desc" name="whoWeAre.title" label="Who We Are Title" />
@@ -198,9 +244,13 @@ const HomePageForm = ({ page }: { page: HomeProps }) => {
         {partnerFields.map((field, index) => (
           <FileUpload key={field.id} name={`partners.images.${index}`} label={`Partner ${index + 1} Image`} />
         ))}
-        <Button disabled={isPending} onClick={() => appendPartner(null)}>Add Partner Image</Button>
+        <Button type="button" disabled={isPending} onClick={() => appendPartner(null)}>
+          Add Partner Image
+        </Button>
 
-        <Button disabled={isPending} type="submit">Submit</Button>
+        <Button disabled={isPending} type="submit">
+          Submit
+        </Button>
       </form>
     </Form>
   );

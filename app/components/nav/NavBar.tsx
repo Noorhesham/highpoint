@@ -8,9 +8,11 @@ import PhoneNav from "./PhoneNav";
 import MotionItem from "../defaults/MotionItem";
 import { AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import Language from "../Language";
 import User from "../User";
+import { MdEmail } from "react-icons/md";
+import { Phone } from "lucide-react";
 
 const NavBar = () => {
   const t = useTranslations();
@@ -26,14 +28,57 @@ const NavBar = () => {
 
     {
       text: t("nav.aboutus"),
-
-      href: "/aboutus",
+      subLinks: [
+        { text: t("nav.who-we-are"), href: "/aboutus" },
+        { text: t("nav.certificates"), href: "/certificates" },
+        { text: t("nav.clients"), href: "/clients" },
+        {
+          text: t("nav.opinions"),
+          href: "/opinions",
+        },
+        {
+          text: t("nav.blogs"),
+          href: "/blogs",
+        },
+        {
+          text: t("nav.faq"),
+          href: "/faq",
+        },
+      ],
     },
-    // {
-    //   text: t("nav.contactus"),
-    //   href: "/contactus",
-    // },
+    {
+      text: t("nav.contactus.text"),
+      subLinks: [
+        { text: t("nav.contactus.sublinks.inquiry"), href: "/contactus/inquiry" },
+        { text: t("nav.contactus.sublinks.hotelbooking"), href: "/contactus/hotelbooking" },
+        { text: t("nav.contactus.sublinks.mailinglist"), href: "/contactus/mailinglist" },
+        { text: t("nav.contactus.sublinks.careers"), href: "/contactus/careers" },
+      ],
+    },
   ];
+  const links2 = [
+    {
+      text: t("nav2.search"),
+      href: "/search-training-course",
+    },
+    {
+      text: t("nav2.guide"),
+      href: "/course-guide",
+    },
+    {
+      text: t("nav2.places"),
+      href: "/venue-locations",
+    },
+    {
+      text: t("nav2.certificates"),
+      href: "/accredited-certificates",
+    },
+    {
+      text: t("nav2.train-tech"),
+      href: "/training-technology",
+    },
+  ];
+
   const [isScrollingDown, setIsScrollingDown] = useState(false);
   const [active, setIsActive] = useState(false);
   const router = useRouter();
@@ -58,62 +103,76 @@ const NavBar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY, isTopPage]);
   const isHome = pathName === "/en" || pathName === "/ar";
+  const locale = useLocale();
   return (
-    <header className=" w-full">
+    <header dir={locale !== "ar" ? "ltr" : "rtl"} className=" w-full">
       <nav
         className={`${
           isHome
             ? "text-gray-900 font-semibold placeholder:text-gray-800 "
-            : `    font-semibold placeholder:text-gray-50"  ${isScrollingDown && "bg-white/80"}`
-        } fixed inset-0 z-50 max-h-[5rem] lg:max-h-[6rem]  bg-white/80 flex flex-col gap-2   transition-all duration-300 ${
+            : `    font-semibold placeholder:text-gray-50"  ${isScrollingDown && "bg-white"}`
+        } fixed inset-0 z-50 max-h-[5rem] lg:max-h-[8.5rem]  bg-white flex flex-col gap-2   transition-all duration-300 ${
           isScrollingDown
             ? "translate-y-[-110%]"
             : !isTopPage && !isScrollingDown
-            ? `  -translate-y-2 lg:-translate-y-5 ${!isHome && "bg-white/80"}`
+            ? `  -translate-y-2 lg:-translate-y-5 ${!isHome && "bg-white"}`
             : "translate-y-0"
         }`}
       >
-        {/* <AnimatePresence>
-          {(isHome || pathName.includes("aboutus")) && !isTopPage && !isScrollingDown && (
-            <MotionItem
-              nohover
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="absolute inset-0 h-[20rem] bg-gradient-to-b from-black/60 via-transparent to-transparent pointer-events-none z-10"
-            >
-              {null}
-            </MotionItem>
-          )}
-        </AnimatePresence> */}
-        <MaxWidthWrapper className="lg:py-0 xl:py-4" noPadding>
-          <div
-            className={cn(
-              "flex relative z-20 items-center    ",
-              !isTopPage && !isScrollingDown ? "justify-center lg:justify-between" : "justify-between"
-            )}
-          >
-            <div
-              className={`${!isTopPage && "lg:opacity-100  hidden lg:flex  opacity-0"} flex duration-150  items-center`}
-            >
-              <Logo isdark={isHome ? false : true} />
-            </div>
-            <div className="flex  items-center  gap-20 ">
-              <ul className=" hidden lg:flex z-30 relative items-center  gap-4 xl:gap-8 ">
+        <div
+          className="flex   flex-col gap-2
+        "
+        >
+          <div className=" w-full bg-gray-100 py-3 ">
+            <MaxWidthWrapper noPadding className="flex justify-between ">
+              {/* {<div className=" hidden lg:flex items-center gap-4 text-sm  text-muted-foreground">
+                <p className="flex items-center gap-2">
+                  <MdEmail className="text-black w-3 h-3" />
+                  arabic-support@glomacs.com
+                </p>
+                <p className="flex items-center gap-2">
+                  <Phone className="text-black w-3 h-3" /> +971 4 556 7171
+                </p>
+              </div>} */}
+              <div className="  flex items-center gap-2 ">
+                <div className={`z-[999] duration-150 h-full  relative lg:hidden block`}>
+                  <PhoneNav isHome={isHome} navigation={links} />
+                </div>
+                <User />
+              </div>
+              <div className=" hidden lg:flex z-30 relative items-center  gap-4 xl:gap-8 ">
                 {links.map((link) => (
                   //@ts-ignore
                   <NavLink isHome={isHome} key={link.text} href={link.href} text={link.text} subLinks={link.subLinks} />
                 ))}
-              </ul>
-            </div>
-            <div className="  flex items-center gap-2 ">
-              <div className={`z-[999] duration-150 h-full  relative lg:hidden block`}>
-                <PhoneNav isHome={isHome} navigation={links} />
               </div>
-              <Language /> <User />
-            </div>
+                <Language />
+            </MaxWidthWrapper>
           </div>
-        </MaxWidthWrapper>
+
+          <MaxWidthWrapper noPadding className="">
+            <div
+              className={cn(
+                "flex relative z-20 items-center    ",
+                !isTopPage && !isScrollingDown ? "justify-center lg:justify-between" : "justify-between"
+              )}
+            >
+              <div
+                className={`${
+                  !isTopPage && "lg:opacity-100  hidden lg:flex  opacity-0"
+                } flex duration-150  items-center`}
+              >
+                <Logo isdark={isHome ? false : true} />
+              </div>
+              <div className=" hidden lg:flex z-30 relative items-center  gap-4 xl:gap-8 ">
+                {links2.map((link) => (
+                  //@ts-ignore
+                  <NavLink isHome={isHome} key={link.text} href={link.href} text={link.text} subLinks={link.subLinks} />
+                ))}
+              </div>
+            </div>
+          </MaxWidthWrapper>
+        </div>
       </nav>
     </header>
   );

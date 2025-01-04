@@ -8,6 +8,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { getMessages, unstable_setRequestLocale } from "next-intl/server";
 import QueryProvider from "@/lib/QueryProvider";
 import AuthProvider from "@/lib/SessionProvider";
+import { LoadingProvider } from "../constant/LoadingContext";
 const inter = Cairo({ subsets: ["latin"], weight: ["400", "600", "700", "200", "300", "500"] });
 
 export const metadata: Metadata = {
@@ -48,12 +49,14 @@ export default async function RootLayout({
             theme="light"
           />
           <QueryProvider>
-            <NextIntlClientProvider messages={messages}>
-              <main className="">
-                <NavBar />
-                {children}
-              </main>
-            </NextIntlClientProvider>
+            <LoadingProvider>
+              <NextIntlClientProvider messages={messages}>
+                <main className="">
+                  <NavBar />
+                  {children}
+                </main>
+              </NextIntlClientProvider>
+            </LoadingProvider>
           </QueryProvider>
         </AuthProvider>
       </body>

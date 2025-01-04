@@ -6,16 +6,16 @@ import { PaginationDemo } from "./Pagination";
 import Empty from "./Empty";
 import MaxWidthWrapper from "./defaults/MaxWidthWrapper";
 import { getEntities } from "../actions/actions";
+import { getTranslations } from "next-intl/server";
 
-const fetchProducts = async (page: number) => {
-  return await getEntities("Course", page, {}, false, "category");
+const fetchProducts = async (page: number, filter: any) => {
+  return await getEntities("Course", page, filter || {}, false, "category");
 };
 
-// Wrapping the cache around the fetch function
 const cachedFetchProducts = (page: number, filter: any, locale: string) =>
-  unstable_cache(() => fetchProducts(page), [`Course-${page}`], {
+  unstable_cache(() => fetchProducts(page, filter), [`Course-${page}-${JSON.stringify(filter)}`], {
     revalidate: 60,
-    tags: [`Course-${page}`],
+    tags: [`Course`],
   });
 const ProductReelFetch = async ({
   page = 1,
@@ -28,9 +28,10 @@ const ProductReelFetch = async ({
 }) => {
   // Use the cached function to fetch products with the specific page and filter,
   const res = await cachedFetchProducts(page, filter, locale)();
-  console.log(res);
+  const t=await getTranslations()
+  console.log(res.data?.data);
   if (!res || !res.data) {
-    return null; // Handle the case where the response is invalid or empty
+    return null;
   }
 
   const { data, totalPages } = res.data;
@@ -39,9 +40,9 @@ const ProductReelFetch = async ({
   return (
     <Suspense>
       {" "}
-      <section className=" pt-32">
-        <MaxWidthWrapper className="flex flex-col items-center gap-5">
-          <h1 className="text-6xl  font-bold text-black ">Courses</h1>
+      <section className="col-span-2 lg:col-span-7 ">
+        <MaxWidthWrapper noPadding className="flex flex-col items-center gap-5">
+          <h1 className="text-6xl  font-bold text-black ">{t("Courses")}</h1>
           <GridContainer cols={3}>
             {courses.length > 0 ? (
               <>
