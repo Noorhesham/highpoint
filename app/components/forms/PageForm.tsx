@@ -58,7 +58,11 @@ const PageForm = ({ page }: { page?: any }) => {
     resolver: zodResolver(ReusablePageSchema),
   });
 
-  const { fields: sectionFields, append: appendSection, remove: removeSection } = useFieldArray({
+  const {
+    fields: sectionFields,
+    append: appendSection,
+    remove: removeSection,
+  } = useFieldArray({
     control: form.control,
     name: "sections",
   });
@@ -76,7 +80,7 @@ const PageForm = ({ page }: { page?: any }) => {
           })
         );
 
-        const res = page ? await updateEntity("Page", page._id, data) : await createEntity("Page", data);
+        const res = page ? await updateEntity("Page", page._id, data, [page.slug]) : await createEntity("Page", data);
 
         if (res.success) {
           toast.success("Page saved successfully.");

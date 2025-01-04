@@ -77,7 +77,7 @@ export const createEntity = async (modelName: ModelProps, data: any) => {
   }
 };
 
-export const updateEntity = async (modelName: ModelProps, id: string, data: any) => {
+export const updateEntity = async (modelName: ModelProps, id: string, data: any,customRevalidatePaths?:string[]) => {
   try {
     await connect();
     console.log(data, id, modelName);
@@ -86,7 +86,7 @@ export const updateEntity = async (modelName: ModelProps, id: string, data: any)
     const entityObj = JSON.parse(JSON.stringify(entity));
     revalidateTag(`${modelName}-1`);
     revalidateTag(`${modelName}`);
-
+    customRevalidatePaths?.forEach((path) => revalidatePath(path));
     revalidatePath("/");
     return { success: `${modelName} updated successfully`, data: entityObj };
   } catch (error: any) {
