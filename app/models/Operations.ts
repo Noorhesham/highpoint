@@ -16,6 +16,9 @@ const operationSchema = new Schema<OperationProps>({
   price: { type: Number, required: true },
   course: { type: Schema.Types.ObjectId, ref: "Course", required: true },
 });
+operationSchema.pre("findOne", function (this) {
+  this.populate("city");
+});
 
 const Operation = mongoose.models.Operation || mongoose.model("Operation", operationSchema);
 export default Operation;
