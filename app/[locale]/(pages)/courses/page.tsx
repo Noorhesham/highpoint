@@ -30,9 +30,9 @@ const Page = async ({
   ];
   console.log(filterss);
   return (
-    <MaxWidthWrapper className=" mt-20 lg:mt-36" noPadding >
+    <MaxWidthWrapper className=" mt-20 lg:mt-40" noPadding >
       {" "}
-      <GridContainer cols={10}>
+      <GridContainer className=" gap-5" cols={10}>
         <Suspense fallback={<p>Loading courses...</p>}>
           <ProductReelFetch filter={filters} page={parseInt(page) || 1} locale={locale} />
         </Suspense>

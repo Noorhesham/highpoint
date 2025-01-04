@@ -41,8 +41,8 @@ const ProductReelFetch = async ({
     <Suspense>
       {" "}
       <section className="col-span-2 lg:col-span-7 ">
-        <MaxWidthWrapper noPadding className="flex flex-col items-center gap-5">
-          <h1 className="text-6xl  font-bold text-black ">{t("Courses")}</h1>
+        <div  className="flex flex-col items-start gap-5">
+          <h1 className="text-3xl  font-bold text-black ">{t("Courses")}</h1>
           <GridContainer cols={3}>
             {courses.length > 0 ? (
               <>
@@ -55,7 +55,7 @@ const ProductReelFetch = async ({
             )}
             <PaginationDemo totalPages={totalPages} />
           </GridContainer>
-        </MaxWidthWrapper>
+        </div>
       </section>
     </Suspense>
   );

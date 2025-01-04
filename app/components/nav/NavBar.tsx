@@ -29,7 +29,7 @@ const NavBar = () => {
     {
       text: t("nav.aboutus"),
       subLinks: [
-        { text: t("nav.who-we-are"), href: "/aboutus" },
+        { text: t("nav.who-we-are"), href: "/about-us" },
         { text: t("nav.certificates"), href: "/certificates" },
         { text: t("nav.clients"), href: "/clients" },
         {

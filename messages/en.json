@@ -10,13 +10,7 @@
         "careers": "Careers"
       }
     },
-    "nav2": {
-      "search": "Search for a Training Course",
-      "guide": "Course Guide",
-      "places": "Venue Locations",
-      "certificates": "Accredited Certificates",
-      "train-tech": "Training Technology"
-    },
+
     "home": "Home",
     "courses": "Courses",
     "who-we-are": "Who We Are",
@@ -25,6 +19,13 @@
     "opinions": "Opinions",
     "blogs": "Blogs",
     "faq": "FAQ"
+  },
+  "nav2": {
+    "search": "Search for a Training Course",
+    "guide": "Course Guide",
+    "places": "Venue Locations",
+    "certificates": "Accredited Certificates",
+    "train-tech": "Training Technology"
   },
 
   "heroHead": "Welcome to Our Training Platform",

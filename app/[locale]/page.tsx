@@ -52,7 +52,7 @@ export default async function Home({ params: { locale } }: { params: { locale: s
   const courses = await getEntities("Course", 1, {}, false, "", "", "", { name: 1 }, {}, 8);
   const { mainCover, mainTitle, mainDesc, secondaryCover, companies, sections, whoWeAre, partners } =
     page.data.data[0] || {};
-    console.log(page.data.data[0])
+  console.log(page.data.data[0]);
   return (
     <section className="">
       <HomeCover image={mainCover.secure_url} mainTitle={mainTitle[locale]} mainDesc={mainDesc[locale]}>
@@ -200,7 +200,6 @@ export default async function Home({ params: { locale } }: { params: { locale: s
           />
         </MaxWidthWrapper>
       </div>
-
 
       <MaxWidthWrapper noPadding>
         <AppleCardsCarouselDemo />
