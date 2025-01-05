@@ -32,29 +32,29 @@ const NavBar = () => {
         { text: t("nav.who-we-are"), href: "/about-us" },
         { text: t("nav.certificates"), href: "/certificates" },
         { text: t("nav.clients"), href: "/clients" },
-        {
-          text: t("nav.opinions"),
-          href: "/opinions",
-        },
-        {
-          text: t("nav.blogs"),
-          href: "/blogs",
-        },
-        {
-          text: t("nav.faq"),
-          href: "/faq",
-        },
+        // {
+        //   text: t("nav.opinions"),
+        //   href: "/opinions",
+        // },
+        // {
+        //   text: t("nav.blogs"),
+        //   href: "/blogs",
+        // },
+        // {
+        //   text: t("nav.faq"),
+        //   href: "/faq",
+        // },
       ],
     },
-    {
-      text: t("nav.contactus.text"),
-      subLinks: [
-        { text: t("nav.contactus.sublinks.inquiry"), href: "/contactus/inquiry" },
-        { text: t("nav.contactus.sublinks.hotelbooking"), href: "/contactus/hotelbooking" },
-        { text: t("nav.contactus.sublinks.mailinglist"), href: "/contactus/mailinglist" },
-        { text: t("nav.contactus.sublinks.careers"), href: "/contactus/careers" },
-      ],
-    },
+    // {
+    //   text: t("nav.contactus.text"),
+    //   subLinks: [
+    //     { text: t("nav.contactus.sublinks.inquiry"), href: "/contactus/inquiry" },
+    //     { text: t("nav.contactus.sublinks.hotelbooking"), href: "/contactus/hotelbooking" },
+    //     { text: t("nav.contactus.sublinks.mailinglist"), href: "/contactus/mailinglist" },
+    //     { text: t("nav.contactus.sublinks.careers"), href: "/contactus/careers" },
+    //   ],
+    // },
   ];
   const links2 = [
     {
@@ -73,10 +73,10 @@ const NavBar = () => {
       text: t("nav2.certificates"),
       href: "/certificates",
     },
-    {
-      text: t("nav2.train-tech"),
-      href: "/train",
-    },
+    // {
+    //   text: t("nav2.train-tech"),
+    //   href: "/train",
+    // },
   ];
 
   const [isScrollingDown, setIsScrollingDown] = useState(false);

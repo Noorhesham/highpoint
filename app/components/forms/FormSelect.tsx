@@ -13,13 +13,10 @@ const FormSelect = ({
   className,
   disabled,
   locale,
+  onChange,
 }: any) => {
   const form = useFormContext();
 
-  console.log(
-    form.getValues(name),
-    options?.find((p: any) => p._id === form.getValues(name))
-  );
   return (
     <FormField
       control={form.control}
@@ -32,7 +29,13 @@ const FormSelect = ({
         return (
           <FormItem className={`${className || ""} flex-1 `} id={id || ""}>
             <FormLabel className=" uppercase">{label}</FormLabel>
-            <Select onValueChange={field.onChange} defaultValue={field.value}>
+            <Select
+              onValueChange={() => {
+                field.onChange();
+                onChange && onChange();
+              }}
+              defaultValue={field.value}
+            >
               <FormControl>
                 <SelectTrigger className="  shadow-sm">
                   <SelectValue placeholder={placeholder || "SELECT"}>
