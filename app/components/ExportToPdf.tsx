@@ -6,7 +6,7 @@ import html2pdf from "html2pdf.js";
 import { convertToHTML } from "../utils/fn";
 import Image from "next/image";
 
-const ExportToPdf = ({ course }) => {
+const ExportToPdf = ({ course, btn }) => {
   const pdfContentRef = useRef();
 
   // Function to generate and download the PDF
@@ -135,9 +135,13 @@ const ExportToPdf = ({ course }) => {
       </div>
 
       {/* Button to trigger PDF generation */}
-      <button onClick={generatePDF} className=" w-10 h-10 relative">
-        <Image src="/pdf.png" className=" object-contain" fill alt="pdf" />
-      </button>
+      {btn ? (
+        React.cloneElement(btn, { onClick: generatePDF })
+      ) : (
+        <button onClick={generatePDF} className=" w-10 h-10 relative">
+          <Image src="/pdf.png" className=" object-contain" fill alt="pdf" />
+        </button>
+      )}
     </div>
   );
 };

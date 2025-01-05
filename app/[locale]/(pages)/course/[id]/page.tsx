@@ -11,6 +11,7 @@ import FlexWrapper from "@/app/components/defaults/FlexWrapper";
 import HomeCover from "@/app/components/ui-visual/HomeCover";
 import Course from "@/app/models/Course";
 import { format } from "date-fns";
+import CourseInfo from "@/app/components/CourseInfo";
 
 const page = async ({ params: { locale, id } }: { params: { locale: string; id: string } }) => {
   unstable_setRequestLocale(locale);
@@ -23,7 +24,8 @@ const page = async ({ params: { locale, id } }: { params: { locale: string; id: 
       },
     })
     .populate("city")
-    .populate("category");
+    .populate("category")
+    .lean();
   const { _id, name, description, price, images, createdAt, operations, days } = coruse;
   console.log(coruse);
   return (
@@ -38,9 +40,9 @@ const page = async ({ params: { locale, id } }: { params: { locale: string; id: 
         }}
         className=" relative"
       >
-        <FlexWrapper className=" mt-5 flex items-center justify-between ">
-          <div>
-            <div className=" flex flex-col gap-5">
+        <FlexWrapper className=" mt-5 relative flex items-center justify-between ">
+          <div className="w-full max-w-4xl ">
+            <div className=" flex w-full  flex-col gap-5">
               <div>
                 <h1 className=" rounded-t-xl text-white px-4 py-2 bg-main ">معلومات عن الدورة</h1>
                 {operations?.map((operation, i) => (
@@ -62,14 +64,16 @@ const page = async ({ params: { locale, id } }: { params: { locale: string; id: 
                 ))}
               </div>
               <Paragraph
-                className=" lg:!max-w-4xl bg-gray-300 py-2 px-4 !text-black"
+                maxWidth
+                className=" lg:!max-w-6xl bg-gray-300 py-2 px-4 !text-black"
                 description={description[locale]}
               />
               {days?.map((day, i) => (
                 <div className=" flex flex-col  gap-2">
                   <h2 className=" text-xl font-bold p-2 text-white bg-main mt-5">{`Day ${i + 1}`}</h2>
                   <Paragraph
-                    className=" lg:!max-w-4xl  border-input-2 border py-2 px-4 !text-black"
+                    maxWidth
+                    className=" !max-w-6xl  border-input-2 border py-2 px-4 !text-black"
                     description={day[locale]}
                   />
                 </div>
@@ -77,50 +81,7 @@ const page = async ({ params: { locale, id } }: { params: { locale: string; id: 
             </div>
           </div>
 
-          <div className="flex   flex-col  font-medium ">
-            <h1 className=" rounded-t-xl text-white px-4 py-2 bg-main ">معلومات عن الدورة</h1>
-            <div className=" bg-white rounded-b-xl ">
-              <div className="flex  px-4 py-1 gap-2 items-center justify-between ">
-                <div className=" flex items-center gap-1">
-                  <p>التاريخ:</p>
-                  <CalendarIcon />
-                </div>
-                <p className=" text-muted-foreground">Sep-30-2024</p>
-              </div>
-              <div className="flex  px-4 py-1 gap-2 items-center justify-between ">
-                <div className=" flex items-center gap-1">
-                  <p>المدة :</p>
-                  <Timer />
-                </div>
-                <p className=" text-muted-foreground">1 أسبوع</p>
-              </div>
-              <div className="flex  px-4 py-1 gap-2 items-center justify-between ">
-                <div className=" flex items-center gap-1">
-                  <p>الرسوم :</p>
-                  <FaMoneyBill />
-                </div>
-                <p className=" text-muted-foreground">4,350</p>
-              </div>
-              <div className="flex  px-4 py-1 gap-2 items-center justify-between ">
-                <div className=" flex items-center gap-1">
-                  <p>النوع :</p>
-                  <Laptop />
-                </div>
-                <p className=" text-muted-foreground">في الغرفة الصفية</p>
-              </div>
-              <div className="flex  px-4 py-1 gap-2 flex-col ">
-                <Button className=" text-gray-50 bg-yellow-500 hover:bg-yellow-400 duration-150" size={"sm"}>
-                  سجل الان
-                </Button>
-                <Button className=" text-gray-50 bg-main hover:bg-main/50 duration-150" size={"sm"}>
-                  ابق علي تواصل
-                </Button>
-                <Button className=" text-gray-50 bg-red-500 hover:bg-red-400 duration-150" size={"sm"}>
-                  تنزيل النشرة
-                </Button>
-              </div>
-            </div>
-          </div>
+          <CourseInfo course={coruse} />
         </FlexWrapper>
       </div>
 

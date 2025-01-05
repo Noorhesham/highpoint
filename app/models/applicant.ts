@@ -23,7 +23,7 @@ const ApplicantSchema = new Schema<Applicant>({
   course: { type: Schema.Types.ObjectId, ref: "Course", required: true },
   fullName: { type: String, required: true }, // Full name of the applicant
   title: { type: String, required: true }, // e.g., Mr., Ms., Dr.
-  email: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
   address: { type: String, required: true },
   company: { type: String }, // Optional
   jobTitle: { type: String }, // Optional
@@ -38,6 +38,6 @@ const ApplicantSchema = new Schema<Applicant>({
   createdAt: { type: Date, default: Date.now },
 });
 
-const ApplicantModel = mongoose.model<Applicant>("Applicant", ApplicantSchema);
+const ApplicantModel = mongoose.models.Applicant || mongoose.model("Applicant", ApplicantSchema);
 
 export default ApplicantModel;

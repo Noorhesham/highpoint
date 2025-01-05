@@ -6,7 +6,17 @@ import HomePage from "../models/Home";
 import Page from "../models/Page";
 import City from "../models/City";
 import Operation from "../models/Operations";
-export type ModelProps = "Course" | "User" | "Category" | "SubCategory" | "HomePage" | "Page" | "City" | "Operation";
+import Applicant from "../models/Applicant";
+export type ModelProps =
+  | "Course"
+  | "User"
+  | "Category"
+  | "SubCategory"
+  | "HomePage"
+  | "Page"
+  | "City"
+  | "Operation"
+  | "Applicant";
 const models: Record<ModelProps, any> = {
   Course,
   User,
@@ -16,6 +26,7 @@ const models: Record<ModelProps, any> = {
   Page,
   City,
   Operation,
+  Applicant,
 };
 export type CascadeDeleteFunction = (id: string) => Promise<void>;
 

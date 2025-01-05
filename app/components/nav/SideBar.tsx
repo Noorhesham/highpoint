@@ -16,6 +16,7 @@ import { usePathname } from "next/navigation";
 import { useLocale } from "next-intl";
 import Link from "next/link";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { MdPeople } from "react-icons/md";
 
 // Menu items.
 const items = [
@@ -39,19 +40,19 @@ const items = [
     url: "/dashboard/city",
     icon: FaCity,
   },
+  { title: "Applicants", url: "/dashboard/applicants", icon: MdPeople },
 ];
 const pages = [
   { title: "Home Page", url: "/dashboard/pages/home", icon: HomeIcon },
   { title: "Create New Page", url: "/dashboard/pages/create-page", icon: InfoIcon },
   { title: "My Page", url: "/dashboard/pages/my-pages", icon: FileInputIcon },
-  // { title: "Services", url: "/dashboard/pages/services", icon: FileIcon },
 ];
 export function AppSidebar() {
   const pathName = usePathname();
   const locale = useLocale();
 
   return (
-    <Sidebar >
+    <Sidebar>
       <SidebarContent>
         <SidebarGroup className="py-32">
           <SidebarGroupLabel>Application</SidebarGroupLabel>
