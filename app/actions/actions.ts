@@ -8,7 +8,7 @@ import City from "../models/City";
 import Page from "../models/Page";
 import Operation from "../models/Operations";
 import SubCategory from "../models/SubCategory";
-import Applicant from "../models/Applicant";
+import Applicant from "../models/applicant";
 import { CascadeDeleteFunction, ModelProps } from "../constant";
 import bcrypt from "bcryptjs";
 import { revalidatePath, revalidateTag } from "next/cache";
