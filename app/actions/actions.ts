@@ -161,6 +161,13 @@ export const deleteEntity = async (modelName: ModelProps, id: string) => {
     return { error: `Error deleting ${modelName}`, details: error.message };
   }
 };
+const parseSubCategories = (subCategories) => {
+  if (!subCategories) return [];
+  return subCategories
+    .split(",")
+    .map((id) => decodeURIComponent(id.trim()))
+    .filter((id) => mongoose.isValidObjectId(id)); // Validate ObjectIds
+};
 
 export const getEntities = async (
   modelName: ModelProps,
@@ -183,13 +190,19 @@ export const getEntities = async (
     const validFilter = Object.fromEntries(
       Object.entries(filter).filter(([key, value]) => value && mongoose.isValidObjectId(value))
     );
+    const query: Record<string, any> = {};
 
-    const query = {
-      ...validFilter,
-      ...Object.fromEntries(Object.entries(filterArray).map(([key, values]) => [key, { $in: values }])),
-    };
+    Object.entries(filter).forEach(([key, value]) => {
+      if (Array.isArray(value) && value.length > 0) {
+        // If value is an array, use $in operator
+        query[key] = { $in: value };
+      } else if (value && mongoose.isValidObjectId(value)) {
+        // If value is a valid ObjectId, add it as-is
+        query[key] = value;
+      }
+    });
 
-    console.log(query, filter);
+    console.log(query, filter, "meow");
 
     if (searchField && searchTerm) {
       query[searchField] = { $regex: searchTerm, $options: "i" };

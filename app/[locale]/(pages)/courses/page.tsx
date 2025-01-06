@@ -18,7 +18,7 @@ const Page = async ({
 
   const filters = {
     category: category || "",
-    subCategories: subCategories ? subCategories.split("%2C") : [],
+    subCategories: subCategories ? subCategories.split(",") : [],
     city: city || "",
   };
   const categories = await getEntities("Category");
