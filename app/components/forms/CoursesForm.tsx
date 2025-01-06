@@ -160,6 +160,7 @@ const CoursesForm = ({ course }: { course?: CourseProps | null }) => {
         if (res?.success) {
           toast.success(res?.success);
           router.refresh();
+          if (!course) router.push(`/dashboard/edit-Course/${res.data.data._id}`);
           setOperations([1]);
         } else {
           toast.error(res.error);
