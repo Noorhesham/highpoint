@@ -128,20 +128,19 @@ const NavBar = () => {
             <MaxWidthWrapper noPadding className="flex justify-between ">
               <div className="  flex items-center gap-2 ">
                 <div className={`z-[999] duration-150 h-full  relative lg:hidden block`}>
-                  <PhoneNav isHome={isHome} navigation={links} />
+                  <PhoneNav navigation={links} />
+                  <div className=" flex ">
+                    <Logo size="sm" isdark={isHome ? false : true} />
+                  </div>
                 </div>
-                <div className="lg:hidden block">
-                  <Logo size="sm" isdark={isHome ? false : true} />
-                </div>
-                {isInDashboard && <User />}
+                {isInDashboard && <User />} <Language />
               </div>
-              <div className=" hidden lg:flex z-30 relative items-center  gap-4 xl:gap-8 ">
+              <div className=" ml-5 hidden lg:flex z-30 relative items-center  gap-4 xl:gap-8 ">
                 {links.map((link) => (
                   //@ts-ignore
                   <NavLink isHome={isHome} key={link.text} href={link.href} text={link.text} subLinks={link.subLinks} />
                 ))}
               </div>
-              <Language />
             </MaxWidthWrapper>
           </div>
 

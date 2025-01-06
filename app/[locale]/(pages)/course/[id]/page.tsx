@@ -30,18 +30,13 @@ const page = async ({ params: { locale, id } }: { params: { locale: string; id: 
   console.log(coruse);
   return (
     <section className="">
-      <HomeCover image={images[0].secure_url} mainTitle={name[locale]} mainDesc={""} />
+      <HomeCover image={images[0]?.secure_url||"/default.jpg"} mainTitle={name[locale]} mainDesc={""} />
       <div
-        style={{
-          backgroundImage: `url(${images[0]})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-        }}
+
         className=" relative"
       >
         <FlexWrapper className=" mt-5 relative flex items-center justify-between ">
-          <div className="w-full max-w-4xl ">
+          <div className="w-full max-w-6xl lg:w-[70%] w-full flex-grow">
             <div className=" flex w-full  flex-col gap-5">
               <div>
                 <h1 className=" rounded-t-xl text-white px-4 py-2 bg-main ">معلومات عن الدورة</h1>

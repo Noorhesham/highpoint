@@ -33,17 +33,19 @@ const Page = async ({
     { Cities: cities.data?.data || [], filter: "city" },
   ];
   return (
-    <MaxWidthWrapper className=" mt-20 lg:mt-40" noPadding>
+    <MaxWidthWrapper className=" mt-32 lg:mt-40" noPadding>
       {" "}
       <GridContainer className=" gap-5" cols={10}>
+        <div className=" col-span-full lg:hidden   block">
+          <FilterMobile filters={filterss} />
+        </div>
         <Suspense fallback={<p>Loading courses...</p>}>
           <ProductReelFetch filter={filters} page={parseInt(page) || 1} locale={locale} />
         </Suspense>
-        <div className=" col-span-2 lg:col-span-3">
+        <div className=" col-span-full lg:col-span-3">
           <div className=" lg:block hidden ">
             <Filters filters={filterss} />
           </div>
-          <FilterMobile filters={filterss} />
         </div>
       </GridContainer>
     </MaxWidthWrapper>

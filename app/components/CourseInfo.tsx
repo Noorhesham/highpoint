@@ -34,7 +34,7 @@ export default function CourseInfo({
   }
 
   return (
-    <div className="flex w-full  sticky mb-auto top-0 left-0 max-w-3xl flex-col font-medium">
+    <div className="flex  lg:w-[30%] w-full  sticky mb-auto top-0 left-0 max-w-3xl flex-col font-medium">
       <h1 className="rounded-t-xl text-white px-4 py-2 bg-main">معلومات عن الدورة</h1>
       <div className="bg-white rounded-b-xl">
         <div className="flex px-4 py-1 gap-2 items-center justify-between">

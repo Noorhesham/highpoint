@@ -27,7 +27,7 @@ const ProductCard = ({ product, index, category = false }: { product: any; index
         <ImageSlider
           stock={product.stock}
           productId={product._id}
-          urls={product.images.map((image: any) => image.secure_url)}
+          urls={product.images.map((image: any) => image.secure_url||"/default.jpg")}
         />
         <div className=" flex flex-col self-stretch justify-between py-2 px-4 w-full">
           <div className="flex items-start flex-col justify-between">
