@@ -151,7 +151,7 @@ const Box = ({
                         id={option}
                         checked={filters[filter]?.includes(option.id.toString()) || false}
                       />
-                      <label className="text-main2 text-xs" htmlFor={option.name}>
+                      <label className="text-main2  line-clamp-2  text-xs" htmlFor={option.name}>
                         {option.name}
                       </label>
                     </li>
@@ -161,7 +161,7 @@ const Box = ({
                       <Button
                         size={"lg"}
                         className={cn(
-                          "w-full lg:text-[10px] text-wrap  col-span-2 xl:col-span-1 bg-gray-100 text-main2 ",
+                          "w-full lg:text-[10px] text-wrap line-clamp-2  col-span-2 xl:col-span-1 bg-gray-100 text-main2 ",
                           filters[filter]?.includes(option.id.toString())
                             ? "bg-main2 hover:bg-main2  hover:text-white text-gray-50"
                             : ""
