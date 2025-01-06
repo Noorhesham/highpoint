@@ -40,7 +40,7 @@ const ProductReelFetch = async ({
   return (
     <Suspense>
       {" "}
-      <section className="col-span-full lg:col-span-7 ">
+      <section className="col-span-full lg:col-span-8 ">
         <div  className="flex flex-col items-start gap-5">
           <h1 className="text-3xl  font-bold text-black ">{t("Courses")}</h1>
           <GridContainer cols={3}>
