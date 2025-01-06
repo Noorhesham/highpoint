@@ -70,7 +70,7 @@ export default async function Home({ params: { locale } }: { params: { locale: s
                     {category.name[locale]}
                   </h2>
                   <div className=" w-full  h-full absolute inset-0  z-20 bg-black/60"></div>
-                  <Image src={category.mainImage[0].secure_url} alt="" fill className=" object-cover" />
+                  <Image src={category?.mainImage[0]?.secure_url} alt="" fill className=" object-cover" />
                 </div>
               </Link>
             ))}
@@ -214,7 +214,7 @@ export default async function Home({ params: { locale } }: { params: { locale: s
           backgroundRepeat: "no-repeat",
         }}
       >
-        <MaxWidthWrapper className={cn(" flex   mr-auto", locale === "ar" ? " justify-end" : "")}>
+        {/* <MaxWidthWrapper className={cn(" flex   mr-auto", locale === "ar" ? " justify-end" : "")}>
           <div className=" self-end w-fit">
             <Head className=" text-black" text={t("valuePropositionTitle")} />
             <Paragraph className=" text-gray-700" description={t("valuePropositionText")} />
@@ -245,7 +245,7 @@ export default async function Home({ params: { locale } }: { params: { locale: s
               </div>
             </GridContainer>
           </div>
-        </MaxWidthWrapper>
+        </MaxWidthWrapper> */}
       </div>
       <Footer />
     </section>

@@ -134,6 +134,39 @@
   "messages": {
     "required": "الحقل مطلوب"
   },
+  "Sidebar": {
+    "application": "التطبيق",
+    "menu": {
+      "categories": "الفئات",
+      "courses": "الدورات",
+      "cities": "المدن",
+      "applicants": "المتقدمين",
+      "homePage": "الصفحة الرئيسية",
+      "createPage": "إنشاء صفحة جديدة",
+      "myPages": "صفحاتي"
+    },
+    "pages": "الصفحات"
+  },
+  "Categories": {
+    "name": "الاسم",
+    "description": "الوصف",
+    "status": "الحالة",
+    "statuses": {
+      "active": "نشط",
+      "inactive": "غير نشط"
+    },
+    "subCategories": "الفئات الفرعية"
+  },
+  "openMenu": "افتح القائمة",
+  "actionsLabel": "الإجراءات",
+  "editCourse": "تعديل الدورة",
+  "updateTitle": "تحديث بيانات المستخدم",
+  "edit": "تعديل",
+  "deleteTitle": "حذف بيانات المستخدم",
+  "delete": "حذف",
+  "deleteConfirmation": "هل أنت متأكد أنك تريد حذف هذا {entity}؟",
+  "cancel": "إلغاء",
+  "deleteEntity": "احذف هذا {entity}؟",
   "Courses": "دورات التدريب",
   "coursesDesc": "تمّ إدراج قائمة مختصرة من بين مئات الدورات التدريبية التفاعلية ذات الصلة، و التي من شأنها أن تساعد في توسيع آفاق مسيرتك المهنية و صقل مهاراتك."
 }

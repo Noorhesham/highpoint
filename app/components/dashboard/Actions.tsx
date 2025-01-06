@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useTransition } from "react";
 import {
   DropdownMenu,
@@ -19,10 +21,13 @@ import CategoriesForm from "../forms/CategoriesForm";
 import CoursesForm from "../forms/CoursesForm";
 import Link from "next/link";
 import CityForm from "../forms/CityForm";
+import { useTranslations } from "next-intl";
 
 const Actions = ({ data, entity }: { data: any; entity: ModelProps }) => {
+  const t = useTranslations("");
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
+
   const handleDelete = (id: string) => {
     startTransition(async () => {
       const res = await deleteEntity(entity, id);
@@ -32,6 +37,7 @@ const Actions = ({ data, entity }: { data: any; entity: ModelProps }) => {
       } else toast.error(res.error);
     });
   };
+
   const returnFormFromEntity = (entity: string) => {
     switch (entity) {
       case "Employee":
@@ -46,44 +52,49 @@ const Actions = ({ data, entity }: { data: any; entity: ModelProps }) => {
         return null;
     }
   };
+
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger>
         <div className="h-8 w-8 p-0">
-          <span className="sr-only">Open menu</span>
+          <span className="sr-only">{t("openMenu")}</span>
           <MoreHorizontal className="h-4 w-4" />
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuLabel>Actions</DropdownMenuLabel>
+        <DropdownMenuLabel>{t("actionsLabel")}</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <div className=" flex flex-col gap-2">
+        <div className="flex flex-col gap-2">
           {entity === "Course" ? (
             <Button className="self-end">
-              <Link href={`/dashboard/editCourse/${data._id}`}>Edit Course</Link>
+              <Link href={`/dashboard/editCourse/${data._id}`}>{t("editCourse")}</Link>
             </Button>
           ) : (
             <ModalCustom
-              title="Update user data"
-              btn={<div className={`${buttonVariants({ variant: "default" })} cursor-pointer w-full`}>Edit</div>}
+              title={t("updateTitle")}
+              btn={<div className={`${buttonVariants({ variant: "default" })} cursor-pointer w-full`}>{t("edit")}</div>}
               content={returnFormFromEntity(entity)}
             />
           )}
           <ModalCustom
-            title="Update user data"
-            btn={<div className={`${buttonVariants({ variant: "destructive" })} cursor-pointer w-full`}> Delete</div>}
+            title={t("deleteTitle")}
+            btn={
+              <div className={`${buttonVariants({ variant: "destructive" })} cursor-pointer w-full`}>{t("delete")}</div>
+            }
             content={
-              <div className=" w-full flex items-center gap-5 flex-col ">
-                <p>Are you sure you want to delete this employee ?</p>
-                <div className="  w-full flex items-center gap-4 max-w-lg mx-auto">
-                  <DialogClose className={`${buttonVariants({ variant: "outline" })} w-full `}>Cancel</DialogClose>
+              <div className="w-full flex items-center gap-5 flex-col">
+                <p>{t("deleteConfirmation", { entity })}</p>
+                <div className="w-full flex items-center gap-4 max-w-lg mx-auto">
+                  <DialogClose className={`${buttonVariants({ variant: "outline" })} w-full`}>
+                    {t("cancel")}
+                  </DialogClose>
                   <Button
                     variant="destructive"
-                    className=" w-full"
+                    className="w-full"
                     onClick={() => handleDelete(data._id)}
                     disabled={isPending}
                   >
-                    Delete this {entity} ?
+                    {t("deleteEntity", { entity })}
                   </Button>
                 </div>
               </div>

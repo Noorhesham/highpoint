@@ -33,7 +33,7 @@ export const columns: ColumnDef<ApplicantProps>[] = [
   {
     accessorKey: "name",
     header: "Name ",
-    cell: ({ row }) => <LocaleData data={row.original.course.name} />,
+    cell: ({ row }) => <LocaleData data={row.original.course?.name} />,
   },
   {
     id: "actions",

@@ -46,6 +46,8 @@ const cascadeDeleteHandlers: Record<string, CascadeDeleteFunction> = {
   Course: async (id: string) => {
     // Delete subcategories associated with the category
     const OperationModel = getModel("Operation");
+    const ApplicantModel = getModel("Applicant");
+    await ApplicantModel.deleteMany({ course: id });
     await OperationModel.deleteMany({ course: id });
     console.log(`Deleted all operations for course ID: ${id}`);
   },
@@ -73,7 +75,7 @@ export const signup = async (data: any) => {
 export const createEntity = async (modelName: ModelProps, data: any) => {
   try {
     console.log(data, modelName);
-
+    await connect();
     const Model = getModel(modelName);
     const entity = await Model.create(data);
     const entityObj = JSON.parse(JSON.stringify(entity));

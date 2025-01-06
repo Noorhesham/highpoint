@@ -47,7 +47,7 @@ const courseSchema = new Schema(
       required: true,
     },
     subCategories: [{ type: Schema.Types.ObjectId, ref: "SubCategory" }],
-    city: { type: Schema.Types.ObjectId, ref: "City", required: true },
+    city: { type: Schema.Types.ObjectId, ref: "City", },
     days: [localizedStringSchema],
   },
   { toJSON: { virtuals: true }, toObject: { virtuals: true } }

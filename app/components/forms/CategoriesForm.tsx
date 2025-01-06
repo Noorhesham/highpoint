@@ -23,8 +23,8 @@ const CategoriesSchema = z.object({
     en: z.string().min(1, { message: "Required" }),
   }),
   description: z.object({
-    ar: z.string().min(1, { message: "Required" }),
-    en: z.string().min(1, { message: "Required" }),
+    ar: z.string().optional(),
+    en: z.string().optional(),
   }),
   mainImage: z.any(),
 });

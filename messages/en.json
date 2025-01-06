@@ -27,6 +27,29 @@
     "certificates": "Accredited Certificates",
     "train-tech": "Training Technology"
   },
+  "Sidebar": {
+    "application": "Application",
+    "menu": {
+      "categories": "Categories",
+      "courses": "Courses",
+      "cities": "Cities",
+      "applicants": "Applicants",
+      "homePage": "Home Page",
+      "createPage": "Create New Page",
+      "myPages": "My Pages"
+    },
+    "pages": "Pages"
+  },
+  "Categories": {
+    "name": "Name",
+    "description": "Description",
+    "status": "Status",
+    "statuses": {
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "subCategories": "Sub Categories"
+  },
 
   "heroHead": "Welcome to Our Training Platform",
   "heroDescription": "Discover the best courses to advance your career.",
@@ -136,5 +159,15 @@
   "messages": {
     "required": "Required"
   },
-  "Courses": "Courses"
+  "Courses": "Courses",
+  "openMenu": "Open menu",
+  "actionsLabel": "Actions",
+  "editCourse": "Edit Course",
+  "updateTitle": "Update user data",
+  "edit": "Edit",
+  "deleteTitle": "Delete user data",
+  "delete": "Delete",
+  "deleteConfirmation": "Are you sure you want to delete this {entity}?",
+  "cancel": "Cancel",
+  "deleteEntity": "Delete this {entity}?"
 }
