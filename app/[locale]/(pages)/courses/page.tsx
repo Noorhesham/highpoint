@@ -42,7 +42,7 @@ const Page = async ({
         <Suspense fallback={<p>Loading courses...</p>}>
           <ProductReelFetch filter={filters} page={parseInt(page) || 1} locale={locale} />
         </Suspense>
-        <div className=" col-span-full lg:col-span-2">
+        <div className=" col-span-full lg:col-span-3">
           <div className=" lg:block hidden ">
             <Filters filters={filterss} />
           </div>
