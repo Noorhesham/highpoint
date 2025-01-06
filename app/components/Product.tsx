@@ -34,7 +34,7 @@ const ProductCard = ({ product, index, category = false }: { product: any; index
           <div className="flex items-start flex-col justify-between">
             {!category && (
               <div className=" flex items-start flex-col ">
-                <p className=" mt-1 font-semibold text-sm ">
+                <p className=" mt-1 text-main font-semibold text-sm ">
                   {t("category.title")} : {product.category.name[locale || "en"]}
                 </p>
               </div>
