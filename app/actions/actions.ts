@@ -83,7 +83,9 @@ export const createEntity = async (modelName: ModelProps, data: any) => {
     revalidateTag(`${modelName}-1`);
     revalidateTag(`${modelName}`);
 
-    revalidatePath("/");
+    revalidatePath("/en");
+
+    revalidatePath("/ar");
     return { success: `${modelName} created successfully`, data: entityObj };
   } catch (error: any) {
     console.log(error);

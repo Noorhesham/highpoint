@@ -46,7 +46,7 @@ const CoursesSchema = z.object({
   startDate: z.union([z.string().min(1, { message: "Required" }), z.date()]),
   endDate: z.union([z.string().min(1, { message: "Required" }), z.date()]),
   subCategories: z.array(z.string()),
-  city: z.string().optional(),
+  city: z.string().min(1, { message: "Required" }),
   days: z.array(z.object({ ar: z.string(), en: z.string() }).optional()),
 });
 const formatDateForInput = (date?: Date) => {
