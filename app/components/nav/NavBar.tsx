@@ -104,6 +104,7 @@ const NavBar = () => {
   }, [lastScrollY, isTopPage]);
   const isHome = pathName === "/en" || pathName === "/ar";
   const locale = useLocale();
+  const isInDashboard = pathName.includes("dashboard");
   return (
     <header dir={locale !== "ar" ? "ltr" : "rtl"} className=" w-full">
       <nav
@@ -132,7 +133,7 @@ const NavBar = () => {
                 <div className="lg:hidden block">
                   <Logo size="sm" isdark={isHome ? false : true} />
                 </div>
-                <User />
+                {isInDashboard && <User />}
               </div>
               <div className=" hidden lg:flex z-30 relative items-center  gap-4 xl:gap-8 ">
                 {links.map((link) => (
