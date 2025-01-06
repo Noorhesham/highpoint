@@ -116,7 +116,7 @@ const HomePageForm = ({ page }: { page: HomeProps }) => {
     control: form.control,
     name: "partners.images",
   });
-  console.log(form.formState.errors);
+  console.log(page);
   const onSubmit = async (data: any) => {
     startTransition(async () => {
       try {
@@ -182,7 +182,7 @@ const HomePageForm = ({ page }: { page: HomeProps }) => {
         {/* Sections */}
         <FormTitle text="Sections" />
         {sectionFields.map((field, index) => (
-          <div className="flex flex-col gap-3">
+          <div key={field.id} className="flex flex-col gap-3">
             <ArabicEnglishForm
               key={field.id}
               descName={`sections.${index}.desc`}
@@ -241,9 +241,11 @@ const HomePageForm = ({ page }: { page: HomeProps }) => {
 
         {/* Partners */}
         <ArabicEnglishForm descName="partners.desc" name="partners.title" label="Partners Title" />
+        <GridContainer cols={4}>
         {partnerFields.map((field, index) => (
           <FileUpload key={field.id} name={`partners.images.${index}`} label={`Partner ${index + 1} Image`} />
         ))}
+        </GridContainer>
         <Button type="button" disabled={isPending} onClick={() => appendPartner(null)}>
           Add Partner Image
         </Button>

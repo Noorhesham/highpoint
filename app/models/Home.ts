@@ -68,7 +68,7 @@ const HomePageSchema = new mongoose.Schema({
   partners: {
     title: ArabicEnglishSchema,
     desc: ArabicEnglishSchema,
-    images: imageSchema,
+    images: [imageSchema],
   },
 });
 
