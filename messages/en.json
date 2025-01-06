@@ -127,6 +127,8 @@
     "description": "Select a category",
     "select": "Select a category"
   },
+  "reset": "Reset",
+  "empty": "No course found with these filters",
   "placeholder": "search for specific course",
   "mainCover": "Main Cover Image",
   "mainTitle": "Main Title",

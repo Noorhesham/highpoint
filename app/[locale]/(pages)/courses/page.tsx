@@ -3,6 +3,7 @@ import GridContainer from "@/app/components/defaults/GridContainer";
 import MaxWidthWrapper from "@/app/components/defaults/MaxWidthWrapper";
 import FilterMobile from "@/app/components/FilterPhone";
 import Filters from "@/app/components/Filters";
+import { ProductLoader } from "@/app/components/ProductReel";
 import ProductReelFetch from "@/app/components/ProductReelFetch";
 import { unstable_setRequestLocale } from "next-intl/server";
 import React, { Suspense } from "react";
@@ -39,7 +40,7 @@ const Page = async ({
         <div className=" col-span-full lg:hidden   block">
           <FilterMobile filters={filterss} />
         </div>
-        <Suspense fallback={<p>Loading courses...</p>}>
+        <Suspense fallback={<ProductLoader />}>
           <ProductReelFetch filter={filters} page={parseInt(page) || 1} locale={locale} />
         </Suspense>
         <div className=" col-span-full lg:col-span-3">

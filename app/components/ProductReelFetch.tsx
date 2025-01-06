@@ -9,7 +9,7 @@ import { getEntities } from "../actions/actions";
 import { getTranslations } from "next-intl/server";
 
 const fetchProducts = async (page: number, filter: any) => {
-  return await getEntities("Course", page, filter || {}, false, "category");
+  return await getEntities("Course", page, filter || {}, false, "category", "", "", {}, {}, 9);
 };
 
 const cachedFetchProducts = (page: number, filter: any, locale: string) =>
@@ -28,7 +28,7 @@ const ProductReelFetch = async ({
 }) => {
   // Use the cached function to fetch products with the specific page and filter,
   const res = await cachedFetchProducts(page, filter, locale)();
-  const t=await getTranslations()
+  const t = await getTranslations();
   console.log(res.data?.data);
   if (!res || !res.data) {
     return null;
@@ -41,7 +41,7 @@ const ProductReelFetch = async ({
     <Suspense>
       {" "}
       <section className="col-span-full lg:col-span-7 ">
-        <div  className="flex flex-col items-start gap-5">
+        <div className="flex flex-col items-start gap-5">
           <h1 className="text-3xl  font-bold text-black ">{t("Courses")}</h1>
           <GridContainer cols={3}>
             {courses.length > 0 ? (
@@ -51,7 +51,7 @@ const ProductReelFetch = async ({
                 ))}
               </>
             ) : (
-              <Empty />
+              <Empty  message={t("empty")}/>
             )}
             <PaginationDemo totalPages={totalPages} />
           </GridContainer>

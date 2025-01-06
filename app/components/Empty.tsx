@@ -4,13 +4,15 @@ import Image from "next/image";
 import Link from "next/link";
 import MotionItem from "./defaults/MotionItem";
 import MaxWidthWrapper from "./defaults/MaxWidthWrapper";
+import { useTranslations } from "next-intl";
 
-const Empty = ({ message }: { message?: string }) => {
+const Empty = ({ message,link }: { message?: string , link?:string}) => {
+  const t = useTranslations("");
   return (
     <MaxWidthWrapper className="  mx-auto col-span-full flex flex-col text-lg lg:text-xl justify-center items-center">
-      <p>sorry ! the content you are looking for does not exist</p>
-      <Link className=" text-blue-500 duration-150 hover:underline  text-center my-2" href="/">
-        Reset
+      <p>{message || "sorry ! the content you are looking for does not exist"}</p>
+      <Link className=" text-blue-500 duration-150 hover:underline  text-center my-2" href={link||"/courses"}>
+        {t("reset")}
       </Link>
       <MotionItem
         nohover
