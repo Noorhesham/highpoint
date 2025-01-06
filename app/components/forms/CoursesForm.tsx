@@ -1,6 +1,6 @@
 "use client";
 import { createEntity, updateEntity } from "@/app/actions/actions";
-import React from "react";
+import React, { useEffect } from "react";
 import { toast } from "react-toastify";
 import { useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -71,7 +71,7 @@ const CoursesForm = ({ course }: { course?: CourseProps | null }) => {
       endDate: formatDateForInput(course?.endDate) || new Date(),
       subCategories: course?.subCategories || [],
       city: course?.city || "",
-      days: course?.days || [""],
+      days: course?.days || [{}],
     },
     resolver: zodResolver(CoursesSchema),
   });
@@ -96,17 +96,30 @@ const CoursesForm = ({ course }: { course?: CourseProps | null }) => {
     control: form.control,
     name: "days",
   });
+  useEffect(() => {
+    const errors = form.formState.errors;
+    console.log(errors);
+    if (Object.keys(errors).length > 0) {
+      const errorMessages = Object.values(errors)
+        .map((error) => error.message)
+        .join(", ");
+      toast.error(`Please fix the following errors: ${errorMessages}`);
+    }
+  }, [form.formState.errors]);
   const onSubmit = async (data: any) => {
     startTransition(async () => {
       try {
         // Filter and process valid images  console.log(course);
-        const filteredImages = data.images?.filter((image: any) => {
-          if (image?.secure_url !== "" || image instanceof File) return image;
-        });
-        console.log(filteredImages);
+        const filteredImages =
+          Array.isArray(data.images) && data.images.some((image) => Object.keys(image).length > 0)
+            ? data.images?.filter((image: any) => {
+                if (image?.secure_url !== "" || image instanceof File) return image;
+              })
+            : [];
+        console.log(data);
 
         const uploadedImages = await Promise.all(
-          filteredImages.map(async (image: File | { secure_url: string; public_id: string }) => {
+          filteredImages?.map(async (image: File | { secure_url: string; public_id: string }) => {
             console.log(image, data);
             if (image?.secure_url && image?.secure_url !== "") {
               return image;

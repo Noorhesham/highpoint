@@ -99,7 +99,8 @@
   },
   "category": {
     "title": "التصنيف",
-    "description": "اختر تصنيفا"
+    "description": "اختر تصنيفا",
+    "select": "اختر"
   },
   "placeholder": "ابحث عن دورة تدريبية معينة",
   "mainCover": "صورة الغلاف الرئيسية",
@@ -164,6 +165,7 @@
   "edit": "تعديل",
   "deleteTitle": "حذف بيانات المستخدم",
   "delete": "حذف",
+  "imageUploadDesc": "قم باختيار صورة من جهازك",
   "deleteConfirmation": "هل أنت متأكد أنك تريد حذف هذا {entity}؟",
   "cancel": "إلغاء",
   "deleteEntity": "احذف هذا {entity}؟",

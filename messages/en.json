@@ -124,7 +124,8 @@
   },
   "category": {
     "title": "Category",
-    "description": "Select a category"
+    "description": "Select a category",
+    "select": "Select a category"
   },
   "placeholder": "search for specific course",
   "mainCover": "Main Cover Image",
@@ -169,5 +170,6 @@
   "delete": "Delete",
   "deleteConfirmation": "Are you sure you want to delete this {entity}?",
   "cancel": "Cancel",
-  "deleteEntity": "Delete this {entity}?"
+  "deleteEntity": "Delete this {entity}?",
+  "imageUploadDesc": "Upload an image"
 }
