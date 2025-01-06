@@ -5,12 +5,13 @@ import ImageSlider from "./ImageSlider";
 import { ProductLoader } from "./ProductReel";
 
 import Link from "next/link";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import Paragraph from "./defaults/Paragraph";
 
 const ProductCard = ({ product, index, category = false }: { product: any; index: number; category?: boolean }) => {
   const [isVisible, setIsVisible] = React.useState(false);
   const locale = useLocale();
+  const t = useTranslations();
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsVisible(true);
@@ -27,13 +28,15 @@ const ProductCard = ({ product, index, category = false }: { product: any; index
         <ImageSlider
           stock={product.stock}
           productId={product._id}
-          urls={product.images.map((image: any) => image.secure_url||"/default.jpg")}
+          urls={product.images.map((image: any) => image.secure_url || "/default.jpg")}
         />
         <div className=" flex flex-col self-stretch justify-between py-2 px-4 w-full">
           <div className="flex items-start flex-col justify-between">
             {!category && (
               <div className=" flex items-start flex-col ">
-                <p className=" mt-1 font-semibold text-sm ">category : {product.category.name[locale || "en"]}</p>
+                <p className=" mt-1 font-semibold text-sm ">
+                  {t("category.title")} : {product.category.name[locale || "en"]}
+                </p>
               </div>
             )}
             <h3 className="font-medium text-base  ">

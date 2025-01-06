@@ -16,6 +16,7 @@ import FormSelect from "./FormSelect";
 const ApplicantSchema = z.object({
   course: z.string().min(1, { message: "Required" }),
   fullName: z.string().min(1, { message: "Required" }),
+  title: z.string().min(1, { message: "Required" }),
   email: z.string().email({ message: "Invalid email address" }),
   address: z.string().min(1, { message: "Required" }),
   jobTitle: z.string().optional(),
@@ -82,6 +83,7 @@ const ApplicantForm = ({ applicant, course }: { applicant?: any | null; course?:
           </GridContainer>
           <FormInput name="email" label="Email" placeholder="Enter email address" type="email" />
           <FormInput name="address" label="Address" placeholder="Enter address" />
+          <FormInput name="title" label="title" placeholder="Enter title" />
     
           <GridContainer cols={2}>
             <FormInput name="city" label="City" placeholder="Enter city" />
