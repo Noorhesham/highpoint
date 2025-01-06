@@ -81,7 +81,7 @@ const CoursesForm = ({ course }: { course?: CourseProps | null }) => {
     control: form.control,
     name: "images",
   });
-  const [operations, setOperations] = React.useState(course?.operations || []);
+  const [operations, setOperations] = React.useState(course?.operations || [1]);
   const removeOperation = (index: number) => {
     setOperations((prevOperations) => prevOperations.filter((_, i) => i !== index));
   };
@@ -161,7 +161,6 @@ const CoursesForm = ({ course }: { course?: CourseProps | null }) => {
           toast.success(res?.success);
           router.refresh();
           if (!course) router.push(`/dashboard/edit-Course/${res.data.data[0]._id}`);
-          setOperations([1]);
         } else {
           toast.error(res.error);
         }
