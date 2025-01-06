@@ -110,13 +110,15 @@ const CoursesForm = ({ course }: { course?: CourseProps | null }) => {
     startTransition(async () => {
       try {
         // Filter and process valid images  console.log(course);
+        console.log(data);
         const filteredImages =
-          Array.isArray(data.images) && data.images.some((image) => Object.keys(image).length > 0)
+          Array.isArray(data.images) &&
+          data.images.some((image) => image !== null && (image instanceof File || Object.keys(image).length > 0))
             ? data.images?.filter((image: any) => {
+                console.log(image);
                 if (image?.secure_url !== "" || image instanceof File) return image;
               })
             : [];
-        console.log(data);
 
         const uploadedImages = await Promise.all(
           filteredImages?.map(async (image: File | { secure_url: string; public_id: string }) => {
@@ -170,6 +172,7 @@ const CoursesForm = ({ course }: { course?: CourseProps | null }) => {
       }
     });
   };
+  console.log(form.getValues());
   return (
     <div>
       <Form {...form}>

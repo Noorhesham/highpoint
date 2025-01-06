@@ -114,7 +114,7 @@ const OperationForm = ({
             />
           </GridContainer>
 
-          <Button disabled={isPending}>{operation._id ? "Update" : "Add"} Operation</Button>
+          <Button disabled={isPending} className="self-end w-fit">{operation._id ? "Update" : "Add"} </Button>
         </form>
       </Form>{" "}
       <Button

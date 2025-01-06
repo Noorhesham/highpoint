@@ -54,11 +54,11 @@ const FileUpload: React.FC<FileUploadProps> = ({
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     const file = files ? files[0] : null;
-
+    console.log(file)
     if (file) {
       console.log(file);
-      setValue(name, multiple ? files : file, { shouldValidate: true });
-
+      setValue(name, multiple ? files : file);
+      console.log(getValues(name));
       const fileType = file.type;
 
       if (fileType.includes("image")) {
