@@ -120,6 +120,8 @@ export const deleteImage = async (publicId: string) => {
 
 export const deleteEntity = async (modelName: ModelProps, id: string) => {
   try {
+    await connect();
+
     console.log(modelName, id);
     const Model = getModel(modelName);
 
