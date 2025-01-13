@@ -67,7 +67,7 @@ export function AppSidebar() {
                     <ul className="space-y-2 ml-2">
                       {pages.map((page) => (
                         <li key={page.key}>
-                          <Link href={page.url} className="flex items-center gap-2 text-gray-700 hover:text-blue-500">
+                          <Link href={page.url} className="flex items-center gap-2 text-gray-700 hover:text-violet-500">
                             <page.icon className="w-4 h-4" />
                             {t(`menu.${page.key}`)}
                           </Link>

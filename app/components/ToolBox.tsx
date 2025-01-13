@@ -25,7 +25,7 @@ const ToolBox = () => {
         {data?.data?.data.map((item: any) => (
           <p
             className={` font-semibold text-lg hover:underline duration-150 cursor-pointer ${
-              isChosen === item._id && "text-blue-600 underline"
+              isChosen === item._id && "text-violet-600 underline"
             }`}
             onClick={() => {
               const params = new URLSearchParams(window.location.category);
