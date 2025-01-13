@@ -1,5 +1,8 @@
+'use client';
 import { useFormContext } from "react-hook-form";
+
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useTranslations } from "next-intl";
 
 const SelectCustom = ({
   name,
@@ -14,6 +17,7 @@ const SelectCustom = ({
   locale,
   onChange,
 }: any) => {
+  const t = useTranslations();
   return (
     <Select
       onValueChange={(val) => {
@@ -21,7 +25,7 @@ const SelectCustom = ({
       }}
     >
       <SelectTrigger className="  shadow-sm">
-        <SelectValue placeholder={placeholder || "SELECT"}>
+        <SelectValue placeholder={placeholder || t("Select")}>
           {selected && typeof selected.name === "object" ? selected.name[locale] : selected?.name}
         </SelectValue>
       </SelectTrigger>
