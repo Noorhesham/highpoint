@@ -13,11 +13,13 @@ const CalendarInput = ({
   name,
   label,
   disabled,
+  onChange,
 }: {
   control: any;
   name: string;
   label?: string;
   disabled?: boolean;
+  onChange?: any;
 }) => {
   const [popoverOpen, setPopoverOpen] = useState(false); // Control popover state
 
@@ -30,9 +32,7 @@ const CalendarInput = ({
         return (
           <FormItem className="relative w-full">
             <FormLabel className="duration-200 uppercase">{label || "Date"}</FormLabel>
-            <Popover modal={true}
-  
-            >
+            <Popover modal={true}>
               <PopoverTrigger asChild>
                 <FormControl>
                   <Button
@@ -66,6 +66,7 @@ const CalendarInput = ({
                   selected={field.value}
                   onSelect={(date) => {
                     if (!date) return;
+                    if (onChange) return onChange(date);
                     field.onChange(date);
                     setPopoverOpen(false); // Close the popover after selection
                   }}

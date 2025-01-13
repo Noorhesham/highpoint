@@ -193,9 +193,12 @@ export const getEntities = async (
       Object.entries(filter).filter(([key, value]) => value && mongoose.isValidObjectId(value))
     );
     const query: Record<string, any> = {};
-
     Object.entries(filter).forEach(([key, value]) => {
-      if (Array.isArray(value) && value.length > 0) {
+      if (key === "startDate" && value) {
+        // Handle startDate as a date filter
+        const date = new Date(value); // Convert string to Date
+        query[key] = { $gte: date }; // Use $gte to filter by start date
+      } else if (Array.isArray(value) && value.length > 0) {
         // If value is an array, use $in operator
         query[key] = { $in: value };
       } else if (value && mongoose.isValidObjectId(value)) {

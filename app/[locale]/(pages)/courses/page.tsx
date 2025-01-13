@@ -10,10 +10,17 @@ import React, { Suspense } from "react";
 
 const Page = async ({
   params: { locale },
-  searchParams: { page, category, subCategories, city },
+  searchParams: { page, category, subCategories, city, startDate, endDate },
 }: {
   params: { locale: string };
-  searchParams: { page: string; category: string; subCategories: string; city: string };
+  searchParams: {
+    page: string;
+    category: string;
+    subCategories: string;
+    city: string;
+    startDate: string;
+    endDate: string;
+  };
 }) => {
   unstable_setRequestLocale(locale);
 
@@ -21,6 +28,8 @@ const Page = async ({
     category: category || "",
     subCategories: subCategories ? subCategories.split(",") : [],
     city: city || "",
+    startDate: startDate || "",
+    endDate: endDate || "",
   };
   const categories = await getEntities("Category");
   const cities = await getEntities("City");

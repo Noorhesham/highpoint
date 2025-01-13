@@ -59,7 +59,7 @@ export default async function Home({ params: { locale } }: { params: { locale: s
   return (
     <section className="">
       <HomeCover image={mainCover.secure_url} mainTitle={mainTitle[locale]} mainDesc={mainDesc[locale]}>
-        <div className=" py-4 px-8 bg-gray-100/90 rounded-2xl flex-col flex w-full">
+        <div className=" py-4 px-8 bg-main/60 rounded-2xl flex-col flex w-full">
           {" "}
           <SearchBox />
           <ChooseCourse />
