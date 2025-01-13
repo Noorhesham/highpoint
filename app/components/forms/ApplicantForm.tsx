@@ -1,4 +1,5 @@
 "use client";
+
 import { createEntity, updateEntity } from "@/app/actions/actions";
 import React from "react";
 import { toast } from "react-toastify";
@@ -7,49 +8,62 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { z } from "zod";
+import { useTranslations } from "next-intl";
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import FormInput from "./FormInput";
 import GridContainer from "../defaults/GridContainer";
-import FormSelect from "./FormSelect";
+import { RadioGroupForm } from "../RadioGroup";
+import { OperationProps } from "@/app/models/Operations";
 
 const ApplicantSchema = z.object({
-  course: z.string().min(1, { message: "Required" }),
-  fullName: z.string().min(1, { message: "Required" }),
+  firstName: z.string().min(1, { message: "Required" }),
+  lastName: z.string().min(1, { message: "Required" }),
   title: z.string().min(1, { message: "Required" }),
   email: z.string().email({ message: "Invalid email address" }),
   address: z.string().min(1, { message: "Required" }),
-  jobTitle: z.string().optional(),
+  company: z.string().min(1, { message: "Required" }),
   city: z.string().min(1, { message: "Required" }),
   country: z.string().min(1, { message: "Required" }),
   phone: z.string().min(1, { message: "Required" }),
-  fax: z.string().optional(),
-  mobilePhone: z.string().optional(),
-  paymentMethod: z.string().min(1, { message: "Required" }),
+  postalBox: z.string().optional(),
   agreeToTerms: z.boolean().refine((val) => val === true, {
     message: "You must agree to the terms",
   }),
-  additionalNotes: z.string().optional(),
+  course: z.string().min(1, { message: "Required" }),
 });
 
-const ApplicantForm = ({ applicant, course }: { applicant?: any | null; course?: any }) => {
+const ApplicantForm = ({
+  applicant,
+  operation,
+  operations,
+  course,
+}: {
+  applicant?: any | null;
+  operation?: any;
+  operations?: OperationProps[];
+  course: string;
+}) => {
+  const t = useTranslations("ApplicantForm"); // Localization hook for translations
+
   const form = useForm<z.infer<typeof ApplicantSchema>>({
     defaultValues: {
-      course: course || applicant?.course || "",
-      fullName: applicant?.fullName || "",
+      firstName: applicant?.firstName || "",
+      lastName: applicant?.lastName || "",
+      title: applicant?.title || "",
       email: applicant?.email || "",
       address: applicant?.address || "",
+      company: applicant?.company || "",
       city: applicant?.city || "",
       country: applicant?.country || "",
       phone: applicant?.phone || "",
-      fax: applicant?.fax || "",
-      mobilePhone: applicant?.mobilePhone || "",
-      paymentMethod: applicant?.paymentMethod || "",
+      postalBox: applicant?.postalBox || "",
       agreeToTerms: applicant?.agreeToTerms || false,
-      additionalNotes: applicant?.additionalNotes || "",
+      course: course || "",
     },
     resolver: zodResolver(ApplicantSchema),
   });
+
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
 
@@ -58,7 +72,7 @@ const ApplicantForm = ({ applicant, course }: { applicant?: any | null; course?:
       try {
         const res = applicant
           ? await updateEntity("Applicant", applicant._id, data)
-          : await createEntity("Applicant", data);
+          : await createEntity("Applicant", { ...data, operation });
 
         if (res?.success) {
           toast.success(res?.success);
@@ -73,49 +87,39 @@ const ApplicantForm = ({ applicant, course }: { applicant?: any | null; course?:
       }
     });
   };
-  console.log(form.formState.errors);
+
   return (
     <div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4 p-4">
           <GridContainer cols={2}>
-            <FormInput name="fullName" label="Full Name" placeholder="Enter full name" />
+            <FormInput name="firstName" label={t("firstName")} placeholder={t("firstNamePlaceholder")} />
+            <FormInput name="lastName" label={t("lastName")} placeholder={t("lastNamePlaceholder")} />
           </GridContainer>
-          <FormInput name="email" label="Email" placeholder="Enter email address" type="email" />
-          <FormInput name="address" label="Address" placeholder="Enter address" />
-          <FormInput name="title" label="title" placeholder="Enter title" />
-    
+          <FormInput name="title" label={t("jobTitle")} placeholder={t("jobTitlePlaceholder")} />
+          <FormInput name="email" label={t("email")} placeholder={t("emailPlaceholder")} type="email" />
+          <FormInput name="address" label={t("address")} placeholder={t("addressPlaceholder")} />
+
           <GridContainer cols={2}>
-            <FormInput name="city" label="City" placeholder="Enter city" />
-            <FormInput name="country" label="Country" placeholder="Enter country" />
+            <FormInput name="company" label={t("company")} placeholder={t("companyPlaceholder")} />
+            <FormInput name="city" label={t("city")} placeholder={t("cityPlaceholder")} />
           </GridContainer>
+
           <GridContainer cols={2}>
-            <FormInput name="phone" label="Phone" placeholder="Enter phone number" />
-            <FormInput name="fax" label="Fax" placeholder="Enter fax number" />
+            <FormInput name="country" label={t("country")} placeholder={t("countryPlaceholder")} />
+            <FormInput name="phone" label={t("phone")} placeholder={t("phonePlaceholder")} />
           </GridContainer>
-          <FormInput name="mobilePhone" label="Mobile Phone" placeholder="Enter mobile phone number" />
-          <FormSelect
-            name="paymentMethod"
-            label="Payment Method"
-            placeholder="Select Payment Method"
-            options={[
-              { value: "Personal", name: "Personal" },
-              { value: "Company", name: "Company" },
-            ]}
-          />
-          <FormInput
-            name="additionalNotes"
-            label="Additional Notes"
-            placeholder="Enter any additional notes"
-            textarea
-          />
+
+          <FormInput name="postalBox" label={t("postalBox")} placeholder={t("postalBoxPlaceholder")} />
+          {operations && operations.length > 0 && <RadioGroupForm options={operations} name="operation" />}
           <div className="flex items-center gap-2">
             <input type="checkbox" {...form.register("agreeToTerms")} id="agreeToTerms" className="w-4 h-4" />
             <label htmlFor="agreeToTerms" className="text-sm">
-              I agree to the terms and conditions
+              {t("agreeToTerms")}
             </label>
           </div>
-          <Button disabled={isPending}>{applicant ? "Update" : "Add"} Applicant</Button>
+
+          <Button disabled={isPending}>{applicant ? t("updateButton") : t("addButton")}</Button>
         </form>
       </Form>
     </div>

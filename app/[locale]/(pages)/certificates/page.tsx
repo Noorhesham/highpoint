@@ -34,7 +34,7 @@ const page = async ({ params: { locale } }: { params: { locale: string } }) => {
                 <Image src={section.image?.secure_url} className="object-contain" alt="course image" fill />
               </div>
               <div className="flex w-full items-center flex-col gap-4">
-                <Head text={section.title[locale]} className="!text-base !text-blue-500 font-bold" />
+                <Head text={section.title[locale]} className="!text-base !text-main font-bold" />
                 <Paragraph className="text-gray-800 !text-sm" size="sm" description={section.desc[locale]} />
               </div>
             </div>

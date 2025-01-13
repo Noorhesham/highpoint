@@ -2,7 +2,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { AnimatePresence } from "framer-motion";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import debounce from "lodash.debounce";
 import Link from "next/link";
 import MotionItem from "./defaults/MotionItem";
@@ -43,7 +43,7 @@ const SearchBox = ({
   const [resultActive, setResultActive] = useState(false);
   //the selected result state to adda visual effect when moving with keys
   const [selectedResult, setSelectedResult] = useState(0);
-
+  const t = useTranslations();
   const locale = useLocale();
   const router = useRouter();
   const searchParams = new URLSearchParams();
@@ -184,7 +184,7 @@ const SearchBox = ({
               onChange={handleSearchChange}
               className=" w-full outline-none"
               type="text"
-              placeholder="ابحث عن دورة تدريبية معينة"
+              placeholder={t("search")}
             />{" "}
             <XIcon
               onClick={() => {
@@ -198,7 +198,7 @@ const SearchBox = ({
         </div>
         <Link
           href={jobs?.length > 1 ? `/courses?query=${query}` : "/courses"}
-          className="flex p-2 rounded-xl  text-white justify-center items-center bg-blue-800"
+          className="flex p-2 rounded-xl  text-white justify-center items-center bg-main"
         >
           <SearchIcon />
         </Link>{" "}

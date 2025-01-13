@@ -17,11 +17,14 @@ export interface Applicant extends Document {
   agreeToTerms: boolean;
   additionalNotes?: string;
   createdAt: Date;
+  firstName: string;
+  lastName: string;
 }
 
 const ApplicantSchema = new Schema<Applicant>({
   course: { type: Schema.Types.ObjectId, ref: "Course", required: true },
-  fullName: { type: String, required: true }, // Full name of the applicant
+  firstName: { type: String, required: true }, // Full name of the applicant
+  lastName: { type: String, required: true }, // Full name of the applicant
   title: { type: String, required: true }, // e.g., Mr., Ms., Dr.
   email: { type: String, required: true, unique: true },
   address: { type: String, required: true },
@@ -32,7 +35,7 @@ const ApplicantSchema = new Schema<Applicant>({
   phone: { type: String, required: true },
   fax: { type: String }, // Optional
   mobilePhone: { type: String }, // Optional
-  paymentMethod: { type: String, required: true }, // e.g., Personal, Company
+  // paymentMethod: { type: String, required: true }, // e.g., Personal, Company
   agreeToTerms: { type: Boolean, required: true }, // Checkbox for agreement
   additionalNotes: { type: String }, // Optional field for any additional notes
   createdAt: { type: Date, default: Date.now },

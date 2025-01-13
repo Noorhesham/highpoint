@@ -22,7 +22,7 @@ const page = async ({
       <GridContainer className=" mt-20 lg:mt-40" cols={4}>
         {categories?.map((category: CityProps, i: number) => (
           <Link key={i} href={`/courses?city=${category._id}`} className=" relative w-full h-40 group">
-            <div className=" absolute top-0 left-0 w-full h-full bg-blue-400  opacity-0 group-hover:opacity-80 z-20 duration-200" />
+            <div className=" absolute top-0 left-0 w-full h-full bg-main  opacity-0 group-hover:opacity-80 z-20 duration-200" />
             <div className=" absolute top-0 left-0 w-full h-full bg-black opacity-50 z-0"></div>
             <h2 className=" absolute z-30 text-white top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-2xl">
               {category.name[locale]}

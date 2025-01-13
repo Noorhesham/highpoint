@@ -50,7 +50,7 @@ export function AppSidebar() {
                 const isActive = normalizedPath.startsWith(item.url.replace(`/dashboard`, ""));
 
                 return (
-                  <SidebarMenuItem key={item.key} className={isActive ? "bg-gray-200 text-blue-600" : ""}>
+                  <SidebarMenuItem key={item.key} className={isActive ? "bg-gray-200 text-main" : ""}>
                     <SidebarMenuButton className="py-3" asChild>
                       <Link href={item.url} className="flex items-center gap-2">
                         <item.icon />

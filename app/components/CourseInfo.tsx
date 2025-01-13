@@ -8,81 +8,109 @@ import ModalCustom from "./defaults/ModalCustom";
 import ApplicantForm from "./forms/ApplicantForm";
 import ExportToPdf from "./ExportToPdf";
 import NoSSR from "./NoSSr";
+import { useLocale, useTranslations } from "next-intl";
+import { CourseProps } from "../models/Course";
+import { OperationProps } from "../models/Operations";
 
 export default function CourseInfo({
   course,
+  operation,
+  operations,
+  courseId,
 }: {
-  course: { startDate: string; endDate: string; price: number; _id: string };
+  course: CourseProps;
+  operation: any;
+  operations?: OperationProps[];
+  courseId?: string;
 }) {
-  console.log(course);
   const startDate = new Date(course.startDate);
   const endDate = new Date(course.endDate);
-
-  // Calculate duration
+  const locale = useLocale();
   const days = differenceInDays(endDate, startDate);
   const weeks = differenceInWeeks(endDate, startDate);
   const months = differenceInMonths(endDate, startDate);
+  const t = useTranslations();
 
-  // Format duration
   let formattedDuration = "";
   if (months > 0) {
-    formattedDuration = `${months} شهر${months > 1 ? "s" : ""}`;
+    formattedDuration = `${months} ${t("months")}${months > 1 ? t("pluralSuffix") : ""}`;
   } else if (weeks > 0) {
-    formattedDuration = `${weeks} أسبوع${weeks > 1 ? "s" : ""}`;
+    formattedDuration = `${weeks} ${t("weeks")}${weeks > 1 ? t("pluralSuffix") : ""}`;
   } else {
-    formattedDuration = `${days} يوم${days > 1 ? "s" : ""}`;
+    formattedDuration = `${days} ${t("days")}${days > 1 ? t("pluralSuffix") : ""}`;
   }
 
-  return (
-    <div className="flex  lg:w-[30%] w-full  sticky mb-auto top-0 left-0 max-w-3xl flex-col font-medium">
-      <h1 className="rounded-t-xl text-white px-4 py-2 bg-main">معلومات عن الدورة</h1>
-      <div className="bg-white rounded-b-xl">
-        <div className="flex px-4 py-1 gap-2 items-center justify-between">
-          <div className="flex items-center gap-1">
-            <p>التاريخ:</p>
-            <CalendarIcon className=" w-4 h-4" />
-          </div>
+  return operation ? (
+    <div className=" flex items-center justify-between py-2 ">
+      <div className="flex  px-4 py-1 gap-2 items-center justify-between ">
+        <div className=" flex text-base items-center gap-2">
+          <p>{t("date")}:</p>
+          <CalendarIcon className=" w-4 h-4" />
+        </div>
+        <div className=" flex items-center gap-1">
           <p className="text-muted-foreground">{format(startDate, "yyyy-MM-dd")}</p>
+          <p className="text-muted-foreground">{format(endDate, "yyyy-MM-dd")}</p>
         </div>
-        <div className="flex px-4 py-1 gap-2 items-center justify-between">
-          <div className="flex items-center gap-1">
-            <p>المدة :</p>
-            <Timer className=" w-4 h-4" />
-          </div>
-          <p className="text-muted-foreground">{formattedDuration}</p>
-        </div>
-        <div className="flex px-4 py-1 gap-2 items-center justify-between">
-          <div className="flex items-center gap-1">
-            <p>الرسوم :</p>
-            <FaMoneyBill className=" w-4 h-4" />
-          </div>
-          <p className="text-muted-foreground">{course.price}$</p>
-        </div>
-
-        <div className="flex px-4 py-1 gap-2 flex-col">
-          <ModalCustom
-            btn={
-              <Button className="text-gray-50 bg-yellow-500 hover:bg-yellow-400 duration-150" size={"sm"}>
-                سجل الان
-              </Button>
-            }
-            content={<ApplicantForm course={course._id} />}
-          />
-          <Button className="text-gray-50 bg-main hover:bg-main/50 duration-150" size={"sm"}>
-            ابق علي تواصل
+      </div>
+      <h2 className=" font-medium text-base">{course.city.name[locale]}</h2>{" "}
+      <ModalCustom
+        btn={
+          <Button className="text-gray-50 bg-yellow-500 hover:bg-yellow-400 duration-150" size={"sm"}>
+            {t("registerNow")}
           </Button>
+        }
+        content={<ApplicantForm operations={operations} operation={operation._id} course={courseId} />}
+      />
+    </div>
+  ) : (
+    <div className="bg-white border-b border-input py-2 rounded-b-xl">
+      <div className="flex px-4 py-1 gap-2 items-center justify-between">
+        <div className="flex items-center gap-1">
+          <p>{t("date")}:</p>
+          <CalendarIcon className=" w-4 h-4" />
+        </div>
+        <p className="text-muted-foreground">{format(startDate, "yyyy-MM-dd")}</p>
+      </div>
+      <div className="flex px-4 py-1 gap-2 items-center justify-between">
+        <div className="flex items-center gap-1">
+          <p>{t("duration")}:</p>
+          <Timer className=" w-4 h-4" />
+        </div>
+        <p className="text-muted-foreground">{formattedDuration}</p>
+      </div>
+      <div className="flex px-4 py-1 gap-2 items-center justify-between">
+        <div className="flex items-center gap-1">
+          <p>{t("fees")}:</p>
+          <FaMoneyBill className=" w-4 h-4" />
+        </div>
+        <p className="text-muted-foreground">{course.price}$</p>
+      </div>
 
+      <div className="flex px-4 py-1 gap-2 mr-auto">
+        <ModalCustom
+          btn={
+            <Button className="text-gray-50 bg-yellow-500 hover:bg-yellow-400 duration-150" size={"sm"}>
+              {t("registerNow")}
+            </Button>
+          }
+          content={<ApplicantForm course={courseId} operations={operations} />}
+        />
+        <Button className="text-gray-50 bg-main hover:bg-main/50 duration-150" size={"sm"}>
+          {t("stayConnected")}
+        </Button>
+
+        {!operation && (
           <NoSSR>
             <ExportToPdf
               btn={
                 <Button className="text-gray-50 bg-red-500 hover:bg-red-400 duration-150" size={"sm"}>
-                  تنزيل النشرة
+                  {t("downloadBrochure")}
                 </Button>
               }
               course={course}
             />
           </NoSSR>
-        </div>
+        )}
       </div>
     </div>
   );

@@ -1,21 +1,23 @@
-import GridContainer from "@/app/components/defaults/GridContainer";
 import MaxWidthWrapper from "@/app/components/defaults/MaxWidthWrapper";
 import Paragraph from "@/app/components/defaults/Paragraph";
 import { Button } from "@/components/ui/button";
 import { CalendarIcon, CheckIcon, CodeIcon, Heading1, Laptop, Timer } from "lucide-react";
-import { unstable_setRequestLocale } from "next-intl/server";
+import { getTranslations, unstable_setRequestLocale } from "next-intl/server";
 import React from "react";
-import { FaMoneyBill } from "react-icons/fa";
 
 import FlexWrapper from "@/app/components/defaults/FlexWrapper";
 import HomeCover from "@/app/components/ui-visual/HomeCover";
-import Course from "@/app/models/Course";
+import Course, { CourseProps } from "@/app/models/Course";
 import { format } from "date-fns";
 import CourseInfo from "@/app/components/CourseInfo";
+import Empty from "@/app/components/Empty";
+import ModalCustom from "@/app/components/defaults/ModalCustom";
+import ApplicantForm from "@/app/components/forms/ApplicantForm";
 
 const page = async ({ params: { locale, id } }: { params: { locale: string; id: string } }) => {
   unstable_setRequestLocale(locale);
-  const coruse = await Course.findById(id)
+  const t = await getTranslations();
+  const course = await Course.findById(id)
     .populate({
       path: "operations",
       populate: {
@@ -26,36 +28,20 @@ const page = async ({ params: { locale, id } }: { params: { locale: string; id: 
     .populate("city")
     .populate("category")
     .lean();
-  const { _id, name, description, price, images, createdAt, operations, days } = coruse;
-  console.log(coruse);
+  if (!course) return <Empty link="/courses" />;
+  const { _id, name, description, price, images, operations, days } = course as CourseProps;
+  console.log(operations);
   return (
     <section className="">
-      <HomeCover image={images[0]?.secure_url||"/default.jpg"} mainTitle={name[locale]} mainDesc={""} />
-      <div
-
-        className=" relative"
-      >
+      <HomeCover image={images[0]?.secure_url || "/default.jpg"} mainTitle={name[locale]} mainDesc={""} />
+      <div className=" relative">
         <FlexWrapper className=" mt-5 relative flex items-center justify-between ">
-          <div className="w-full max-w-6xl lg:w-[70%] w-full flex-grow">
+          <div className="w-full max-w-6xl lg:w-[70%]  flex-grow">
             <div className=" flex w-full  flex-col gap-5">
               <div>
-                <h1 className=" rounded-t-xl text-white px-4 py-2 bg-main ">معلومات عن الدورة</h1>
-                {operations?.map((operation, i) => (
-                  <>
-                    <div className=" flex items-center justify-between py-2 ">
-                      <div className="flex  px-4 py-1 gap-2 items-center justify-between ">
-                        <div className=" flex text-base items-center gap-2">
-                          <p>التاريخ:</p>
-                          <CalendarIcon className=" w-4 h-4" />
-                        </div>
-                        <p className=" text-muted-foreground">{format(new Date(operation.startDate), "yyyy-MM-dd")}</p>
-                      </div>
-                      <h2 className=" font-medium text-base">{operation.city.name[locale]}</h2>{" "}
-                      <Button className=" text-gray-50 bg-yellow-500 hover:bg-yellow-400 duration-150" size={"sm"}>
-                        سجل الان
-                      </Button>
-                    </div>
-                  </>
+                <h1 className=" rounded-t-xl text-white px-4 py-2 bg-main ">{t("timeTable")}</h1>
+                {operations?.map((operation: any, i: Number) => (
+                  <CourseInfo operation course={operation} courseId={_id} />
                 ))}
               </div>
               <Paragraph
@@ -76,7 +62,10 @@ const page = async ({ params: { locale, id } }: { params: { locale: string; id: 
             </div>
           </div>
 
-          <CourseInfo course={coruse} />
+          <div className="flex  lg:w-[30%] w-full  sticky mb-auto top-0 left-0 max-w-3xl flex-col font-medium">
+            <h1 className="rounded-t-xl text-white px-4 py-2 bg-main">{t("registerNow")}</h1>
+            <CourseInfo course={course} courseId={course._id} operations />
+          </div>
         </FlexWrapper>
       </div>
 

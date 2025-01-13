@@ -25,6 +25,7 @@ import HomeCover from "../components/ui-visual/HomeCover";
 import CourseCard from "../components/CourseCard";
 import { CourseProps } from "../models/Course";
 import ProductCard from "../components/Product";
+import MotionItem from "../components/defaults/MotionItem";
 
 export default async function Home({ params: { locale } }: { params: { locale: string } }) {
   unstable_setRequestLocale(locale);
@@ -50,9 +51,10 @@ export default async function Home({ params: { locale } }: { params: { locale: s
   const page = await getEntities("HomePage", 1, {});
   const categories = await getEntities("Category", 1, {}, false, "", "", "", { name: 1 }, {});
   const courses = await getEntities("Course", 1, {}, false, "", "", "", { name: 1 }, {}, 8);
+  const cities = await getEntities("City", 1, {}, false, "", "", "", { name: 1 }, {});
   const { mainCover, mainTitle, mainDesc, secondaryCover, companies, sections, whoWeAre, partners } =
     page.data.data[0] || {};
-  console.log(page.data.data[0]);
+  console.log(page.data.data[0], cities.data.data);
   return (
     <section className="">
       <HomeCover image={mainCover.secure_url} mainTitle={mainTitle[locale]} mainDesc={mainDesc[locale]}>
@@ -62,17 +64,19 @@ export default async function Home({ params: { locale } }: { params: { locale: s
         <MaxWidthWrapper className=" items-center py-10 flex flex-col gap-3">
           <Head className=" !text-2xl" text={sections[0].title[locale]} />
           <Paragraph className="text-center" maxWidth description={sections[0].desc[locale]} />
-          <GridContainer cols={4}>
-            {categories.data?.data.slice(0, 4).map((category: CategoryProps) => (
-              <Link href={`/${locale}/courses?category=${category._id}`} key={category._id}>
-                <div className=" rounded-2xl overflow-hidden w-full h-32 relative">
-                  <h2 className=" absolute z-30 text-white top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                    {category.name[locale]}
-                  </h2>
-                  <div className=" w-full  h-full absolute inset-0  z-20 bg-black/60"></div>
-                  <Image src={category?.mainImage[0]?.secure_url} alt="" fill className=" object-cover" />
-                </div>
-              </Link>
+          <GridContainer motion cols={4}>
+            {categories.data?.data.map((category: CategoryProps) => (
+              <MotionItem key={category._id}>
+                <Link href={`/${locale}/courses?category=${category._id}`}>
+                  <div className=" rounded-2xl overflow-hidden w-full h-32 relative">
+                    <h2 className=" absolute z-30 text-white top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                      {category.name[locale]}
+                    </h2>
+                    <div className=" w-full  h-full absolute inset-0  z-20 bg-black/60"></div>
+                    <Image src={category?.mainImage[0]?.secure_url} alt="" fill className=" object-cover" />
+                  </div>
+                </Link>
+              </MotionItem>
             ))}
           </GridContainer>
         </MaxWidthWrapper>
@@ -105,9 +109,32 @@ export default async function Home({ params: { locale } }: { params: { locale: s
           })}
         />
       </MaxWidthWrapper>
-
+      <div className=" bg-gray-200">
+        <MaxWidthWrapper className=" items-center py-10 flex flex-col gap-3">
+          <Head className=" !text-2xl" text={t("cityTitle")} />
+          <Paragraph className="text-center" maxWidth description={t("cityDesc")} />
+          <GridContainer motion cols={4}>
+            {cities.data?.data.map((category: CategoryProps) => (
+              <MotionItem key={category._id}>
+                <Link href={`/${locale}/courses?city=${category._id}`}>
+                  <div className=" rounded-2xl overflow-hidden w-full h-32 relative">
+                    <h2 className=" absolute z-30 text-white top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                      {category.name[locale]}
+                    </h2>
+                    <div className=" w-full  h-full absolute inset-0  z-20 bg-black/60"></div>
+                    <Image src={category?.image?.secure_url} alt="" fill className=" object-cover" />
+                  </div>
+                </Link>
+              </MotionItem>
+            ))}
+          </GridContainer>
+          <Button className=" mt-5">
+            <Link href={`/${locale}/places`}>{t("viewAllcities")}</Link>
+          </Button>
+        </MaxWidthWrapper>
+      </div>
       <MaxWidthWrapper>
-        <div className="flex bg-blue-500  justify-between lg:flex-row flex-col items-center gap-2">
+        <div className="flex bg-main  justify-between lg:flex-row flex-col items-center gap-2">
           <div
             style={{
               backgroundImage: `url("${secondaryCover.secure_url}")`,
@@ -142,7 +169,7 @@ export default async function Home({ params: { locale } }: { params: { locale: s
             <FeatureCard key={index} Icon={feature.Icon} title={feature.title} description={feature.description} />
           ))}
         </GridContainer>
-        <div className=" grid md:grid-cols-2 grid-cols-1 gap-5 py-10" cols={2}>
+        {/* <div className=" grid md:grid-cols-2 grid-cols-1 gap-5 py-10" cols={2}>
           <div className="flex flex-col gap-4">
             <Head className=" text-black" text={t("valuePropositionTitle")} />
             <Paragraph className=" text-gray-700" description={t("valuePropositionText")} />
@@ -178,10 +205,10 @@ export default async function Home({ params: { locale } }: { params: { locale: s
               description={t("features.resultsOrienteddesc")}
             />
           </div>
-        </div>
+        </div> */}
       </MaxWidthWrapper>
       {/*courses*/}
-      <div className=" bg-blue-500">
+      <div className=" bg-main">
         <MaxWidthWrapper>
           <Head className=" text-white  !text-2xl" text={"الدورات الأكثر طلبا بين الطلاب"} />
           <Paragraph className=" text-white text-center" maxWidth description={t("coursesDesc")} />
@@ -201,9 +228,9 @@ export default async function Home({ params: { locale } }: { params: { locale: s
         </MaxWidthWrapper>
       </div>
 
-      <MaxWidthWrapper noPadding>
+      {/* <MaxWidthWrapper noPadding>
         <AppleCardsCarouselDemo />
-      </MaxWidthWrapper>
+      </MaxWidthWrapper> */}
 
       <div
         className=" flex items-center justify-center"
@@ -220,32 +247,71 @@ export default async function Home({ params: { locale } }: { params: { locale: s
             <Paragraph className=" text-gray-700" description={t("valuePropositionText")} />
             <GridContainer className=" max-w-2xl mt-4" cols={3}>
               <div className="  px-4 py-2 bg-white shadow-md">
-                <h1 className=" font-semibold text-blue-950 ">65+</h1>
+                <h1 className=" font-semibold  ">65+</h1>
                 <p>Years of Experience</p>
               </div>
               <div className="  px-4 py-2 bg-white shadow-md">
-                <h1 className=" font-semibold text-blue-950 ">65+</h1>
+                <h1 className=" font-semibold  ">65+</h1>
                 <p>Years of Experience</p>
               </div>
               <div className="  px-4 py-2 bg-white shadow-md">
-                <h1 className=" font-semibold text-blue-950 ">65+</h1>
+                <h1 className=" font-semibold  ">65+</h1>
                 <p>Years of Experience</p>
               </div>
               <div className="  px-4 py-2 bg-white shadow-md">
-                <h1 className=" font-semibold text-blue-950 ">65+</h1>
+                <h1 className=" font-semibold  ">65+</h1>
                 <p>Years of Experience</p>
               </div>
               <div className="  px-4 py-2 bg-white shadow-md">
-                <h1 className=" font-semibold text-blue-950 ">65+</h1>
+                <h1 className=" font-semibold  ">65+</h1>
                 <p>Years of Experience</p>
               </div>
               <div className="  px-4 py-2 bg-white shadow-md">
-                <h1 className=" font-semibold text-blue-950 ">65+</h1>
+                <h1 className=" font-semibold  ">65+</h1>
                 <p>Years of Experience</p>
               </div>
             </GridContainer>
           </div>
         </MaxWidthWrapper> */}
+      </div>
+      <MaxWidthWrapper>
+        {" "}
+        <GridContainer cols={2}>
+          <div>
+            {partners.title[locale] && <Head className=" !text-2xl" text={partners.title[locale]} />}
+            {partners.desc[locale] && <Paragraph maxWidth description={partners.desc[locale]} />}
+          </div>
+          <div>
+            <GridContainer cols={5}>
+              {partners.images.map((image: any, index: number) => (
+                <div className=" w-full relative h-24" key={index}>
+                  <Image src={image.secure_url} className=" object-contain" alt="partner" fill />
+                </div>
+              ))}
+            </GridContainer>
+          </div>
+        </GridContainer>
+      </MaxWidthWrapper>
+
+      <div
+        style={{
+          backgroundImage: `url("${secondaryCover.secure_url}")`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+        className=" flex w-full  items-center h-[55vh] flex-col gap-2 relative"
+      >
+        {" "}
+        <div className=" w-full h-full absolute inset-0  bg-black/60 " />
+        <MaxWidthWrapper>
+          <GridContainer cols={2}>
+            <div className=" z-20 relative  max-w-lg self-center my-auto flex flex-col items-center">
+              <Head className=" text-white !text-2xl" text={whoWeAre?.title[locale]} />
+              <Paragraph maxWidth className=" text-center text-gray-100" description={whoWeAre?.desc[locale]} />
+            </div>
+          </GridContainer>
+        </MaxWidthWrapper>
       </div>
       <Footer />
     </section>

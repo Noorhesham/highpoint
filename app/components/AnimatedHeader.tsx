@@ -119,7 +119,7 @@ const AnimatedHeader = () => {
             <div style={{ lineHeight: 0 }} className="text-right  mr-2">
               <h2 dir="ltr" className="tabib1  t tabib mx-2">
                 {splitStringUsingRegex(words[2]).map((char, index) => (
-                  <p className="char  text-blue-500 inline-block" key={index}>
+                  <p className="char  text-main inline-block" key={index}>
                     {char}
                   </p>
                 ))}
