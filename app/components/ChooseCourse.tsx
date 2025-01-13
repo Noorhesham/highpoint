@@ -35,7 +35,6 @@ const ChooseCourse = () => {
     setSelectedCategory("");
     setSelectedDate(null);
   };
-  const t = useTranslations();
   return (
     <div className="py-4 px-8 flex gap-4">
       {/* City Filter */}
