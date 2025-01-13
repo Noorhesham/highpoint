@@ -29,7 +29,7 @@ const HomeCover = ({
       {" "}
       <div className=" w-full  h-full absolute inset-0  bg-black/60"></div>
       <MaxWidthWrapper className="flex relative z-30 !pt-32 flex-col gap-2 md:gap-4">
-        <div className="flex flex-col gap-4 max-w-lg">
+        <div className="flex flex-col gap-4 max-w-full">
           <Head className=" !text-3xl !text-white" text={mainTitle} />
           <Paragraph className=" !text-white" description={mainDesc} />
           {children}

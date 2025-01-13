@@ -18,8 +18,7 @@ const ChooseCourse = () => {
     key: "category",
   });
   return (
-    <div className=" py-4 px-8 flex flex-col gap-4">
-      <h2>لم تصل لقرار حول ما يناسبك من الدورات؟</h2>
+    <div className=" py-4 px-8 flex gap-4">
       <SelectCustom
         onChange={setSelectedCity}
         disabled={isLoading || !cities}
@@ -45,7 +44,7 @@ const ChooseCourse = () => {
         placeholder="Select Category"
       />
       <div className="flex items-center gap-4">
-        <Button disabled={!selectedCity || !selectedCategory}>
+        <Button disabled={!selectedCity &&!selectedCategory}>
           <Link href={`/courses?city=${selectedCity}&category=${selectedCategory}`}>ابحث</Link>{" "}
         </Button>
         <Button variant={"outline"}>اعادة التعيين</Button>

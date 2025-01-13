@@ -26,6 +26,7 @@ import CourseCard from "../components/CourseCard";
 import { CourseProps } from "../models/Course";
 import ProductCard from "../components/Product";
 import MotionItem from "../components/defaults/MotionItem";
+import ChooseCourse from "../components/ChooseCourse";
 
 export default async function Home({ params: { locale } }: { params: { locale: string } }) {
   unstable_setRequestLocale(locale);
@@ -58,7 +59,11 @@ export default async function Home({ params: { locale } }: { params: { locale: s
   return (
     <section className="">
       <HomeCover image={mainCover.secure_url} mainTitle={mainTitle[locale]} mainDesc={mainDesc[locale]}>
-        <SearchBox />
+        <div className=" py-4 px-8 bg-gray-100/90 rounded-2xl flex-col flex w-full">
+          {" "}
+          <SearchBox />
+          <ChooseCourse />
+        </div>
       </HomeCover>
       <div className=" bg-gray-200">
         <MaxWidthWrapper className=" items-center py-10 flex flex-col gap-3">
