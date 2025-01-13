@@ -208,7 +208,7 @@ const CoursesForm = ({ course }: { course?: CourseProps | null }) => {
             }
             name="city"
             label="City"
-            placeholder="Select City"
+            placeholder={t("selectCity")}
           />
           {days.map((day, index) => (
             <div className="flex  gap-2" key={day.id}>

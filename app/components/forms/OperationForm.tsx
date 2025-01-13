@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button";
 import FormSelect from "./FormSelect";
 import GridContainer from "../defaults/GridContainer";
 import { useGetEntity } from "@/app/queries";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 const OperationSchema = z.object({
   startDate: z.union([z.string().min(1, { message: "Required" }), z.date()]),
@@ -41,6 +41,7 @@ const OperationForm = ({
 }) => {
   const { data: cities, isLoading } = useGetEntity({ entityName: "City", key: "city" });
   const locale = useLocale();
+  const t = useTranslations();
   const form = useForm<z.infer<typeof OperationSchema>>({
     defaultValues: {
       startDate: formatDateForInput(operation?.startDate) || new Date(),
@@ -110,11 +111,13 @@ const OperationForm = ({
               }
               name="city"
               label="City"
-              placeholder="Select City"
+              placeholder={t("selectCity")}
             />
           </GridContainer>
 
-          <Button disabled={isPending} className="self-end w-fit">{operation._id ? "Update" : "Add"} </Button>
+          <Button disabled={isPending} className="self-end w-fit">
+            {operation._id ? "Update" : "Add"}{" "}
+          </Button>
         </form>
       </Form>{" "}
       <Button

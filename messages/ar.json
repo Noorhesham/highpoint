@@ -204,7 +204,8 @@
     "agreeToTerms": "أوافق على الشروط والأحكام",
     "addButton": "إضافة متقدم",
     "updateButton": "تحديث المتقدم"
-  },
+  },"Select Category": "اختر القسم",
+  "selectCity": "اختر المدينة",
   "registerNow": "سجل الآن",
   "search": "البحث عن دورة تدريبية",
   "stayConnected": "ابق على تواصل",

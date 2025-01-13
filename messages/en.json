@@ -130,6 +130,8 @@
     "description": "Select a category",
     "select": "Select a category"
   },
+  "Select Category": "Select Category",
+  "selectCity": "Select City",
   "reset": "Reset",
   "ApplicantForm": {
     "firstName": "First Name *",

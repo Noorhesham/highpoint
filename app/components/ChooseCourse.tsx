@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { useGetEntity } from "../queries";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import SelectCustom from "./Select";
@@ -15,7 +15,7 @@ const ChooseCourse = () => {
   const [selectedCategory, setSelectedCategory] = React.useState("");
   const [selectedDate, setSelectedDate] = React.useState<Date | null>(null); // Store the date as a Date object
   const locale = useLocale();
-
+  const t = useTranslations();
   const { data: cities, isLoading } = useGetEntity({
     entityName: "City",
     key: "city",
@@ -35,7 +35,7 @@ const ChooseCourse = () => {
     setSelectedCategory("");
     setSelectedDate(null);
   };
-
+  const t = useTranslations();
   return (
     <div className="py-4 px-8 flex gap-4">
       {/* City Filter */}
@@ -53,7 +53,7 @@ const ChooseCourse = () => {
         }
         name="city"
         label="City"
-        placeholder="Select City"
+        placeholder={t("selectCity")}
       />
 
       {/* Category Filter */}
@@ -71,7 +71,7 @@ const ChooseCourse = () => {
         }
         name="category"
         label="Category"
-        placeholder="Select Category"
+        placeholder={t("Select Category")}
       />
 
       {/* Date Picker */}
