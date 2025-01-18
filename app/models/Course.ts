@@ -32,6 +32,8 @@ export interface CourseProps {
 const courseSchema = new Schema(
   {
     name: localizedStringSchema,
+    shortDescription: localizedStringSchema,
+    courseContent: localizedStringSchema,
     description: localizedStringSchema,
     price: { type: Number, required: true },
     images: [imageSchema],
@@ -47,8 +49,13 @@ const courseSchema = new Schema(
       required: true,
     },
     subCategories: [{ type: Schema.Types.ObjectId, ref: "SubCategory" }],
-    city: { type: Schema.Types.ObjectId, ref: "City", },
+    city: { type: Schema.Types.ObjectId, ref: "City" },
     days: [localizedStringSchema],
+    certificate: {
+      name: localizedStringSchema,
+      image: imageSchema,
+      desc: localizedStringSchema,
+    },
   },
   { toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );

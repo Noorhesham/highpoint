@@ -44,7 +44,9 @@ const ProductCard = ({ product, index, category = false }: { product: any; index
             </h3>{" "}
           </div>
           {product.price && <p className=" mt-1 font-medium text-sm ">{product.price}$</p>}
-          <Paragraph description={product.description[locale || "en"]} className="!line-clamp-2" />
+          {product.shortDescription && (
+            <Paragraph description={product.shortDescription[locale || "en"]} className="!line-clamp-2" />
+          )}
         </div>
       </div>
     </Link>

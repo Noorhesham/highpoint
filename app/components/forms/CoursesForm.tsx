@@ -18,11 +18,12 @@ import FileUpload from "./FileUpload";
 import CategoriesInput from "./CountriesInput";
 import { useGetEntity } from "@/app/queries";
 import City from "@/app/models/City";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import FormSelect from "./FormSelect";
 import FormTitle from "../FormTitle";
 import OperationForm from "./OperationForm";
 import DescInput from "./DescInput";
+import { uploadImageToCloudinary } from "@/app/utils/fn";
 const CoursesSchema = z.object({
   name: z.object({
     ar: z.string().min(1, { message: "Required" }),
@@ -48,6 +49,25 @@ const CoursesSchema = z.object({
   subCategories: z.array(z.string()),
   city: z.string().min(1, { message: "Required" }),
   days: z.array(z.object({ ar: z.string(), en: z.string() }).optional()),
+  shortDescription: z.object({
+    ar: z.string().min(1, { message: "Required" }),
+    en: z.string().min(1, { message: "الحقل مطلوب" }),
+  }),
+  courseContent: z.object({
+    ar: z.string().min(1, { message: "Required" }),
+    en: z.string().min(1, { message: "الحقل مطلوب" }),
+  }),
+  certificate: z.object({
+    name: z.object({
+      ar: z.string().min(1, { message: "Required" }),
+      en: z.string().min(1, { message: "الحقل مطلوب" }),
+    }),
+    desc: z.object({
+      ar: z.string().min(1, { message: "Required" }),
+      en: z.string().min(1, { message: "الحقل مطلوب" }),
+    }),
+    image: z.any().optional(),
+  }),
 });
 const formatDateForInput = (date?: Date) => {
   if (!date) return "";
@@ -72,6 +92,9 @@ const CoursesForm = ({ course }: { course?: CourseProps | null }) => {
       subCategories: course?.subCategories || [],
       city: course?.city || "",
       days: course?.days || [{}],
+      shortDescription: course?.shortDescription || "",
+      certificate: course?.certificate || "",
+      courseContent: course?.courseContent || "",
     },
     resolver: zodResolver(CoursesSchema),
   });
@@ -119,7 +142,13 @@ const CoursesForm = ({ course }: { course?: CourseProps | null }) => {
                 if (image?.secure_url !== "" || image instanceof File) return image;
               })
             : [];
-
+        if (data.certificate.image instanceof File) {
+          const certificateImageUpload = await uploadImageToCloudinary(data.certificate.image);
+          data.certificate.image = {
+            secure_url: certificateImageUpload.secure_url,
+            public_id: certificateImageUpload.public_id,
+          };
+        }
         const uploadedImages = await Promise.all(
           filteredImages?.map(async (image: File | { secure_url: string; public_id: string }) => {
             console.log(image, data);
@@ -172,6 +201,7 @@ const CoursesForm = ({ course }: { course?: CourseProps | null }) => {
       }
     });
   };
+  const t = useTranslations();
   console.log(form.getValues());
   return (
     <div>
@@ -191,7 +221,10 @@ const CoursesForm = ({ course }: { course?: CourseProps | null }) => {
           >
             Add More
           </Button>
-          <ArabicEnglishForm />
+          <ArabicEnglishForm nodesc />
+          <ArabicEnglishForm labeldESC={t("Short Description")} noName descName={"shortDescription"} />
+          <ArabicEnglishForm labeldESC={t("Description")} noName descName={"description"} />
+          <ArabicEnglishForm labeldESC={t("contnetcourse")} noName descName={"courseContent"} />
           <GridContainer cols={3} className=" gap-4">
             <FormInput name="price" label="Price" placeholder="Price" type="number" />
             <FormInput name="serialNumber" label="Serial Number" placeholder="Serial Number" type="number" />
@@ -210,6 +243,8 @@ const CoursesForm = ({ course }: { course?: CourseProps | null }) => {
             label="City"
             placeholder={t("selectCity")}
           />
+          <FormTitle text={t("days")} />
+
           {days.map((day, index) => (
             <div className="flex  gap-2" key={day.id}>
               <DescInput name={`days.${index}`} label={`Day ${index + 1}`} />
@@ -228,6 +263,12 @@ const CoursesForm = ({ course }: { course?: CourseProps | null }) => {
           >
             Add Day
           </Button>
+          <div className="flex flex-col gap-4">
+            <FormTitle text={t("certificate")} />
+            <ArabicEnglishForm name={"certificate.name"} descName={"certificate.desc"} />
+            <FileUpload label="صورة الشهادة" name={`certificate.image`} />
+          </div>
+
           <Button disabled={isPending}>{course ? "Update" : "Add"} Course</Button>
         </form>
       </Form>

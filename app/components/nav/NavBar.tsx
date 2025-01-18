@@ -125,7 +125,7 @@ const NavBar = () => {
         "
         >
           <div className=" w-full bg-gray-100 py-3 ">
-            <MaxWidthWrapper noPadding className="flex justify-between ">
+            <MaxWidthWrapper noPadding className={` ${locale === "ar" && "flex-row-reverse"} flex justify-between `}>
               <div className="  flex items-center gap-2 ">
                 <div className={`z-[999] duration-150 h-full  relative lg:hidden block`}>
                   <PhoneNav navigation={links} />
@@ -147,8 +147,9 @@ const NavBar = () => {
           <MaxWidthWrapper noPadding className="">
             <div
               className={cn(
-                "flex relative z-20 items-center    ",
-                !isTopPage && !isScrollingDown ? "justify-center lg:justify-between" : "justify-between"
+                `flex relative z-20 items-center     `,
+                !isTopPage && !isScrollingDown ? "justify-center lg:justify-between" : "justify-between",
+                locale === "ar" && "flex-row-reverse"
               )}
             >
               <div

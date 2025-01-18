@@ -19,7 +19,7 @@ const Paragraph = ({
       dangerouslySetInnerHTML={{
         __html: convertToHTML(description || ""),
       }}
-      className={` ${className || "text-gray-800"} text-base  ${size === "lg" ? "text-lg" : "text-base"} ${
+      className={` ${className || "text-gray-800"} text-sm  ${size === "lg" ? "text-lg" : "text-base"} ${
         full ? "max-w-7xl" : maxWidth ? "lg:max-w-5xl" : "lg:max-w-xl"
       } font-medium my-2 leading-[1.7] `}
     />

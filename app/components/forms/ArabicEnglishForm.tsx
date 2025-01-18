@@ -9,12 +9,16 @@ const ArabicEnglishForm = ({
   children,
   label,
   descName = "description",
+  noName = false,
+  labeldESC,
 }: {
   nodesc?: boolean;
   name?: any;
   children?: ReactNode;
   label?: string;
   descName?: string;
+  noName?: boolean;
+  labeldESC?: string;
 }) => {
   console.log(name, `${name}.en `);
   return (
@@ -25,13 +29,13 @@ const ArabicEnglishForm = ({
       </TabsList>
       <TabsContent className=" flex flex-col gap-4 mt-3" value="en">
         <div className="flex items-center gap-2 w-full">
-          <FormInput label={label || "Name"} name={`${name}.en` || "name.en"} placeholder={"Name"} />
+          {!noName && <FormInput label={label || "Name"} name={`${name}.en` || "name.en"} placeholder={"Name"} />}
           {children}
         </div>
         {!nodesc && (
           <FormInput
             textarea
-            label={"Description"}
+            label={labeldESC || "Description"}
             name={`${descName}.en` || "name.en"}
             placeholder={"Description"}
           />
@@ -39,11 +43,16 @@ const ArabicEnglishForm = ({
       </TabsContent>
       <TabsContent dir="rtl" className=" flex flex-col gap-4 mt-3" value="ar">
         <div className="flex items-center gap-2 w-full">
-          <FormInput label="الاسم بالعربية" name={`${name}.ar` || "name.ar"} placeholder={"Name"} />
+          {!noName && <FormInput label="الاسم بالعربية" name={`${name}.ar` || "name.ar"} placeholder={"Name"} />}{" "}
           {children}
         </div>
         {!nodesc && (
-          <FormInput textarea label=" الوصف العربي" name={`${descName}.ar` || "desc.ar"} placeholder={"Description"} />
+          <FormInput
+            textarea
+            label={labeldESC || " الوصف العربي"}
+            name={`${descName}.ar` || "desc.ar"}
+            placeholder={"Description"}
+          />
         )}
       </TabsContent>
     </Tabs>

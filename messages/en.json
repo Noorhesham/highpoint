@@ -107,6 +107,8 @@
       "description": "Cultivate an entrepreneurial mindset to turn ideas into impactful business ventures."
     }
   },
+  "otherCourses": "Other Courses",
+  "courseContent": "Course Content",
   "contact": {
     "headline": "Get in Touch with EndPoint Team Easily",
     "subText": "Let us know how we can assist you",
@@ -188,6 +190,12 @@
     "title": "Section {index} Title",
     "desc": "Section {index} Description"
   },
+  "Short Description": "Short Description",
+  "contnetcourse": "Content",
+  "days": "days",
+  "certificate": "Certificate",
+  "general look": "overview",
+  "day": "day",
   "whoWeAre": {
     "title": "Who We Are Title",
     "desc": "Who We Are Description"
