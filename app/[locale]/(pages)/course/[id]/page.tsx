@@ -42,7 +42,7 @@ const page = async ({ params: { locale, id } }: { params: { locale: string; id: 
         className=" w-full "
         image={images[0]?.secure_url || "/default.jpg"}
         mainTitle={name[locale]}
-        mainDesc={course.shortDescription[locale]}
+        mainDesc={course.shortDescription?.[locale] || ""}
       />
       <div className=" relative">
         <MaxWidthWrapper>
