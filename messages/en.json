@@ -109,6 +109,12 @@
   },
   "otherCourses": "Other Courses",
   "courseContent": "Course Content",
+  "noDescriptionAvailable": "Description is not available.",
+  "noCourseContentAvailable": "Course content is not available.",
+  "noDaysAvailable": "No days are available for this course.",
+  "noContentForDay": "No content is available for this day.",
+  "noCertificateAvailable": "Certificate information is not available.",
+  "noOperationsAvailable": "No operations or schedules are available.",
   "contact": {
     "headline": "Get in Touch with EndPoint Team Easily",
     "subText": "Let us know how we can assist you",
