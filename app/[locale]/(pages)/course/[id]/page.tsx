@@ -41,7 +41,7 @@ const page = async ({ params: { locale, id } }: { params: { locale: string; id: 
       <HomeCover
         className=" w-full "
         image={images[0]?.secure_url || "/default.jpg"}
-        mainTitle={name[locale]}
+        mainTitle={name?.[locale] || ""}
         mainDesc={course.shortDescription?.[locale] || ""}
       />
       <div className=" relative">
