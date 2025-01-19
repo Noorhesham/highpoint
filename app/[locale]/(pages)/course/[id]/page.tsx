@@ -7,7 +7,9 @@ import React from "react";
 import FlexWrapper from "@/app/components/defaults/FlexWrapper";
 import HomeCover from "@/app/components/ui-visual/HomeCover";
 import Course, { CourseProps } from "@/app/models/Course";
-import Operation, { OperationProps } from "@/app/models/Operations";
+import "@/app/models/Operations";
+import "@/app/models/City";
+import "@/app/models/Category";
 
 import CourseInfo from "@/app/components/CourseInfo";
 import Empty from "@/app/components/Empty";
@@ -133,7 +135,7 @@ const page = async ({ params: { locale, id } }: { params: { locale: string; id: 
         <div className="flex items-start flex-col gap-5 my-3">
           <Head text={t("otherCourses")} />
           <div className=" grid w-full  grid-cols-1 md:grid-cols-4 gap-4">
-            {similarCourses.map((course: any, i: number) => (
+            {similarCourses?.map((course: any, i: number) => (
               <ProductCard index={i} key={course.id} product={course} />
             ))}
           </div>
