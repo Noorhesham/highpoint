@@ -8,7 +8,7 @@ import FlexWrapper from "@/app/components/defaults/FlexWrapper";
 import HomeCover from "@/app/components/ui-visual/HomeCover";
 import Course, { CourseProps } from "@/app/models/Course";
 import Operation, { OperationProps } from "@/app/models/Operations";
- 
+
 import CourseInfo from "@/app/components/CourseInfo";
 import Empty from "@/app/components/Empty";
 import Tabing from "@/app/components/Tabing";
@@ -47,65 +47,82 @@ const page = async ({ params: { locale, id } }: { params: { locale: string; id: 
       <div className=" relative">
         <MaxWidthWrapper>
           <Tabing
+            defaultValue="info"
             options={[
               {
                 label: t("general look"),
-                content: <Paragraph description={course.description[locale]} />,
+                content: course.description?.[locale] ? (
+                  <Paragraph description={course.description[locale]} />
+                ) : (
+                  <Paragraph description={t("noDescriptionAvailable")} />
+                ),
                 href: "info",
               },
               {
                 label: t("courseContent"),
-                content: (
+                content: course.courseContent?.[locale] ? (
                   <div>
                     <Paragraph
                       className="!max-w-full grid grid-cols-1 md:grid-cols-2 gap-4 lg:max-w-full"
                       description={course.courseContent[locale]}
                     />
-                    {days?.map((day: any, i: number) => (
-                      <div key={i} className=" flex flex-col gap-1 mt-5">
-                        <Head text={t("day") + " " + (i + 1)} />
-                        <Paragraph
-                          className="!max-w-full grid grid-cols-1 md:grid-cols-2 gap-4 lg:max-w-full"
-                          description={day?.[locale]}
-                        />
-                      </div>
-                    ))}
+                    {Array.isArray(days) && days.length > 0 ? (
+                      days.map((day: any, i: number) => (
+                        <div key={i} className="flex flex-col gap-1 mt-5">
+                          <Head text={t("day") + " " + (i + 1)} />
+                          <Paragraph
+                            className="!max-w-full grid grid-cols-1 md:grid-cols-2 gap-4 lg:max-w-full"
+                            description={day?.[locale] || t("noContentForDay")}
+                          />
+                        </div>
+                      ))
+                    ) : (
+                      <Paragraph description={t("noDaysAvailable")} />
+                    )}
                   </div>
+                ) : (
+                  <Paragraph description={t("noCourseContentAvailable")} />
                 ),
                 href: "content",
               },
               {
                 label: t("certificate"),
-                content: (
-                  <div className="flex items-center gap-3">
-                    <div className=" w-40  p-5 h-40  relative">
-                      <Image
-                        src={course.certificate.image.secure_url}
-                        alt={course.certificate.name[locale]}
-                        fill
-                        className=" object-contain"
-                      />
+                content:
+                  course.certificate?.image?.secure_url && course.certificate?.name?.[locale] ? (
+                    <div className="flex items-center gap-3">
+                      <div className="w-40 p-5 h-40 relative">
+                        <Image
+                          src={course.certificate.image.secure_url}
+                          alt={course.certificate.name[locale]}
+                          fill
+                          className="object-contain"
+                        />
+                      </div>
+                      <div>
+                        <Head text={course.certificate.name[locale]} />
+                        <Paragraph
+                          className="!max-w-full grid grid-cols-1 md:grid-cols-2 gap-4 lg:max-w-full"
+                          description={course.certificate?.description?.[locale] || t("noDescriptionAvailable")}
+                        />
+                      </div>
                     </div>
-                    <div>
-                      <Head text={course.certificate.name[locale]} />
-                      <Paragraph
-                        className="!max-w-full grid grid-cols-1 md:grid-cols-2 gap-4 lg:max-w-full"
-                        description={course.certificate?.description?.[locale || ""] || ""}
-                      />
-                    </div>
-                  </div>
-                ),
+                  ) : (
+                    <Paragraph description={t("noCertificateAvailable")} />
+                  ),
                 href: "certificate",
               },
               {
                 label: t("timeTable"),
-                content: (
-                  <div className=" grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {operations?.map((operation: any, i: Number) => (
-                      <CourseInfo operation course={operation} courseId={_id} />
-                    ))}
-                  </div>
-                ),
+                content:
+                  Array.isArray(operations) && operations.length > 0 ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {operations.map((operation: any, i: number) => (
+                        <CourseInfo operation course={operation} courseId={_id} key={i} />
+                      ))}
+                    </div>
+                  ) : (
+                    <Paragraph description={t("noOperationsAvailable")} />
+                  ),
                 href: "timeTable",
               },
             ]}
