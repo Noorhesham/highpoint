@@ -7,16 +7,16 @@ import React from "react";
 import FlexWrapper from "@/app/components/defaults/FlexWrapper";
 import HomeCover from "@/app/components/ui-visual/HomeCover";
 import Course, { CourseProps } from "@/app/models/Course";
-import { format } from "date-fns";
+import Operation, { OperationProps } from "@/app/models/Operations";
+ 
 import CourseInfo from "@/app/components/CourseInfo";
 import Empty from "@/app/components/Empty";
-import ModalCustom from "@/app/components/defaults/ModalCustom";
-import ApplicantForm from "@/app/components/forms/ApplicantForm";
 import Tabing from "@/app/components/Tabing";
 import Image from "next/image";
 import ProductCard from "@/app/components/Product";
 import Head from "@/app/components/Head";
 import connect from "@/lib/clientPromise";
+
 const page = async ({ params: { locale, id } }: { params: { locale: string; id: string } }) => {
   await connect();
   unstable_setRequestLocale(locale);

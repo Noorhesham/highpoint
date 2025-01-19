@@ -19,6 +19,6 @@ const operationSchema = new Schema<OperationProps>({
 operationSchema.pre("findOne", function (this) {
   this.populate("city");
 });
-
 const Operation = mongoose.models.Operation || mongoose.model("Operation", operationSchema);
+
 export default Operation;
