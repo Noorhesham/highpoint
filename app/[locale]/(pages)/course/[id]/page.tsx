@@ -7,9 +7,8 @@ import React from "react";
 import FlexWrapper from "@/app/components/defaults/FlexWrapper";
 import HomeCover from "@/app/components/ui-visual/HomeCover";
 import Course, { CourseProps } from "@/app/models/Course";
-import "@/app/models/Operations";
-import "@/app/models/City";
-import "@/app/models/Category";
+
+import "@/app/models";
 
 import CourseInfo from "@/app/components/CourseInfo";
 import Empty from "@/app/components/Empty";
