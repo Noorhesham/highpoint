@@ -16,8 +16,9 @@ import Tabing from "@/app/components/Tabing";
 import Image from "next/image";
 import ProductCard from "@/app/components/Product";
 import Head from "@/app/components/Head";
-
+import connect from "@/lib/clientPromise";
 const page = async ({ params: { locale, id } }: { params: { locale: string; id: string } }) => {
+  await connect();
   unstable_setRequestLocale(locale);
   const t = await getTranslations();
   const course = await Course.findById(id)
