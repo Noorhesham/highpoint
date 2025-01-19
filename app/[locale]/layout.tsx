@@ -8,6 +8,8 @@ import { NextIntlClientProvider } from "next-intl";
 import { getMessages, unstable_setRequestLocale } from "next-intl/server";
 import QueryProvider from "@/lib/QueryProvider";
 import AuthProvider from "@/lib/SessionProvider";
+import "@/app/models";
+
 import { LoadingProvider } from "../constant/LoadingContext";
 const cairo = Cairo({ subsets: ["latin"], weight: ["400", "600", "700", "200", "300", "500"] });
 const bitter = Bitter({ subsets: ["latin"], weight: ["400", "600", "700", "200", "300", "500"] });
