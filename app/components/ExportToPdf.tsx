@@ -67,7 +67,7 @@ const ExportToPdf = ({
           />
         </div>{" "}
         <section style={{ marginTop: "20px" }}>
-          <h3>الفئات الفرعية</h3>
+          <h3 className=" text-main">الفئات الفرعية</h3>
           <ul>
             {course.subCategories.map((sub: any) => (
               <li key={sub._id}>
@@ -76,11 +76,37 @@ const ExportToPdf = ({
               </li>
             ))}
           </ul>
+        </section>{" "}
+        <section style={{ marginTop: "20px" }}>
+          <h3 className=" text-main">الأيام</h3>
+          <div>
+            {/* English Days */}
+            <ul style={{ direction: "ltr", textAlign: "left" }}>
+              {course.days.map((day: any, index: number) => (
+                <li key={index}>
+                  day {index + 1} : <div dangerouslySetInnerHTML={{ __html: day.en }} />
+                </li>
+              ))}
+            </ul>
+
+            {/* Arabic Days */}
+            <ul style={{ direction: "rtl", textAlign: "right", marginTop: "10px" }}>
+              {course.days.map((day: any, index: number) => (
+                <li key={index}>
+                  اليوم <>{index + 1}:</> <div dangerouslySetInnerHTML={{ __html: day.ar }} />
+                </li>
+              ))}
+            </ul>
+          </div>
         </section>
         {/* Header Section */}
         <header style={{ textAlign: "center", marginBottom: "20px" }}>
-          <h1 style={{ fontSize: "24px", margin: 0 }}>{course.name.en}</h1>
-          <h2 style={{ fontSize: "20px", color: "#888" }}>{course.name.ar}</h2>
+          <h1 className=" text-main" style={{ fontSize: "24px", margin: 0 }}>
+            {course.name.en}
+          </h1>
+          <h2 className=" text-main" style={{ fontSize: "20px", color: "#888" }}>
+            {course.name.ar}
+          </h2>
         </header>
         {/* Description Section */}
         <section>

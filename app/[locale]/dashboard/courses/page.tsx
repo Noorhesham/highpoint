@@ -9,7 +9,6 @@ import NoSSR from "@/app/components/NoSSr";
 import connect from "@/lib/clientPromise";
 import Course from "@/app/models/Course";
 import { useSearchParams } from "next/navigation";
-import City from "@/app/models/City";
 
 export const dynamic = "force-dynamic";
 
@@ -17,7 +16,7 @@ const Page = async ({ searchParams }: { searchParams: { page?: string } }) => {
   await connect();
 
   const currentPage = parseInt(searchParams.page || "1", 10);
-  const limit = 1;
+  const limit = 10;
 
   // Fetch paginated data
   const data = await Course.find({})
@@ -29,13 +28,14 @@ const Page = async ({ searchParams }: { searchParams: { page?: string } }) => {
       path: "operations",
       populate: {
         path: "city",
-        model: City,},
+        select: "name", // Assuming 'name' is the field for the city.
+      },
     })
     .lean();
 
   const totalCount = (await Course.countDocuments({}).lean()) as number;
   const totalPages = Math.ceil(totalCount / limit);
-  console.log(data[0]);
+  console.log(data[0].operations);
   return (
     <MaxWidthWrapper className="flex px-4 flex-col mt-5">
       <div className="flex items-center gap-2">
