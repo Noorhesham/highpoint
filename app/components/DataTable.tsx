@@ -155,7 +155,7 @@ export function DataTable<TData extends TableData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <DataTablePagination table={table} />
+      <DataTablePagination page={page} totalPages={totalPages} table={table} />
     </div>
   );
 }

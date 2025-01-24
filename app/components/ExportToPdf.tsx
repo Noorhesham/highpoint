@@ -5,8 +5,17 @@ import html2pdf from "html2pdf.js";
 
 import { convertToHTML } from "../utils/fn";
 import Image from "next/image";
+import Logo from "./Logo";
 
-const ExportToPdf = ({ course, btn }) => {
+const ExportToPdf = ({
+  course,
+  btn,
+  type = "withputPrice",
+}: {
+  course: any;
+  btn?: boolean;
+  type?: "withoutPrice" | "withoutCity" | "all";
+}) => {
   const pdfContentRef = useRef();
 
   // Function to generate and download the PDF
@@ -33,7 +42,9 @@ const ExportToPdf = ({ course, btn }) => {
     // Generate the PDF and save it
     html2pdf().from(clonedContent).set(options).save();
   };
-
+  const formatDate = (date) => {
+    return new Date(date).toLocaleDateString("en-GB");
+  };
   return (
     <div>
       {/* PDF content - hidden in browser view */}
@@ -48,12 +59,29 @@ const ExportToPdf = ({ course, btn }) => {
           display: "none", // Start with content hidden
         }}
       >
+        <div className={` rounded-full relative  aspect-square overflow-hidden h-16 w-64`}>
+          <img
+            src={"/photo_2024-12-03_13-07-38-removebg-preview.png"}
+            className=" w-full h-full absolute inset-0 object-left object-contain"
+            alt="logo"
+          />
+        </div>{" "}
+        <section style={{ marginTop: "20px" }}>
+          <h3>الفئات الفرعية</h3>
+          <ul>
+            {course.subCategories.map((sub: any) => (
+              <li key={sub._id}>
+                <p>{sub.name.en}</p>
+                <p>{sub.name.ar}</p>
+              </li>
+            ))}
+          </ul>
+        </section>
         {/* Header Section */}
         <header style={{ textAlign: "center", marginBottom: "20px" }}>
           <h1 style={{ fontSize: "24px", margin: 0 }}>{course.name.en}</h1>
           <h2 style={{ fontSize: "20px", color: "#888" }}>{course.name.ar}</h2>
         </header>
-
         {/* Description Section */}
         <section>
           <h3 style={{ borderBottom: "2px solid #ddd", paddingBottom: "5px" }}>الوصف</h3>
@@ -72,7 +100,6 @@ const ExportToPdf = ({ course, btn }) => {
             />
           </div>
         </section>
-
         {/* Course Details */}
         <section style={{ marginTop: "20px" }}>
           <h3 style={{ borderBottom: "2px solid #ddd", paddingBottom: "5px" }}>تفاصيل الدورة</h3>
@@ -112,7 +139,79 @@ const ExportToPdf = ({ course, btn }) => {
             </tbody>
           </table>
         </section>
-
+        {type === "withoutCity" ? (
+          <section>
+            <h3 style={{ borderBottom: "2px solid #ddd", paddingBottom: "5px" }}>العمليات بدون المدينة</h3>
+            <table style={{ width: "100%", borderCollapse: "collapse", marginTop: "10px" }}>
+              <thead>
+                <tr>
+                  <th style={{ border: "1px solid #ddd", padding: "8px" }}>تاريخ البدء</th>
+                  <th style={{ border: "1px solid #ddd", padding: "8px" }}>تاريخ الانتهاء</th>
+                  <th style={{ border: "1px solid #ddd", padding: "8px" }}>السعر</th>
+                </tr>
+              </thead>
+              <tbody>
+                {course.operations.map((op, index) => (
+                  <tr key={index}>
+                    <td style={{ border: "1px solid #ddd", padding: "8px" }}>{formatDate(op.startDate)}</td>
+                    <td style={{ border: "1px solid #ddd", padding: "8px" }}>{formatDate(op.endDate)}</td>
+                    <td style={{ border: "1px solid #ddd", padding: "8px" }}>${op.price}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </section>
+        ) : type === "withoutPrice" ? (
+          <section style={{ marginTop: "20px" }}>
+            <h3 style={{ borderBottom: "2px solid #ddd", paddingBottom: "5px" }}>العمليات بدون السعر</h3>
+            <table style={{ width: "100%", borderCollapse: "collapse", marginTop: "10px" }}>
+              <thead>
+                <tr>
+                  <th style={{ border: "1px solid #ddd", padding: "8px" }}>تاريخ البدء</th>
+                  <th style={{ border: "1px solid #ddd", padding: "8px" }}>تاريخ الانتهاء</th>
+                  <th style={{ border: "1px solid #ddd", padding: "8px" }}>المدينة</th>
+                </tr>
+              </thead>
+              <tbody>
+                {course.operations.map((op, index) => (
+                  <tr key={index}>
+                    <td style={{ border: "1px solid #ddd", padding: "8px" }}>{formatDate(op.startDate)}</td>
+                    <td style={{ border: "1px solid #ddd", padding: "8px" }}>{formatDate(op.endDate)}</td>
+                    <td style={{ border: "1px solid #ddd", padding: "8px" }}>
+                      {op.city ? op.city.name : "غير متوفرة"}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </section>
+        ) : (
+          <section style={{ marginTop: "20px" }}>
+            <h3 style={{ borderBottom: "2px solid #ddd", paddingBottom: "5px" }}>العمليات بدون السعر</h3>
+            <table style={{ width: "100%", borderCollapse: "collapse", marginTop: "10px" }}>
+              <thead>
+                <tr>
+                  <th style={{ border: "1px solid #ddd", padding: "8px" }}>تاريخ البدء</th>
+                  <th style={{ border: "1px solid #ddd", padding: "8px" }}>تاريخ الانتهاء</th>
+                  <th style={{ border: "1px solid #ddd", padding: "8px" }}>المدينة</th>{" "}
+                  <th style={{ border: "1px solid #ddd", padding: "8px" }}>السعر</th>
+                </tr>
+              </thead>
+              <tbody>
+                {course.operations.map((op, index) => (
+                  <tr key={index}>
+                    <td style={{ border: "1px solid #ddd", padding: "8px" }}>{formatDate(op.startDate)}</td>
+                    <td style={{ border: "1px solid #ddd", padding: "8px" }}>{formatDate(op.endDate)}</td>
+                    <td style={{ border: "1px solid #ddd", padding: "8px" }}>
+                      {op.city ? op.city.name : "غير متوفرة"}
+                    </td>{" "}
+                    <td style={{ border: "1px solid #ddd", padding: "8px" }}>${op.price}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </section>
+        )}
         {/* Images Section */}
         <section style={{ marginTop: "20px" }}>
           <h3 style={{ borderBottom: "2px solid #ddd", paddingBottom: "5px" }}>الصور</h3>
@@ -131,7 +230,10 @@ const ExportToPdf = ({ course, btn }) => {
               />
             ))}
           </div>
-        </section>
+        </section>{" "}
+        <footer className="text-center mt-10 text-gray-500">
+          <p>&copy; 2025 Your Company Name. All Rights Reserved.</p>
+        </footer>
       </div>
 
       {/* Button to trigger PDF generation */}

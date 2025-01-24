@@ -9,6 +9,8 @@ import { ColumnDef } from "@tanstack/react-table";
 import CoursePage from "@/app/components/ExportToPdf";
 import ExportToPDF from "@/app/components/ExportToPdf";
 import NoSSR from "@/app/components/NoSSr";
+import ExportCoursesToPDF from "@/app/components/ExportCourseToPDf";
+import ExportToPdf from "@/app/components/ExportToPdf";
 
 export const columns: ColumnDef<CourseProps>[] = [
   {
@@ -62,10 +64,28 @@ export const columns: ColumnDef<CourseProps>[] = [
   },
   {
     id: "export-nodates",
-    accessorKey: "Download Pdf",
+    accessorKey: "Pdf With City",
     cell: ({ row }) => (
       <NoSSR>
-        <ExportToPDF course={row.original} />
+        <ExportToPdf type="withoutCity" course={row.original} />
+      </NoSSR>
+    ),
+  },
+  {
+    id: "export-nodates",
+    accessorKey: "Pdf Without Price",
+    cell: ({ row }) => (
+      <NoSSR>
+        <ExportToPdf type="withoutPrice" course={row.original} />
+      </NoSSR>
+    ),
+  },
+  {
+    id: "export-nodates",
+    accessorKey: "Pdf All",
+    cell: ({ row }) => (
+      <NoSSR>
+        <ExportToPdf type="all" course={row.original} />
       </NoSSR>
     ),
   },
