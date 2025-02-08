@@ -5,9 +5,10 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "node server.js",
     "lint": "next lint"
   },
+  "type": "module",
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
     "@progress/kendo-react-pdf": "^9.1.0",
