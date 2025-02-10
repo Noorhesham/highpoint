@@ -107,6 +107,7 @@
       "description": "Cultivate an entrepreneurial mindset to turn ideas into impactful business ventures."
     }
   },
+  "SELECT_DATE": "Select Date",
   "otherCourses": "Other Courses",
   "courseContent": "Course Content",
   "noDescriptionAvailable": "Description is not available.",

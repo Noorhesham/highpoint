@@ -77,7 +77,7 @@ const ChooseCourse = () => {
       <Popover modal={true}>
         <PopoverTrigger asChild>
           <Button variant="outline" className="w-full pl-3 flex justify-between text-left rounded-lg font-normal">
-            {formattedDate ? formattedDate : <span>SELECT</span>}
+            {formattedDate ? formattedDate : <span>{t("SELECT_DATE")}</span>}
             <CalendarIcon className="ml-auto mr-2 h-4 w-4 opacity-50" />
           </Button>
         </PopoverTrigger>
