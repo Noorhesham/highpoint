@@ -26,8 +26,8 @@ const Footer = () => {
         <div className=" flex flex-col">
           <div dir="left" className="flex ltr  !text-left items-center gap-2">
             <PhoneIcon className="w-5 h-5" />
-            <p> 050 360 6133</p>
-            <NumberFooter/>
+
+            <NumberFooter />
           </div>
         </div>
         <div className="flex text-left items-center gap-2">
