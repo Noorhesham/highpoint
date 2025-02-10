@@ -24,11 +24,11 @@ const HomeCover = ({
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
       }}
-      className={` ${className || ""} h-[29rem] lg:mt-14  xl:mt-32 relative`}
+      className={` ${className || ""} h-[29rem] lg:mt-14  xl:mt-28 relative`}
     >
       {" "}
       <div className=" w-full  h-full absolute inset-0  bg-black/60"></div>
-      <MaxWidthWrapper className="flex relative z-30 !pt-32 flex-col gap-2 md:gap-4">
+      <MaxWidthWrapper className="flex relative z-30 !pt-24 flex-col gap-2 md:gap-4">
         <div className="flex flex-col gap-4 max-w-full">
           <Head className=" !text-3xl !text-white" text={mainTitle} />
           <Paragraph className= " !max-w-full !text-white" description={mainDesc} />
