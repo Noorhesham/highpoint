@@ -58,7 +58,7 @@ export default async function Home({ params: { locale } }: { params: { locale: s
   console.log(page.data.data[0], cities.data.data);
   return (
     <section className="">
-      <HomeCover image={mainCover.secure_url} mainTitle={mainTitle[locale]} mainDesc={mainDesc[locale]}>
+      <HomeCover image={'/hero.jpg'} mainTitle={mainTitle[locale]} mainDesc={mainDesc[locale]}>
         <div className=" py-4 px-8 bg-main/60 rounded-2xl flex-col flex w-full">
           {" "}
           <SearchBox />

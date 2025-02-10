@@ -44,7 +44,7 @@ const page = async ({ params: { locale } }: { params: { locale: string } }) => {
           key={index}
           className={`flex items-center gap-5  flex-col ${index % 2 === 1 ? "lg:flex-row-reverse" : "lg:flex-row"}`} // Reverse on odd indices
         >
-          <div className="flex w-full items-center flex-col gap-4">
+          <div className="flex w-full items-start flex-col gap-4">
             <Head text={section.title[locale]} className="!text-3xl !text-main font-bold" />
             <Paragraph className="text-gray-800" size="lg" description={section.desc[locale]} />
           </div>
