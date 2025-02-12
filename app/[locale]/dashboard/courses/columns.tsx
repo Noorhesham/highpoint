@@ -43,7 +43,7 @@ export const columns: ColumnDef<CourseProps>[] = [
   {
     accessorKey: "price",
     header: "Price",
-    cell: ({ row }) => `$${row.original.price.toFixed(2)}`,
+    cell: ({ row }) => `$${row.original?.price?.toFixed(2)||""}`,
   },
   {
     accessorKey: "duration",
@@ -56,7 +56,7 @@ export const columns: ColumnDef<CourseProps>[] = [
   {
     accessorKey: "category",
     header: "Category",
-    cell: ({ row }) => row.original.category?.name.en || "Uncategorized", // Assuming `category` is populated
+    cell: ({ row }) => row.original.category?.name?.en || "Uncategorized", // Assuming `category` is populated
   },
   {
     id: "actions",
