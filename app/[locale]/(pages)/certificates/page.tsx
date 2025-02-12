@@ -7,7 +7,7 @@ import HomeCover from "@/app/components/ui-visual/HomeCover";
 import { getTranslations, unstable_setRequestLocale } from "next-intl/server";
 import Image from "next/image";
 import React from "react";
-
+export const dynamic = "force-dynamic";
 const page = async ({ params: { locale } }: { params: { locale: string } }) => {
   unstable_setRequestLocale(locale);
   const t = await getTranslations();
@@ -25,10 +25,7 @@ const page = async ({ params: { locale } }: { params: { locale: string } }) => {
       <MaxWidthWrapper>
         <GridContainer cols={4}>
           {sections.slice(1).map((section, index) => (
-            <div
-              key={index}
-              className={`flex items-center gap-2  flex-col `} 
-            >
+            <div key={index} className={`flex items-center gap-2  flex-col `}>
               {" "}
               <div className="w-20 aspect-square relative h-20">
                 <Image src={section.image?.secure_url} className="object-contain" alt="course image" fill />
