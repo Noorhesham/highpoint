@@ -51,14 +51,14 @@ export default async function Home({ params: { locale } }: { params: { locale: s
   ];
   const page = await getEntities("HomePage", 1, {});
   const categories = await getEntities("Category", 1, {}, false, "", "", "", { name: 1 }, {});
-  const courses = await getEntities("Course", 1, {}, false, "", "", "", { name: 1 }, {}, 8);
+  const courses = await getEntities("Course", 1, { status: "published" }, false, "", "", "", { name: 1 }, {}, 8);
   const cities = await getEntities("City", 1, {}, false, "", "", "", { name: 1 }, {});
   const { mainCover, mainTitle, mainDesc, secondaryCover, companies, sections, whoWeAre, partners } =
     page.data.data[0] || {};
   console.log(page.data.data[0], cities.data.data);
   return (
     <section className="">
-      <HomeCover image={'/hero.jpg'} mainTitle={mainTitle[locale]} mainDesc={mainDesc[locale]}>
+      <HomeCover image={"/hero.jpg"} mainTitle={mainTitle[locale]} mainDesc={mainDesc[locale]}>
         <div className=" py-4 px-8 bg-main/60 rounded-2xl flex-col flex w-full">
           {" "}
           <SearchBox />

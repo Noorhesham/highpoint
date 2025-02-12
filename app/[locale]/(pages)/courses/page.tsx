@@ -30,6 +30,7 @@ const Page = async ({
     city: city || "",
     startDate: startDate || "",
     endDate: endDate || "",
+    status: "published",
   };
   const categories = await getEntities("Category");
   const cities = await getEntities("City");

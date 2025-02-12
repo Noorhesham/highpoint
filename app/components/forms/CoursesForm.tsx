@@ -95,6 +95,7 @@ const CoursesForm = ({ course }: { course?: CourseProps | null }) => {
       shortDescription: course?.shortDescription || "",
       certificate: course?.certificate || "",
       courseContent: course?.courseContent || "",
+      status: course?.status || "draft",
     },
     resolver: zodResolver(CoursesSchema),
   });
@@ -221,7 +222,18 @@ const CoursesForm = ({ course }: { course?: CourseProps | null }) => {
           >
             Add More
           </Button>
+          <FormSelect
+            options={[
+              { value: "draft", name: "Draft" },
+              { value: "published", name: "Published" },
+              { value: "archived", name: "Archived" },
+            ]}
+            name="status"
+            label="Status"
+            placeholder="Status"
+          />
           <ArabicEnglishForm nodesc />
+
           <ArabicEnglishForm labeldESC={t("Short Description")} noName descName={"shortDescription"} />
           <ArabicEnglishForm labeldESC={t("Description")} noName descName={"description"} />
           <ArabicEnglishForm labeldESC={t("contnetcourse")} noName descName={"courseContent"} />
