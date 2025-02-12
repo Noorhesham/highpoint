@@ -14,6 +14,7 @@ import Link from "next/link";
 import { getEntities } from "@/app/actions/actions";
 import HomeCover from "@/app/components/ui-visual/HomeCover";
 import Image from "next/image";
+export const dynamic = "force-dynamic";
 
 const page = async ({ params: { locale } }: { params: { locale: string } }) => {
   unstable_setRequestLocale(locale);
