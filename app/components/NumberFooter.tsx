@@ -9,7 +9,9 @@ const NumberFooter = () => {
       <a className=" items-center gap-2 flex !text-left underline" href="tel: +971 050 360 6133">
         {locale === "ar" ? "6133 360 05 971+" : "+971 50 360 6133"}
       </a>
-      <a href="tel:050 360 6133">{locale === "ar" ? "3316 063 050" : "050 360 6133"}</a>
+      <a a className=" items-center gap-2 flex !text-left underline" href="tel:050 360 6133">
+        {locale === "ar" ? "3316 063 050" : "050 360 6133"}
+      </a>
     </div>
   );
 };
