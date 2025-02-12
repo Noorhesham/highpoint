@@ -67,28 +67,31 @@ export const columns: ColumnDef<CourseProps>[] = [
   {
     id: "export-nodates",
     accessorKey: "Pdf With City",
-    cell: ({ row }) => (
-      <NoSSR>
-        <ExportToPdf type="withoutCity" course={row.original} />
-      </NoSSR>
-    ),
+    cell: ({ row }) =>
+      row.original.price && (
+        <NoSSR>
+          <ExportToPdf type="withoutCity" course={row.original} />
+        </NoSSR>
+      ),
   },
   {
     id: "export-nodates",
     accessorKey: "Pdf Without Price",
-    cell: ({ row }) => (
-      <NoSSR>
-        <ExportToPdf type="withoutPrice" course={row.original} />
-      </NoSSR>
-    ),
+    cell: ({ row }) =>
+      row.original.price && (
+        <NoSSR>
+          <ExportToPdf type="withoutPrice" course={row.original} />
+        </NoSSR>
+      ),
   },
   {
     id: "export-nodates",
     accessorKey: "Pdf All",
-    cell: ({ row }) => (
-      <NoSSR>
-        <ExportToPdf type="all" course={row.original} />
-      </NoSSR>
-    ),
+    cell: ({ row }) =>
+      row.original.price && (
+        <NoSSR>
+          <ExportToPdf type="all" course={row.original} />
+        </NoSSR>
+      ),
   },
 ];

@@ -35,12 +35,14 @@ const ProductCard = ({ product, index, category = false }: { product: any; index
             {!category && (
               <div className=" flex items-start flex-col ">
                 <p className=" mt-1 text-main font-semibold text-sm ">
-                  {t("category.title")} : {product.category.name[locale || "en"]}
+                  {t("category.title")} : {product.category?.name[locale || "en"]}
                 </p>
               </div>
             )}
             <h3 className="font-medium text-base  ">
-              {product.name.length > 20 ? product.name.substring(0, 20) + "..." : product.name[locale || "en"]}
+              {product?.name?.length > 20
+                ? product?.name?.substring(0, 20) + "..."
+                : product.name?.[locale || "en" || "ar"] || ""}
             </h3>{" "}
           </div>
           {product.price && <p className=" mt-1 font-medium text-sm ">{product.price}$</p>}

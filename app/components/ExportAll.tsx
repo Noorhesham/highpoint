@@ -54,8 +54,8 @@ const ExportCoursesToPDF = ({ courses }) => {
           <div key={index} style={{ pageBreakAfter: "always" }}>
             {/* Header Section */}
             <header style={{ textAlign: "center", marginBottom: "20px" }}>
-              <h1 style={{ fontSize: "24px", margin: 0 }}>{course.name.en}</h1>
-              <h2 style={{ fontSize: "20px", color: "#888" }}>{course.name.ar}</h2>
+              <h1 style={{ fontSize: "24px", margin: 0 }}>{course.name?.en}</h1>
+              <h2 style={{ fontSize: "20px", color: "#888" }}>{course.name?.ar}</h2>
             </header>
 
             {/* Description Section */}
@@ -65,13 +65,13 @@ const ExportCoursesToPDF = ({ courses }) => {
                 <div
                   style={{ textAlign: "left", direction: "ltr" }}
                   dangerouslySetInnerHTML={{
-                    __html: convertToHTML(course.description.en || ""),
+                    __html: convertToHTML(course.description?.en || ""),
                   }}
                 />
                 <div
                   style={{ textAlign: "right", marginTop: "10px" }}
                   dangerouslySetInnerHTML={{
-                    __html: convertToHTML(course.description.ar || ""),
+                    __html: convertToHTML(course.description?.ar || ""),
                   }}
                 />
               </div>
@@ -121,7 +121,7 @@ const ExportCoursesToPDF = ({ courses }) => {
             <section style={{ marginTop: "20px" }}>
               <h3 style={{ borderBottom: "2px solid #ddd", paddingBottom: "5px" }}>الصور</h3>
               <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
-                {course.images.map((img, index) => (
+                {course?.images?.map((img, index) => (
                   <img
                     key={index}
                     src={img.secure_url}

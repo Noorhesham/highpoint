@@ -80,8 +80,8 @@ const CoursesForm = ({ course }: { course?: CourseProps | null }) => {
   const locale = useLocale();
   const form = useForm<z.infer<typeof CoursesSchema>>({
     defaultValues: {
-      name: { ar: course?.name.ar || "", en: course?.name.en || "" },
-      description: { ar: course?.description.ar || "", en: course?.description.en || "" },
+      name: { ar: course?.name?.ar || "", en: course?.name?.en || "" },
+      description: { ar: course?.description?.ar || "", en: course?.description?.en || "" },
       images: course?.images || [{}],
       category: course?.category || "",
       price: course?.price || 0,
