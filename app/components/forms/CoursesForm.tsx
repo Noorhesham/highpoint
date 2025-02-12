@@ -59,12 +59,12 @@ const CoursesSchema = z.object({
   }),
   certificate: z.object({
     name: z.object({
-      ar: z.string().min(1, { message: "Required" }),
-      en: z.string().min(1, { message: "الحقل مطلوب" }),
+      ar: z.string(),
+      en: z.string(),
     }),
     desc: z.object({
-      ar: z.string().min(1, { message: "Required" }),
-      en: z.string().min(1, { message: "الحقل مطلوب" }),
+      ar: z.string(),
+      en: z.string(),
     }),
     image: z.any().optional(),
   }),

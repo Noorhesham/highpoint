@@ -204,6 +204,8 @@ export const getEntities = async (
       } else if (value && mongoose.isValidObjectId(value)) {
         // If value is a valid ObjectId, add it as-is
         query[key] = value;
+      } else if (value) {
+        query[key] = value;
       }
     });
 

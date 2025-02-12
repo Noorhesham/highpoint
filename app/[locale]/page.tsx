@@ -216,7 +216,7 @@ export default async function Home({ params: { locale } }: { params: { locale: s
       <div className=" bg-main">
         <MaxWidthWrapper>
           <Head className=" text-white  !text-2xl" text={"الدورات الأكثر طلبا بين الطلاب"} />
-          <Paragraph className=" text-white text-center" maxWidth description={t("coursesDesc")} />
+          <Paragraph className=" text-white text-center" maxWidth description={""} />
           <SwiperCards
             autoplay
             className=" mt-6 h-96"
