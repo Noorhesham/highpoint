@@ -35,15 +35,17 @@ export const columns: ColumnDef<CourseProps>[] = [
   {
     accessorKey: "name.en",
     header: "Name (English)",
+    cell: ({ row }) => row.original?.name?.en || "",
   },
   {
     accessorKey: "name.ar",
     header: "Name (Arabic)",
+    cell: ({ row }) => row.original?.name?.ar || "",
   },
   {
     accessorKey: "price",
     header: "Price",
-    cell: ({ row }) => `$${row.original?.price?.toFixed(2)||""}`,
+    cell: ({ row }) => `$${row.original?.price?.toFixed(2) || ""}`,
   },
   {
     accessorKey: "duration",
