@@ -68,6 +68,7 @@ const CoursesSchema = z.object({
     }),
     image: z.any().optional(),
   }),
+  status: z.string().min(1, { message: "Required" }),
 });
 const formatDateForInput = (date?: Date) => {
   if (!date) return "";
