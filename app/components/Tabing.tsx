@@ -33,8 +33,10 @@ const Tabing = ({ defaultValue, options }: TabingProps) => {
             size={"lg"}
             onClick={() => handleClick(option.href)}
             className={` ${
-              currentPath === option.href ? " bg-main hover:bg-white hover:main/60  text-gray-50" : "bg-white text-main main/60"
-            } text-sm  md:text-base flex-1  hover:bg-main  hover:text-white border border-violet-600 w-fit duration-150`}
+              currentPath === option.href
+                ? " bg-main hover:bg-white hover:main/60  text-gray-50"
+                : "bg-white text-main main/60"
+            } text-sm  md:text-base flex-1  hover:bg-main  hover:text-white border border-blue-600 w-fit duration-150`}
           >
             <div>{option.label}</div>
           </Button>

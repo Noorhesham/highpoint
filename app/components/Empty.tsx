@@ -11,7 +11,7 @@ const Empty = ({ message,link }: { message?: string , link?:string}) => {
   return (
     <MaxWidthWrapper className="  mx-auto col-span-full flex flex-col text-lg lg:text-xl justify-center items-center">
       <p>{message || "sorry ! the content you are looking for does not exist"}</p>
-      <Link className=" text-violet-400 duration-150 hover:underline  text-center my-2" href={link||"/courses"}>
+      <Link className=" text-blue-400 duration-150 hover:underline  text-center my-2" href={link||"/courses"}>
         {t("reset")}
       </Link>
       <MotionItem
