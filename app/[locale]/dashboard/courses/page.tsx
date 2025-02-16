@@ -35,7 +35,6 @@ const Page = async ({ searchParams }: { searchParams: { page?: string } }) => {
 
   const totalCount = (await Course.countDocuments({}).lean()) as number;
   const totalPages = Math.ceil(totalCount / limit);
-  console.log(data[0].operations);
   return (
     <MaxWidthWrapper className="flex px-4 flex-col mt-5">
       <div className="flex items-center gap-2">

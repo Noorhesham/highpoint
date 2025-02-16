@@ -137,14 +137,14 @@ const CoursesForm = ({ course }: { course?: CourseProps | null }) => {
         // Filter and process valid images  console.log(course);
         console.log(data);
         const filteredImages =
-          Array.isArray(data.images) &&
-          data.images.some((image) => image !== null && (image instanceof File || Object.keys(image).length > 0))
+          Array.isArray(data?.images) &&
+          data.images?.some((image) => image !== null && (image instanceof File || Object.keys(image).length > 0))
             ? data.images?.filter((image: any) => {
                 console.log(image);
                 if (image?.secure_url !== "" || image instanceof File) return image;
               })
             : [];
-        if (data.certificate.image instanceof File) {
+        if (data?.certificate?.image &&data?.certificate?.image instanceof File) {
           const certificateImageUpload = await uploadImageToCloudinary(data.certificate.image);
           data.certificate.image = {
             secure_url: certificateImageUpload.secure_url,
@@ -193,9 +193,7 @@ const CoursesForm = ({ course }: { course?: CourseProps | null }) => {
         if (res?.success) {
           toast.success(res?.success);
           router.refresh();
-          if (!course) router.push(`/dashboard/edit-Course/${res.data.data[0]._id}`);
-        } else {
-          toast.error(res.error);
+          // if (!course) router.push(`/dashboard/edit-Course/${res?.data?.[0]?._id}`);
         }
       } catch (error) {
         console.error("Error during submission:", error);
