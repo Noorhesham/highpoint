@@ -58,6 +58,7 @@ const SearchBox = ({
     key: `search-${query}`,
     seachTerm: query,
     searchField: `name.${locale}`,
+    filter: { status: "published" },
   });
 
   const search = React.useCallback(
@@ -159,7 +160,7 @@ const SearchBox = ({
                     </div>
                   )}
                   <div className=" flex flex-col">
-                    <h2 className=" text-blackline-clamp-1 font-medium rounded-xl">{item.name[locale]}</h2>
+                    <h2 className=" text-blackline-clamp-1 font-medium rounded-xl">{item?.name?.[locale] || ""}</h2>
                   </div>
                 </Link>
               ))
