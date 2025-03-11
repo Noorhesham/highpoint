@@ -1,4 +1,28 @@
 {
+  "subCategoriesEn": "Subcategories",
+  "subCategoriesAr": "الفئات الفرعية",
+  "daysEn": "Days",
+  "daysAr": "الأيام",
+  "descriptionEn": "Description",
+  "descriptionAr": "الوصف",
+  "courseDetailsEn": "Course Details",
+  "courseDetailsAr": "تفاصيل الدورة",
+  "durationEn": "Duration",
+  "durationAr": "المدة",
+  "hoursEn": "hours",
+  "hoursAr": "ساعات",
+  "priceEn": "Price",
+  "priceAr": "السعر",
+  "exportPdfArabic":"Export PDF in Arabic",
+  "exportPdfEnglish":"Export PDF in English",
+  "serialNumberEn": "Serial Number",
+  "serialNumberAr": "الرقم التسلسلي",
+  "startDateEn": "Start Date",
+  "startDateAr": "تاريخ البدء",
+  "endDateEn": "End Date",
+  "endDateAr": "تاريخ الانتهاء",
+  "operationsWithoutCityEn": "Operations (without city)",
+  "operationsWithoutCityAr": "العمليات (بدون المدينة)",
   "nav": {
     "aboutus": "About Us",
     "contactus": {
@@ -36,7 +60,8 @@
       "applicants": "Applicants",
       "homePage": "Home Page",
       "createPage": "Create New Page",
-      "myPages": "My Pages"
+      "myPages": "My Pages",
+      "highpoint":"Home Page"
     },
     "pages": "Pages"
   },

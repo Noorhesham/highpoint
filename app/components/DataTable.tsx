@@ -77,7 +77,7 @@ export function DataTable<TData extends TableData, TValue>({
   //@ts-ignore
   const chosen = table?.getSelectedRowModel().flatRows.map((row) => row.original?._id);
   const locale = useLocale();
-  console.log( table.getRowModel().rows.map(row=>row.original));
+  console.log(table.getRowModel().rows.map((row) => row.original));
   return (
     <div className=" w-full">
       {chosen.length > 0 && (

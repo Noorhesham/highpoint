@@ -17,6 +17,8 @@ import Image from "next/image";
 import ProductCard from "@/app/components/Product";
 import Head from "@/app/components/Head";
 import connect from "@/lib/clientPromise";
+import GridContainer from "@/app/components/defaults/GridContainer";
+import { getDayOrdinal } from "@/app/utils/fn";
 
 const page = async ({ params: { locale, id } }: { params: { locale: string; id: string } }) => {
   await connect();
@@ -64,19 +66,24 @@ const page = async ({ params: { locale, id } }: { params: { locale: string; id: 
                 content: course.courseContent?.[locale] ? (
                   <div>
                     <Paragraph
-                      className="!max-w-full grid grid-cols-1 md:grid-cols-2 gap-4 lg:max-w-full"
+                      className="!max-w-full border-b-main border-b  text-sm pb-5 grid grid-cols-1  gap-4 lg:max-w-full"
                       description={course.courseContent[locale]}
                     />
                     {Array.isArray(days) && days.length > 0 ? (
-                      days.map((day: any, i: number) => (
-                        <div key={i} className="flex flex-col gap-1 mt-5">
-                          <Head text={t("day") + " " + (i + 1)} />
-                          <Paragraph
-                            className="!max-w-full grid grid-cols-1 md:grid-cols-2 gap-4 lg:max-w-full"
-                            description={day?.[locale] || t("noContentForDay")}
-                          />
-                        </div>
-                      ))
+                      <GridContainer className=" mt-4" cols={2}>
+                        {days.map((day: any, i: number) => (
+                          <div key={i} className="flex border-input bg-gray-50 flex-col gap-1 ">
+                            <Head
+                              className=" py-2 px-4 bg-main/80 !text-white rounded-t-2xl !text-lg"
+                              text={t("day").toUpperCase() + " " + getDayOrdinal(i, locale)}
+                            />
+                            <Paragraph
+                              className="!max-w-full grid grid-cols-1  gap-2 lg:max-w-full"
+                              description={day?.[locale] || t("noContentForDay")}
+                            />
+                          </div>
+                        ))}
+                      </GridContainer>
                     ) : (
                       <Paragraph description={t("noDaysAvailable")} />
                     )}
@@ -100,11 +107,7 @@ const page = async ({ params: { locale, id } }: { params: { locale: string; id: 
                         />
                       </div>
                       <div>
-                        <Head text={course.certificate.name[locale]} />
-                        <Paragraph
-                          className="!max-w-full grid grid-cols-1 md:grid-cols-2 gap-4 lg:max-w-full"
-                          description={course.certificate?.description?.[locale] || t("noDescriptionAvailable")}
-                        />
+                        <Head text={course.name[locale]} />
                       </div>
                     </div>
                   ) : (

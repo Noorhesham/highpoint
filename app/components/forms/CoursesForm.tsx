@@ -58,14 +58,6 @@ const CoursesSchema = z.object({
     en: z.string().min(1, { message: "الحقل مطلوب" }),
   }),
   certificate: z.object({
-    name: z.object({
-      ar: z.string(),
-      en: z.string(),
-    }),
-    desc: z.object({
-      ar: z.string(),
-      en: z.string(),
-    }),
     image: z.any().optional(),
   }),
   status: z.string().min(1, { message: "Required" }),
@@ -144,7 +136,7 @@ const CoursesForm = ({ course }: { course?: CourseProps | null }) => {
                 if (image?.secure_url !== "" || image instanceof File) return image;
               })
             : [];
-        if (data?.certificate?.image &&data?.certificate?.image instanceof File) {
+        if (data?.certificate?.image && data?.certificate?.image instanceof File) {
           const certificateImageUpload = await uploadImageToCloudinary(data.certificate.image);
           data.certificate.image = {
             secure_url: certificateImageUpload.secure_url,
@@ -202,7 +194,6 @@ const CoursesForm = ({ course }: { course?: CourseProps | null }) => {
     });
   };
   const t = useTranslations();
-  console.log(form.getValues());
   return (
     <div>
       <Form {...form}>
@@ -276,7 +267,6 @@ const CoursesForm = ({ course }: { course?: CourseProps | null }) => {
           </Button>
           <div className="flex flex-col gap-4">
             <FormTitle text={t("certificate")} />
-            <ArabicEnglishForm name={"certificate.name"} descName={"certificate.desc"} />
             <FileUpload label="صورة الشهادة" name={`certificate.image`} />
           </div>
 

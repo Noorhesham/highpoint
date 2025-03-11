@@ -52,9 +52,7 @@ const courseSchema = new Schema(
     city: { type: Schema.Types.ObjectId, ref: "City" },
     days: [localizedStringSchema],
     certificate: {
-      name: localizedStringSchema,
       image: imageSchema,
-      desc: localizedStringSchema,
     },
   },
   { toJSON: { virtuals: true }, toObject: { virtuals: true } }

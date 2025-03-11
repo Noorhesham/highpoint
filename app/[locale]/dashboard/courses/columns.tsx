@@ -11,7 +11,26 @@ import ExportToPDF from "@/app/components/ExportToPdf";
 import NoSSR from "@/app/components/NoSSr";
 import ExportCoursesToPDF from "@/app/components/ExportCourseToPDf";
 import ExportToPdf from "@/app/components/ExportToPdf";
-
+import Link from "next/link";
+import { PenIcon } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuPortal,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { useTranslations } from "next-intl";
+import { ExportPdfModal } from "@/app/components/ExportPdfModel";
 export const columns: ColumnDef<CourseProps>[] = [
   {
     id: "select",
@@ -33,14 +52,24 @@ export const columns: ColumnDef<CourseProps>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "name.en",
-    header: "Name (English)",
-    cell: ({ row }) => row.original?.name?.en || "",
-  },
-  {
-    accessorKey: "name.ar",
-    header: "Name (Arabic)",
-    cell: ({ row }) => row.original?.name?.ar || "",
+    id: "name",
+    header: "Name",
+    accessorFn: (row) => `${row.name.en} ${row.name.ar}`,
+    // Optional: Use a default filter that checks for substring matching.
+    filterFn: (row, columnId, filterValue) => {
+      const cellValue = row.getValue(columnId);
+      return cellValue.toLowerCase().includes(filterValue.toLowerCase());
+    },
+    cell: ({ row }) => {
+      // Customize your display if needed.
+      const { en, ar } = row.original.name;
+      return (
+        <>
+          <div>{en}</div>
+          <div>{ar}</div>
+        </>
+      );
+    },
   },
   {
     accessorKey: "price",
@@ -61,37 +90,14 @@ export const columns: ColumnDef<CourseProps>[] = [
     cell: ({ row }) => row.original.category?.name?.en || "Uncategorized", // Assuming `category` is populated
   },
   {
-    id: "actions",
-    cell: ({ row }) => <Actions entity="Course" data={row.original} />,
-  },
-  {
-    id: "export-nodates",
-    accessorKey: "Pdf With City",
-    cell: ({ row }) =>
-      row.original.price && (
+    id: "export-pdf",
+    accessorKey: "Pdf Export",
+    cell: ({ row }) => {
+      return (
         <NoSSR>
-          <ExportToPdf type="withoutCity" course={row.original} />
+          <ExportPdfModal course={row.original} />
         </NoSSR>
-      ),
-  },
-  {
-    id: "export-nodates",
-    accessorKey: "Pdf Without Price",
-    cell: ({ row }) =>
-      row.original.price && (
-        <NoSSR>
-          <ExportToPdf type="withoutPrice" course={row.original} />
-        </NoSSR>
-      ),
-  },
-  {
-    id: "export-nodates",
-    accessorKey: "Pdf All",
-    cell: ({ row }) =>
-      row.original.price && (
-        <NoSSR>
-          <ExportToPdf type="all" course={row.original} />
-        </NoSSR>
-      ),
+      );
+    },
   },
 ];

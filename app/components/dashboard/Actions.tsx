@@ -66,13 +66,17 @@ const Actions = ({ data, entity }: { data: any; entity: ModelProps }) => {
         <DropdownMenuSeparator />
         <div className="flex flex-col gap-2">
           {entity === "Course" ? (
-            <Button className="self-end">
+            <Button className="">
               <Link href={`/dashboard/editCourse/${data._id}`}>{t("editCourse")}</Link>
             </Button>
           ) : (
             <ModalCustom
               title={t("updateTitle")}
-              btn={<div className={`${buttonVariants({ variant: "default" })} cursor-pointer w-full`}>{t("edit")}</div>}
+              btn={
+                <div className={`${buttonVariants({ variant: "default" })} self-stretch !w-full cursor-pointer w-full`}>
+                  {t("edit")}
+                </div>
+              }
               content={returnFormFromEntity(entity)}
             />
           )}

@@ -120,7 +120,7 @@ const OperationForm = ({
           </Button>
         </form>
       </Form>{" "}
-      <Button
+      <Button variant={'destructive'}
         onClick={(e) => {
           e.stopPropagation();
           e.preventDefault();

@@ -1,6 +1,6 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
-import { getEntities, getEntity } from "./actions/actions";
+import { getEntities, getEntity, getGeneral } from "./actions/actions";
 import { ModelProps } from "./constant";
 
 export const useGetEntity = ({
@@ -22,3 +22,10 @@ export const useGetEntity = ({
   });
   return { data, isLoading };
 };
+export const getGenralSettings=()=>{
+  const {data,isLoading}=useQuery({
+    queryKey: ["general"],
+    queryFn: async () => await getGeneral(),
+  });
+  return { data, isLoading };
+}

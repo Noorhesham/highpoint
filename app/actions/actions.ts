@@ -14,6 +14,7 @@ import bcrypt from "bcryptjs";
 import { revalidatePath, revalidateTag } from "next/cache";
 import connect from "@/lib/clientPromise";
 import { v2 as cloudinary } from "cloudinary";
+import GeneralConfig, { IGeneralConfig } from "../models/mainSettings";
 
 cloudinary.config({
   cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
@@ -211,8 +212,14 @@ export const getEntities = async (
 
     console.log(query, filter, "meow");
 
-    if (searchField && searchTerm) {
-      query[searchField] = { $regex: searchTerm, $options: "i" };
+    if (searchTerm) {
+      // Split the search term by whitespace and filter out any empty strings
+      const words = searchTerm.trim().split(/\s+/).filter(Boolean);
+
+      // Build a query where each word must match either name.en or name.ar
+      query.$and = words.map((word) => ({
+        $or: [{ "name.en": { $regex: word, $options: "i" } }, { "name.ar": { $regex: word, $options: "i" } }],
+      }));
     }
 
     let queryBuilder = Model.find(query).skip(skip).limit(limit).sort(sort); // Apply sorting
@@ -274,4 +281,32 @@ export const getEntity = async (modelName: ModelProps, id: string, locale: strin
   } catch (error) {
     return { error: `Error fetching ${modelName}`, details: error };
   }
+};
+// actions/updateGeneralConfig.ts
+
+/**
+ * Update the general configuration.
+ * This server action updates the single instance of GeneralConfig.
+ * If the document doesn't exist, it will be created.
+ *
+ * @param data - Partial data to update the config with.
+ * @returns The updated configuration document.
+ */
+export async function updateGeneralConfig(data: Partial<IGeneralConfig>): Promise<IGeneralConfig> {
+  // Ensure that you are connected to the database
+  await connect();
+
+  // Update the existing configuration document; if none exists, create one.
+  const config = await GeneralConfig.findOneAndUpdate({}, data, {
+    new: true, // return the updated document
+    upsert: true, // create the document if it doesn't exist
+  });
+  console.log(config);
+  return { data: JSON.parse(JSON.stringify(config)) };
+}
+export const getGeneral = async () => {
+  await connect();
+  const config = await GeneralConfig.findOne({}).lean();
+  const data = JSON.parse(JSON.stringify(config));
+  return { data };
 };

@@ -1,6 +1,6 @@
 "use client";
 
-import { BookIcon, FileIcon, FileInputIcon, HomeIcon, House, InfoIcon, SlidersHorizontal } from "lucide-react";
+import { BookIcon, FileIcon, FileInputIcon, Home, HomeIcon, House, InfoIcon, SlidersHorizontal } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -20,6 +20,7 @@ import { MdPeople } from "react-icons/md";
 
 // Menu items
 const items = [
+  { key: "highpoint", url: "/dashboard/", icon: Home },
   { key: "categories", url: "/dashboard/category", icon: SlidersHorizontal },
   { key: "courses", url: "/dashboard/courses", icon: BookIcon },
   { key: "cities", url: "/dashboard/city", icon: FaCity },

@@ -161,3 +161,40 @@ export const generateSingleCoursePDF = async (course, version, logoURL, footerTe
   // Save PDF
   pdf.save(`course-${course.name.en}.pdf`);
 };
+export function getDayOrdinal(index: number, locale = "en") {
+  // Convert to 1-indexed day number
+  const dayNumber = index + 1;
+
+  if (locale === "ar") {
+    // Arabic ordinals array (you can extend this as needed)
+    const arabicOrdinals = [
+      "الاول",
+      "التاني",
+      "التالت",
+      "الرابع",
+      "الخامس",
+      "السادس",
+      "السابع",
+      "الثامن",
+      "التاسع",
+      "العاشر",
+    ];
+    // Return the Arabic ordinal or fallback to the number if index is out of bounds
+    return arabicOrdinals[index] || dayNumber;
+  } else {
+    // English ordinals array (extend as needed)
+    const englishOrdinals = [
+      "First",
+      "Second",
+      "Third",
+      "Fourth",
+      "Fifth",
+      "Sixth",
+      "Seventh",
+      "Eighth",
+      "Ninth",
+      "Tenth",
+    ];
+    return englishOrdinals[index] || dayNumber;
+  }
+}
