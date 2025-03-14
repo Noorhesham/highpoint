@@ -57,9 +57,9 @@ export default async function Home({ params: { locale } }: { params: { locale: s
     page.data.data[0] || {};
   console.log(page.data.data[0], cities.data.data);
   return (
-    <section className="">
+    <section className=" pt-5">
       <HomeCover image={"/hero.jpg"} mainTitle={mainTitle[locale]} mainDesc={mainDesc[locale]}>
-        <div className=" py-4 px-8 bg-main/60 rounded-2xl flex-col flex w-full">
+        <div className=" py-4 px-4 lg:px-8 bg-main/60 rounded-2xl flex-col flex w-full">
           {" "}
           <SearchBox />
           <ChooseCourse />
@@ -67,7 +67,7 @@ export default async function Home({ params: { locale } }: { params: { locale: s
       </HomeCover>
       <div className=" bg-gray-200">
         <MaxWidthWrapper className=" items-center py-10 flex flex-col gap-3">
-          <Head className=" !text-2xl" text={sections[0].title[locale]} />
+          <Head className="  text-xl !lg:text-2xl" text={sections[0].title[locale]} />
           <Paragraph className="text-center" maxWidth description={sections[0].desc[locale]} />
           <GridContainer motion cols={4}>
             {categories.data?.data.map((category: CategoryProps) => (
@@ -104,7 +104,11 @@ export default async function Home({ params: { locale } }: { params: { locale: s
                       key={subCategory._id}
                     >
                       <div className="">
-                        <h2 className=" text-black text-sm ">{subCategory.name[locale]}</h2>
+                        <h2 className=" text-black text-sm ">
+                          {subCategory.name[locale].length > 20
+                            ? subCategory.name[locale].slice(0, 20) + "..."
+                            : subCategory.name[locale]}
+                        </h2>
                       </div>
                     </Link>
                   ))}
@@ -151,7 +155,7 @@ export default async function Home({ params: { locale } }: { params: { locale: s
           >
             <div className=" w-full h-full absolute inset-0  bg-black/60 " />
             <div className=" z-20 relative  max-w-lg self-center my-auto flex flex-col items-center">
-              <Head className=" text-white !text-2xl" text={sections?.[2]?.title[locale]} />
+              <Head className=" text-white text-center !text-2xl" text={sections?.[2]?.title[locale]} />
               <Paragraph maxWidth className=" text-center text-gray-100" description={sections?.[2]?.desc[locale]} />
             </div>
           </div>
@@ -281,7 +285,7 @@ export default async function Home({ params: { locale } }: { params: { locale: s
       </div>
       <MaxWidthWrapper>
         {" "}
-        <GridContainer cols={2}>
+        <GridContainer className=" !grid-cols-1 lg:!grid-cols-2" cols={2}>
           <div>
             {partners.title[locale] && <Head className=" !text-2xl" text={partners.title[locale]} />}
             {partners.desc[locale] && <Paragraph maxWidth description={partners.desc[locale]} />}
@@ -310,7 +314,7 @@ export default async function Home({ params: { locale } }: { params: { locale: s
         {" "}
         <div className=" w-full h-full absolute inset-0  bg-black/60 " />
         <MaxWidthWrapper>
-          <GridContainer cols={2}>
+          <GridContainer className=" !grid-cols-1 lg:!grid-cols-2" cols={2}>
             <div className=" z-20 relative  max-w-lg self-center my-auto flex flex-col items-center">
               <Head className=" text-white !text-2xl" text={whoWeAre?.title[locale]} />
               <Paragraph maxWidth className=" text-center text-gray-100" description={whoWeAre?.desc[locale]} />

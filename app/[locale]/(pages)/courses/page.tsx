@@ -50,11 +50,17 @@ const Page = async ({
         <div className=" col-span-full lg:hidden   block">
           <FilterMobile filters={filterss} />
         </div>
-        <Suspense fallback={<ProductLoader />}>
+        <Suspense
+          fallback={
+            <div className="w-full  order-2 grid  grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-6 md:grid-cols-3 lg:grid-cols-4 md:gap-y-10 lg:gap-x-8 flex-grow">
+              <ProductLoader />
+            </div>
+          }
+        >
           <ProductReelFetch filter={filters} page={parseInt(page) || 1} locale={locale} />
         </Suspense>
-        <div className=" col-span-full lg:col-span-3">
-          <div className=" lg:block hidden ">
+        <div className="  order-1 col-span-full relative lg:col-span-3">
+          <div className=" sticky top-0 lg:block hidden ">
             <Filters filters={filterss} />
           </div>
         </div>

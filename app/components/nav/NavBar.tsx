@@ -106,7 +106,7 @@ const NavBar = () => {
   const locale = useLocale();
   const isInDashboard = pathName.includes("dashboard");
   return (
-    <header dir={locale !== "ar" ? "ltr" : "rtl"} className=" w-full">
+    <header className=" w-full">
       <nav
         className={`${
           isHome
@@ -125,7 +125,14 @@ const NavBar = () => {
         "
         >
           <div className=" w-full bg-gray-100 py-3 ">
-            <MaxWidthWrapper noPadding className={` ${locale === "ar" && "flex-row-reverse"} flex justify-between `}>
+            <MaxWidthWrapper noPadding className={`  flex justify-between `}>
+              {" "}
+              <div className=" ml-5 hidden lg:flex z-30 relative items-center  gap-4 xl:gap-8 ">
+                {links.map((link) => (
+                  //@ts-ignore
+                  <NavLink isHome={isHome} key={link.text} href={link.href} text={link.text} subLinks={link.subLinks} />
+                ))}
+              </div>
               <div className="  flex items-center gap-2 ">
                 <div className={`z-[999] duration-150 h-full  relative lg:hidden block`}>
                   <PhoneNav navigation={links} />
@@ -135,36 +142,23 @@ const NavBar = () => {
                 </div>
                 {isInDashboard && <User />} <Language />
               </div>
-              <div className=" ml-5 hidden lg:flex z-30 relative items-center  gap-4 xl:gap-8 ">
-                {links.map((link) => (
-                  //@ts-ignore
-                  <NavLink isHome={isHome} key={link.text} href={link.href} text={link.text} subLinks={link.subLinks} />
-                ))}
-              </div>
             </MaxWidthWrapper>
           </div>
 
-          <MaxWidthWrapper noPadding className="">
+          <MaxWidthWrapper noPadding className="flex justify-between items-center">
+            {" "}
+            <div className=" hidden lg:flex z-30 relative items-center  gap-4 xl:gap-8 ">
+              {links2.map((link) => (
+                //@ts-ignore
+                <NavLink isHome={isHome} key={link.text} href={link.href} text={link.text} subLinks={link.subLinks} />
+              ))}
+            </div>
             <div
-              className={cn(
-                `flex relative z-20 items-center     `,
-                !isTopPage && !isScrollingDown ? "justify-center lg:justify-between" : "justify-between",
-                locale === "ar" && "flex-row-reverse"
-              )}
+              className={`${
+                !isTopPage && "lg:opacity-100  hidden lg:flex  opacity-0"
+              }  duration-150  self-end  lg:flex hidden items-center`}
             >
-              <div
-                className={`${
-                  !isTopPage && "lg:opacity-100  hidden lg:flex  opacity-0"
-                }  duration-150  lg:flex hidden items-center`}
-              >
-                <Logo isdark={isHome ? false : true} />
-              </div>
-              <div className=" hidden lg:flex z-30 relative items-center  gap-4 xl:gap-8 ">
-                {links2.map((link) => (
-                  //@ts-ignore
-                  <NavLink isHome={isHome} key={link.text} href={link.href} text={link.text} subLinks={link.subLinks} />
-                ))}
-              </div>
+              <Logo isdark={isHome ? false : true} />
             </div>
           </MaxWidthWrapper>
         </div>

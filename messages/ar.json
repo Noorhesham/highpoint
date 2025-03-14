@@ -1,4 +1,11 @@
 {
+  "searchsm": "البحث ",
+  "Categoriestext": "الفئات",
+  "subCategories": "الفئات الفرعية",
+  "days": "الائام",
+  "duration": "المدة",
+  "hours": "ساعات",
+  "price": "السعر",
   "nav": {
     "aboutus": "عن هاي بوينت للتدريب ؟",
     "contactus": {
@@ -135,9 +142,16 @@
   "messages": {
     "required": "الحقل مطلوب"
   },
+  "Dubai": "دبي",
+  "Riyadh": "الرياض",
+  "Abu Dhabi": "ابوظبي",
+  "Jeddah": "جدة",
+  "Cities": { "TEXT": "المدن" },
   "Sidebar": {
     "application": "التطبيق",
     "menu": {
+      "users": "المستخدمين",
+      
       "categories": "الفئات",
       "courses": "الدورات",
       "cities": "المدن",
@@ -145,11 +159,13 @@
       "homePage": "الصفحة الرئيسية",
       "createPage": "إنشاء صفحة جديدة",
       "myPages": "صفحاتي",
-      "highpoint":"الصفحة الرئيسية"
+      "highpoint": "الصفحة الرئيسية",
+      "text": " "
     },
     "pages": "الصفحات"
   },
   "Categories": {
+    "TEXT": "الفئات",
     "name": "الاسم",
     "description": "الوصف",
     "status": "الحالة",
@@ -234,8 +250,8 @@
   "hoursEn": "hours",
   "hoursAr": "ساعات",
   "priceEn": "Price",
-  "exportPdfArabic":"تصدير PDF باللغة العربية",
-  "exportPdfEnglish":"تصدير PDF باللغة الانجليزية",
+  "exportPdfArabic": "تصدير PDF باللغة العربية",
+  "exportPdfEnglish": "تصدير PDF باللغة الانجليزية",
   "priceAr": "السعر",
   "serialNumberEn": "Serial Number",
   "serialNumberAr": "الرقم التسلسلي",

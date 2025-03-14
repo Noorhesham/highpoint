@@ -7,7 +7,7 @@ import React from "react";
 import FlexWrapper from "@/app/components/defaults/FlexWrapper";
 import HomeCover from "@/app/components/ui-visual/HomeCover";
 import Course, { CourseProps } from "@/app/models/Course";
-
+import styles from "./course.module.css";
 import "@/app/models";
 
 import CourseInfo from "@/app/components/CourseInfo";
@@ -40,7 +40,7 @@ const page = async ({ params: { locale, id } }: { params: { locale: string; id: 
   const similarCourses = await Course.find({ category: course.category }).limit(5).lean();
   console.log(course);
   return (
-    <section className="">
+    <section className={styles.course}>
       <HomeCover
         className=" w-full "
         image={images[0]?.secure_url || "/default.jpg"}
@@ -55,17 +55,17 @@ const page = async ({ params: { locale, id } }: { params: { locale: string; id: 
               {
                 label: t("general look"),
                 content: course.description?.[locale] ? (
-                  <Paragraph description={course.description[locale]} />
+                  <Paragraph full description={course.description[locale]} />
                 ) : (
-                  <Paragraph description={t("noDescriptionAvailable")} />
+                  <Paragraph full description={t("noDescriptionAvailable")} />
                 ),
                 href: "info",
               },
               {
                 label: t("courseContent"),
                 content: course.courseContent?.[locale] ? (
-                  <div>
-                    <Paragraph
+                  <div className=" w-full"  >
+                    <Paragraph full
                       className="!max-w-full border-b-main border-b  text-sm pb-5 grid grid-cols-1  gap-4 lg:max-w-full"
                       description={course.courseContent[locale]}
                     />

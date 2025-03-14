@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import { useLoading } from "../constant/LoadingContext";
+import { useTranslations } from "next-intl";
 
 interface Filters {
   [key: string]: string[];
@@ -122,6 +123,7 @@ const Box = ({
     params.delete("career_specialty_id");
     router.push(`?${params.toString()}`, { scroll: false });
   };
+  const t = useTranslations();
   return (
     <div className="flex px-3 py-1.5 font-medium text-sm bg-white   capitalize flex-col">
       <Accordion
@@ -133,9 +135,8 @@ const Box = ({
       >
         <AccordionItem value="item-1">
           <AccordionTrigger>
-            <h2 className="text-base font-semibold text-main2">{text}</h2>
+            <h2 className="text-base font-semibold text-main2">{t(`${text}.TEXT`)}</h2>
           </AccordionTrigger>{" "}
-    
           <AccordionContent className=" max-h-[10rem] overflow-auto flex flex-col gap-2">
             <ul className="pb-3 grid   grid-cols-1 lg:grid-cols-2 gap-2 border-b border-b-gray-400">
               {!btn
@@ -152,7 +153,7 @@ const Box = ({
                         checked={filters[filter]?.includes(option.id.toString()) || false}
                       />
                       <label className="text-main2  line-clamp-2  text-xs" htmlFor={option.name}>
-                        {option.name}
+                        {t(`${option.name}`)}
                       </label>
                     </li>
                   ))
@@ -172,12 +173,13 @@ const Box = ({
                           handleFilter(option.id.toString(), filter);
                         }}
                       >
-                        {option.name}
+                       {option.name}
                       </Button>
                     );
                   })}
             </ul>
-          </AccordionContent>      {!btn && (
+          </AccordionContent>{" "}
+          {!btn && (
             <div className="flex gap-2 items-center mb-2 mt-5  ml-auto">
               <button className=" py-1 text-white  px-4 bg-main  rounded-full" onClick={() => WrapperFn(update)}>
                 Filter
@@ -193,7 +195,7 @@ const Box = ({
                     WrapperFn(resetFilters);
                   }}
                 >
-                  Reset
+                  {t("reset")}
                 </button>
               )}
             </div>

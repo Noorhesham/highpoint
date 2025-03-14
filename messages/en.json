@@ -13,8 +13,8 @@
   "hoursAr": "ساعات",
   "priceEn": "Price",
   "priceAr": "السعر",
-  "exportPdfArabic":"Export PDF in Arabic",
-  "exportPdfEnglish":"Export PDF in English",
+  "exportPdfArabic": "Export PDF in Arabic",
+  "exportPdfEnglish": "Export PDF in English",
   "serialNumberEn": "Serial Number",
   "serialNumberAr": "الرقم التسلسلي",
   "startDateEn": "Start Date",
@@ -44,16 +44,24 @@
     "blogs": "Blogs",
     "faq": "FAQ"
   },
+  "Jeddah": "Jeddah",
+  "Dubai": "Dubai",
+  "Abu Dhabi": "Abu Dhabi",
+  "Riyadh": "Riyadh",
   "nav2": {
-    "search": "Search for a Training Course",
+    "search": "Course Finder",
     "guide": "Course Guide",
     "places": "Venue Locations",
     "certificates": "Accredited Certificates",
     "train-tech": "Training Technology"
   },
+  "Cities": { "TEXT": "Cities" },
+
   "Sidebar": {
     "application": "Application",
     "menu": {
+      "users": "Users",
+
       "categories": "Categories",
       "courses": "Courses",
       "cities": "Cities",
@@ -61,11 +69,12 @@
       "homePage": "Home Page",
       "createPage": "Create New Page",
       "myPages": "My Pages",
-      "highpoint":"Home Page"
+      "highpoint": "Home Page"
     },
     "pages": "Pages"
   },
   "Categories": {
+    "TEXT": "Categories",
     "name": "Name",
     "description": "Description",
     "status": "Status",

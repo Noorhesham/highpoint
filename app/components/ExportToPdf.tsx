@@ -7,6 +7,7 @@ import Image from "next/image";
 import Logo from "./Logo";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
+import { getGenralSettings } from "../queries";
 
 // Added isArabic?: boolean
 const ExportToPdf = ({
@@ -20,6 +21,8 @@ const ExportToPdf = ({
   type?: "withoutPrice" | "withoutCity" | "all";
   isArabic?: boolean;
 }) => {
+  const { data, isLoading } = getGenralSettings();
+
   const pdfContentRef = useRef<HTMLDivElement>(null);
 
   // Function to generate and download the PDF
@@ -76,7 +79,7 @@ const ExportToPdf = ({
           {" "}
           <div className="rounded-full relative mx-auto aspect-square overflow-hidden h-16 w-64">
             <img
-              src="/photo_2024-12-03_13-07-38-removebg-preview.png"
+              src={!isLoading && !data ? "/photo_2024-12-03_13-07-38-removebg-preview.png" : data?.data.logo}
               className="w-full h-full absolute inset-0 object-left object-contain"
               alt="logo"
             />
@@ -212,28 +215,6 @@ const ExportToPdf = ({
             <h3 style={{ borderBottom: "2px solid #ddd", paddingBottom: "5px" }}>
               {isArabic ? t("operationsWithoutCityAr") : t("operationsWithoutCityEn")}
             </h3>
-            <table style={{ width: "100%", borderCollapse: "collapse", marginTop: "10px" }}>
-              <thead>
-                <tr>
-                  <th style={{ border: "1px solid #ddd", padding: "8px" }}>
-                    {isArabic ? t("startDateAr") : t("startDateEn")}
-                  </th>
-                  <th style={{ border: "1px solid #ddd", padding: "8px" }}>
-                    {isArabic ? t("endDateAr") : t("endDateEn")}
-                  </th>
-                  <th style={{ border: "1px solid #ddd", padding: "8px" }}>{isArabic ? t("priceAr") : t("priceEn")}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {course?.operations?.map((op: any, index: number) => (
-                  <tr key={index}>
-                    <td style={{ border: "1px solid #ddd", padding: "8px" }}>{formatDate(op.startDate)}</td>
-                    <td style={{ border: "1px solid #ddd", padding: "8px" }}>{formatDate(op.endDate)}</td>
-                    <td style={{ border: "1px solid #ddd", padding: "8px" }}>${op.price}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
           </section>
         ) : type === "withoutPrice" ? (
           <section style={{ marginTop: "20px" }}>
@@ -307,6 +288,7 @@ const ExportToPdf = ({
                 key={index}
                 src={img.secure_url}
                 alt={`Image ${index + 1}`}
+                className=" object-cover"
                 style={{
                   width: "100%",
                   height: "auto",

@@ -142,7 +142,7 @@ const SearchBox = ({
             exit={{ opacity: 0, height: 0 }}
             className={`${
               locale === "ar" ? "right-0" : "left-0"
-            } flex w-full  bg-white items-start  xl:w-full  absolute gap-2  top-[104%] py-4 px-8 rounded-md  max-h-[14rem] overflow-y-scroll flex-col `}
+            } flex w-full  bg-white items-start  xl:w-full  absolute gap-2  top-[104%] py-4  px-2 lg:px-8 rounded-md  max-h-[14rem] overflow-y-scroll flex-col `}
           >
             {jobs && jobs.length > 0 ? (
               jobs?.map((item: CourseProps, index: number) => (
@@ -152,7 +152,7 @@ const SearchBox = ({
                   href={`/course/${item._id}`}
                   className={`${
                     selectedResult === index ? "bg-gray-100" : ""
-                  }  hover:bg-gray-100 rounded-xl py-2 text-base px-4 duration-150 w-full flex items-center gap-2`}
+                  }  hover:bg-gray-100 rounded-xl lg:py-2 text-base lg:px-4 duration-150 w-fullflex items-center gap-2`}
                 >
                   {item.images?.[0]?.secure_url && (
                     <div className=" w-14 h-14  rounded-xl overflow-hidden relative">
@@ -199,9 +199,9 @@ const SearchBox = ({
         </div>
         <Link
           href={jobs?.length > 1 ? `/courses?query=${query}` : "/courses"}
-          className="flex p-2 rounded-xl  text-white justify-center items-center bg-main"
+          className=" p-2 rounded-xl  text-white justify-center items-center bg-main"
         >
-          <SearchIcon />
+          <SearchIcon className=" w-5 h-5" />
         </Link>{" "}
       </div>
     </div>

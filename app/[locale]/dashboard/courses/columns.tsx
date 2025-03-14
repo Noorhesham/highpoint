@@ -12,7 +12,7 @@ import NoSSR from "@/app/components/NoSSr";
 import ExportCoursesToPDF from "@/app/components/ExportCourseToPDf";
 import ExportToPdf from "@/app/components/ExportToPdf";
 import Link from "next/link";
-import { PenIcon } from "lucide-react";
+import { Pencil, PenIcon } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -94,9 +94,15 @@ export const columns: ColumnDef<CourseProps>[] = [
     accessorKey: "Pdf Export",
     cell: ({ row }) => {
       return (
-        <NoSSR>
-          <ExportPdfModal course={row.original} />
-        </NoSSR>
+        <div className="flex items-center gap-1">
+          <Link href={`/dashboard/editCourse/${row.original._id}`}>
+            {" "}
+            <Pencil className="w-4 h-4 text-green-400" />
+          </Link>
+          <NoSSR>
+            <ExportPdfModal course={row.original} />
+          </NoSSR>
+        </div>
       );
     },
   },

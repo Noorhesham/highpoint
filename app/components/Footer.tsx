@@ -4,24 +4,26 @@ import { BoxIcon, LocateIcon, PhoneIcon } from "lucide-react";
 import MaxWidthWrapper from "./defaults/MaxWidthWrapper";
 import { MdEmail } from "react-icons/md";
 import NumberFooter from "./NumberFooter";
+import { getTranslations } from "next-intl/server";
 
-const Footer = () => {
+const Footer = async () => {
+  const t = await getTranslations();
   return (
     <MaxWidthWrapper>
       <GridContainer cols={4}>
         <div className=" border-l border-input pl-2 flex flex-col  gap-6">
-          <h1 className=" font-semibold text-black text-lg mb-2 border-b border-input pb-2">Dubai</h1>
+          <h1 className=" font-semibold text-black text-lg mb-2 border-b border-input pb-2">{t("Dubai")}</h1>
         </div>
 
         <div className=" border-l border-input pl-2 flex flex-col  gap-6">
-          <h1 className=" font-semibold text-black text-lg mb-2 border-b border-input pb-2">Abu Dhabi</h1>
+          <h1 className=" font-semibold text-black text-lg mb-2 border-b border-input pb-2">{t("Abu Dhabi")}</h1>
         </div>
         <div className=" border-l border-input pl-2 flex flex-col  gap-6">
-          <h1 className=" font-semibold text-black text-lg mb-2 border-b border-input pb-2">Riyadh</h1>
+          <h1 className=" font-semibold text-black text-lg mb-2 border-b border-input pb-2">{t("Riyadh")}</h1>
         </div>
 
         <div className=" border-l border-input pl-2 flex flex-col  gap-6">
-          <h1 className=" font-semibold text-black text-lg mb-2 border-b border-input pb-2">Jeddah</h1>
+          <h1 className=" font-semibold text-black text-lg mb-2 border-b border-input pb-2">{t("Jeddah")}</h1>
         </div>
         <div className=" flex flex-col">
           <div dir="left" className="flex ltr  !text-left items-center gap-2">

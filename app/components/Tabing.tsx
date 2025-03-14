@@ -38,7 +38,7 @@ const Tabing = ({ defaultValue, options }: TabingProps) => {
                 : "bg-white text-main main/60"
             } text-sm  md:text-base flex-1  hover:bg-main  hover:text-white border border-blue-600 w-fit duration-150`}
           >
-            <div>{option.label}</div>
+            <div>{option.label.length > 20 ? option.label.slice(0, 20) + "..." : option.label}</div>
           </Button>
         ))}
       </div>

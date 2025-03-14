@@ -45,7 +45,7 @@ const ProductReel = async (props: ProductReelProps & ProductPropsServerProps) =>
 };
 export const ProductLoader = () => {
   return (
-    <div className=" w-full flex flex-col ">
+    <div className=" w-full  flex flex-col ">
       <div className=" relative bg-zinc-100 aspect-video w-full overflow-hidden rounded-xl">
         <Skeleton className="h-full w-full" />
       </div>
