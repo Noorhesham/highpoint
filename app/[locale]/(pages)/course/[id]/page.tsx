@@ -64,8 +64,9 @@ const page = async ({ params: { locale, id } }: { params: { locale: string; id: 
               {
                 label: t("courseContent"),
                 content: course.courseContent?.[locale] ? (
-                  <div className=" w-full"  >
-                    <Paragraph full
+                  <div className=" w-full">
+                    <Paragraph
+                      full
                       className="!max-w-full border-b-main border-b  text-sm pb-5 grid grid-cols-1  gap-4 lg:max-w-full"
                       description={course.courseContent[locale]}
                     />
@@ -75,7 +76,7 @@ const page = async ({ params: { locale, id } }: { params: { locale: string; id: 
                           <div key={i} className="flex border-input bg-gray-50 flex-col gap-1 ">
                             <Head
                               className=" py-2 px-4 bg-main/80 !text-white rounded-t-2xl !text-lg"
-                              text={t("day").toUpperCase() + " " + getDayOrdinal(i, locale)}
+                              text={getDayOrdinal(i, locale) + " " + t("day")}
                             />
                             <Paragraph
                               className="!max-w-full grid grid-cols-1  gap-2 lg:max-w-full"
