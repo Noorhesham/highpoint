@@ -84,7 +84,9 @@
     },
     "subCategories": "Sub Categories"
   },
-
+  "Sub Categories": {
+    "TEXT": "Sub Categories"
+  },
   "heroHead": "Welcome to Our Training Platform",
   "heroDescription": "Discover the best courses to advance your career.",
   "searchPlaceholder": "Find your training course",

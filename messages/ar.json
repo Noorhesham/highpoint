@@ -142,6 +142,9 @@
   "messages": {
     "required": "الحقل مطلوب"
   },
+  "Sub Categories": {
+    "TEXT": "الفئات الفرعية"
+  },
   "Dubai": "دبي",
   "Riyadh": "الرياض",
   "Abu Dhabi": "ابوظبي",
@@ -151,7 +154,7 @@
     "application": "التطبيق",
     "menu": {
       "users": "المستخدمين",
-      
+
       "categories": "الفئات",
       "courses": "الدورات",
       "cities": "المدن",

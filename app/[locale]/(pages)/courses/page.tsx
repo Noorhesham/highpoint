@@ -44,7 +44,7 @@ const Page = async ({
     { Cities: cities.data?.data || [], filter: "city" },
   ];
   return (
-    <MaxWidthWrapper className=" mt-32 lg:mt-40" noPadding>
+    <MaxWidthWrapper className="  mt-32 lg:mt-40" noPadding>
       {" "}
       <GridContainer className=" gap-5" cols={10}>
         <div className=" col-span-full lg:hidden   block">
