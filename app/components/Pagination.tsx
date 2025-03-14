@@ -15,7 +15,7 @@ import { useEffect, useState } from "react";
 import { useSetLoading } from "../hooks/useIsLoading";
 import { useLocale } from "next-intl";
 
-export function Pagination({ totalPages = 5 }: { totalPages?: number }) {
+export function PaginationDemo({ totalPages = 5 }: { totalPages?: number }) {
   const { replace } = useRouter();
   const searchParams = useSearchParams();
   const [currentPage, setCurrentPage] = useState(1);
