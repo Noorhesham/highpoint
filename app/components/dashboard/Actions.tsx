@@ -22,6 +22,8 @@ import CoursesForm from "../forms/CoursesForm";
 import Link from "next/link";
 import CityForm from "../forms/CityForm";
 import { useTranslations } from "next-intl";
+import ApplicantForm from "../forms/ApplicantForm";
+import UserForm from "@/app/[locale]/dashboard/users/UserForm";
 
 const Actions = ({ data, entity }: { data: any; entity: ModelProps }) => {
   const t = useTranslations("");
@@ -48,6 +50,10 @@ const Actions = ({ data, entity }: { data: any; entity: ModelProps }) => {
         return <CityForm city={data} />;
       case "Course":
         return <CoursesForm course={data} />;
+      case "Applicant":
+        return <ApplicantForm applicant={data} />;
+      case "User":
+        return <UserForm user={data} />;
       default:
         return null;
     }

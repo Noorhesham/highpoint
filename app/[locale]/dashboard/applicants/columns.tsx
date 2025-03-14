@@ -1,24 +1,24 @@
 "use client";
-
 import { ColumnDef } from "@tanstack/react-table";
-import Image from "next/image";
-import { CheckCircle } from "lucide-react";
-import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
-import Actions from "@/app/components/dashboard/Actions"; // Replace with your actual Actions component
+import Actions from "@/app/components/dashboard/Actions";
 import LocaleData from "@/app/components/LocaleData";
 
 export interface ApplicantProps {
-  profileImage?: string;
-  name: string;
+  _id: string;
+  firstName: string;
+  lastName: string;
   email: string;
+  phone: string;
+  course?: { name: string };
+  createdAt: string;
   status: "approved" | "pending" | "rejected";
 }
 
 export const columns: ColumnDef<ApplicantProps>[] = [
   {
-    accessorKey: "name",
+    accessorKey: "firstName",
     header: "Name",
-    cell: ({ row }) => <span>{row.original.fullName}</span>,
+    cell: ({ row }) => <span>{row.original.firstName + " " + row.original.lastName}</span>,
   },
   {
     accessorKey: "email",
@@ -31,8 +31,18 @@ export const columns: ColumnDef<ApplicantProps>[] = [
     cell: ({ row }) => <span>{row.original.phone}</span>,
   },
   {
-    accessorKey: "name",
-    header: "Name ",
+    accessorKey: "createdAt",
+    header: "Date",
+    cell: ({ row }) => (
+      <span onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+        {new Date(row.original.createdAt).toLocaleDateString()}
+      </span>
+    ),
+    // Custom sorting function based on date
+  },
+  {
+    accessorKey: "course",
+    header: "Course",
     cell: ({ row }) => <LocaleData data={row.original.course?.name} />,
   },
   {

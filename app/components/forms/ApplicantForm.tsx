@@ -59,14 +59,14 @@ const ApplicantForm = ({
       phone: applicant?.phone || "",
       postalBox: applicant?.postalBox || "",
       agreeToTerms: applicant?.agreeToTerms || false,
-      course: course || "",
+      course: course || applicant?.course._id.toString() || "",
     },
     resolver: zodResolver(ApplicantSchema),
   });
 
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
-
+  console.log(form.formState.errors)
   const onSubmit = async (data: any) => {
     startTransition(async () => {
       try {

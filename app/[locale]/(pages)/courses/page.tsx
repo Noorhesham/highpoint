@@ -5,6 +5,7 @@ import FilterMobile from "@/app/components/FilterPhone";
 import Filters from "@/app/components/Filters";
 import { ProductLoader } from "@/app/components/ProductReel";
 import ProductReelFetch from "@/app/components/ProductReelFetch";
+import SearchBox from "@/app/components/SearchBox";
 import { unstable_setRequestLocale } from "next-intl/server";
 import React, { Suspense } from "react";
 

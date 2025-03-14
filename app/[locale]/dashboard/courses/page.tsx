@@ -8,18 +8,20 @@ import Link from "next/link";
 import NoSSR from "@/app/components/NoSSr";
 import connect from "@/lib/clientPromise";
 import Course from "@/app/models/Course";
-import { useSearchParams } from "next/navigation";
+import SearchCourses from "./SearchCourses";
 
 export const dynamic = "force-dynamic";
 
 const Page = async ({ searchParams }: { searchParams: { page?: string } }) => {
   await connect();
-
+  const searchTerm = searchParams.search || "";
   const currentPage = parseInt(searchParams.page || "1", 10);
   const limit = 10;
 
   // Fetch paginated data
-  const data = await Course.find({})
+  const data = await Course.find({
+    $or: [{ "name.en": { $regex: searchTerm, $options: "i" } }, { "name.ar": { $regex: searchTerm, $options: "i" } }],
+  })
     .limit(limit)
     .skip((currentPage - 1) * limit)
     .populate("category")
@@ -38,6 +40,8 @@ const Page = async ({ searchParams }: { searchParams: { page?: string } }) => {
   return (
     <MaxWidthWrapper className="flex px-4 flex-col mt-5">
       <div className="flex items-center gap-2">
+        {" "}
+        <SearchCourses />
         <Button className="self-end">
           <Link href="/dashboard/createCourse">Add Course</Link>
         </Button>
