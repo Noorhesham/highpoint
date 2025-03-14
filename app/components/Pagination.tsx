@@ -15,7 +15,7 @@ import { useEffect, useState } from "react";
 import { useSetLoading } from "../hooks/useIsLoading";
 import { useLocale } from "next-intl";
 
-export function ResponsivePagination({ totalPages = 5 }: { totalPages?: number }) {
+export function Pagination({ totalPages = 5 }: { totalPages?: number }) {
   const { replace } = useRouter();
   const searchParams = useSearchParams();
   const [currentPage, setCurrentPage] = useState(1);
@@ -104,7 +104,9 @@ export function ResponsivePagination({ totalPages = 5 }: { totalPages?: number }
       <PaginationContent>
         <PaginationItem>
           <button
-            className={`rounded-full ${currentPage <= 1 ? "cursor-not-allowed opacity-50" : ""} w-fit flex mr-1 md:mr-3 p-1 items-center text-main2 bg-light duration-150 hover:text-white hover:bg-main2`}
+            className={`rounded-full ${
+              currentPage <= 1 ? "cursor-not-allowed opacity-50" : ""
+            } w-fit flex mr-1 md:mr-3 p-1 items-center text-main2 bg-light duration-150 hover:text-white hover:bg-main2`}
             onClick={(e) => {
               e.preventDefault();
               if (currentPage > 1) WrapperFn(() => handlePageChange(currentPage - 1));
@@ -117,7 +119,9 @@ export function ResponsivePagination({ totalPages = 5 }: { totalPages?: number }
         {renderPageNumbers()}
         <PaginationItem>
           <button
-            className={`rounded-full ${currentPage >= totalPages ? "cursor-not-allowed opacity-50" : ""} bg-light text-main2 ml-1 md:ml-3 p-1 flex items-center duration-150 hover:text-white hover:bg-main2`}
+            className={`rounded-full ${
+              currentPage >= totalPages ? "cursor-not-allowed opacity-50" : ""
+            } bg-light text-main2 ml-1 md:ml-3 p-1 flex items-center duration-150 hover:text-white hover:bg-main2`}
             onClick={(e) => {
               e.preventDefault();
               if (currentPage < totalPages) WrapperFn(() => handlePageChange(currentPage + 1));
