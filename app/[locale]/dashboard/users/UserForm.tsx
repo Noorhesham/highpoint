@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { createEntity, updateEntity } from "@/app/actions/actions";
 import FormInput from "@/app/components/forms/FormInput";
-
+import bcrypt from "bcryptjs";
 const UserSchema = z
   .object({
     name: z.string().min(1, "Name is required"),
@@ -47,13 +47,12 @@ const UserForm = ({ user }: UserFormProps) => {
   const onSubmit = async (values: z.infer<typeof UserSchema>) => {
     startTransition(async () => {
       try {
-        const data = { ...values };
-        if (!data.password) delete data.password;
-
+        const hashedPassword = await bcrypt.hash(values.password, 10);
+        const data = { ...values, password: hashedPassword };
         const res = user ? await updateEntity("User", user._id, data) : await createEntity("User", data);
-
+        console.log(res)
         if (res.success) {
-          toast.success(res.message);
+          toast.success(res.success);
           router.refresh();
         } else {
           toast.error(res.error);

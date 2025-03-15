@@ -12,7 +12,7 @@ import SearchCourses from "./SearchCourses";
 
 export const dynamic = "force-dynamic";
 
-const Page = async ({ searchParams }: { searchParams: { page?: string } }) => {
+const Page = async ({ searchParams, locale }: { searchParams: { page?: string }; locale: string }) => {
   await connect();
   const searchTerm = searchParams.search || "";
   const currentPage = parseInt(searchParams.page || "1", 10);
@@ -46,9 +46,14 @@ const Page = async ({ searchParams }: { searchParams: { page?: string } }) => {
           <Link href="/dashboard/createCourse">Add Course</Link>
         </Button>
         {data && (
-          <NoSSR>
-            <ExportCoursesToPDF courses={data} />
-          </NoSSR>
+          <div className="flex gap-2 mr-auto">
+            <NoSSR>
+              <ExportCoursesToPDF isArabic={false} courses={data} />
+            </NoSSR>
+            <NoSSR>
+              <ExportCoursesToPDF isArabic={true} courses={data} />
+            </NoSSR>
+          </div>
         )}
       </div>
       <DataTable

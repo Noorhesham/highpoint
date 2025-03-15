@@ -1,39 +1,33 @@
 "use client"; // Client-side component
 import React, { useRef } from "react";
+import html2pdf from "html2pdf.js";
 import { convertToHTML } from "../utils/fn";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import dynamic from "next/dynamic";
-import html2pdf from "html2pdf.js";
+import { useTranslations } from "next-intl";
 
-const ExportCoursesToPDF = ({ courses }) => {
+const ExportCoursesToPDF = ({ courses, isArabic = false }) => {
   const pdfContentRef = useRef();
+  const t = useTranslations();
 
   // Function to generate and download the PDF
   const generatePDF = () => {
     const content = pdfContentRef.current;
+    if (!content) return;
 
-    // Clone the content for PDF generation (without showing the original content)
+    // Clone the content for PDF generation
     const clonedContent = content.cloneNode(true);
-
-    // You can make some adjustments to the cloned content if needed, like styling
-    clonedContent.style.visibility = "visible"; // Keep it hidden in the DOM
-    clonedContent.style.display = "block"; // Make it visible in the PDF
+    clonedContent.style.visibility = "visible";
+    clonedContent.style.display = "block";
 
     const options = {
       margin: 10,
       filename: "courses.pdf",
       image: { type: "jpeg", quality: 0.98 },
       html2canvas: { scale: 2, useCORS: true },
-      jsPDF: {
-        unit: "mm",
-        format: "a4",
-        orientation: "portrait",
-        autoPaging: true,
-      },
+      jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
     };
 
-    // Generate the PDF and save it
     html2pdf().from(clonedContent).set(options).save();
   };
 
@@ -45,81 +39,64 @@ const ExportCoursesToPDF = ({ courses }) => {
         style={{
           fontFamily: "'Cairo', Arial, sans-serif",
           padding: "20px",
-          direction: "rtl",
-          textAlign: "right",
-          display: "none", // Start with content hidden
+          direction: isArabic ? "rtl" : "ltr",
+          textAlign: isArabic ? "right" : "left",
+          display: "none",
         }}
       >
         {courses.map((course, index) => (
           <div key={index} style={{ pageBreakAfter: "always" }}>
-            {/* Header Section */}
             <header style={{ textAlign: "center", marginBottom: "20px" }}>
-              <h1 style={{ fontSize: "24px", margin: 0 }}>{course.name?.en}</h1>
-              <h2 style={{ fontSize: "20px", color: "#888" }}>{course.name?.ar}</h2>
+              <h1 style={{ fontSize: "24px", margin: 0 }}>{isArabic ? course.name?.ar : course.name?.en}</h1>
             </header>
 
-            {/* Description Section */}
             <section>
-              <h3 style={{ borderBottom: "2px solid #ddd", paddingBottom: "5px" }}>الوصف</h3>
-              <div>
-                <div
-                  style={{ textAlign: "left", direction: "ltr" }}
-                  dangerouslySetInnerHTML={{
-                    __html: convertToHTML(course.description?.en || ""),
-                  }}
-                />
-                <div
-                  style={{ textAlign: "right", marginTop: "10px" }}
-                  dangerouslySetInnerHTML={{
-                    __html: convertToHTML(course.description?.ar || ""),
-                  }}
-                />
-              </div>
+              <h3 style={{ borderBottom: "2px solid #ddd", paddingBottom: "5px" }}>
+                {isArabic ? "الوصف" : "Description"}
+              </h3>
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: convertToHTML(isArabic ? course.description?.ar || "" : course.description?.en || ""),
+                }}
+              />
             </section>
 
-            {/* Course Details */}
             <section style={{ marginTop: "20px" }}>
-              <h3 style={{ borderBottom: "2px solid #ddd", paddingBottom: "5px" }}>تفاصيل الدورة</h3>
-              <table
-                style={{
-                  width: "100%",
-                  borderCollapse: "collapse",
-                  marginTop: "10px",
-                  direction: "ltr",
-                }}
-              >
+              <h3 style={{ borderBottom: "2px solid #ddd", paddingBottom: "5px" }}>
+                {isArabic ? "تفاصيل الدورة" : "Course Details"}
+              </h3>
+              <table style={{ width: "100%", borderCollapse: "collapse", marginTop: "10px" }}>
                 <tbody>
                   <tr>
-                    <td style={{ padding: "8px", border: "1px solid #ddd" }}>المدة</td>
+                    <td style={{ padding: "8px", border: "1px solid #ddd" }}>{isArabic ? "المدة" : "Duration"}</td>
                     <td style={{ padding: "8px", border: "1px solid #ddd" }}>{course.duration} hours</td>
                   </tr>
                   <tr>
-                    <td style={{ padding: "8px", border: "1px solid #ddd" }}>السعر</td>
+                    <td style={{ padding: "8px", border: "1px solid #ddd" }}>{isArabic ? "السعر" : "Price"}</td>
                     <td style={{ padding: "8px", border: "1px solid #ddd" }}>${course.price}</td>
                   </tr>
                   <tr>
-                    <td style={{ padding: "8px", border: "1px solid #ddd" }}>رقم التسلسل</td>
-                    <td style={{ padding: "8px", border: "1px solid #ddd" }}>{course.serialNumber}</td>
-                  </tr>
-                  <tr>
-                    <td style={{ padding: "8px", border: "1px solid #ddd" }}>تاريخ البدء</td>
                     <td style={{ padding: "8px", border: "1px solid #ddd" }}>
-                      {new Date(course.startDate).toLocaleDateString()}
+                      {isArabic ? "تاريخ البدء" : "Start Date"}
+                    </td>
+                    <td style={{ padding: "8px", border: "1px solid #ddd" }}>
+                      {new Date(course.startDate).toLocaleDateString(isArabic ? "ar-EG" : "en-GB")}
                     </td>
                   </tr>
                   <tr>
-                    <td style={{ padding: "8px", border: "1px solid #ddd" }}>تاريخ الانتهاء</td>
                     <td style={{ padding: "8px", border: "1px solid #ddd" }}>
-                      {new Date(course.endDate).toLocaleDateString()}
+                      {isArabic ? "تاريخ الانتهاء" : "End Date"}
+                    </td>
+                    <td style={{ padding: "8px", border: "1px solid #ddd" }}>
+                      {new Date(course.endDate).toLocaleDateString(isArabic ? "ar-EG" : "en-GB")}
                     </td>
                   </tr>
                 </tbody>
               </table>
             </section>
 
-            {/* Images Section */}
             <section style={{ marginTop: "20px" }}>
-              <h3 style={{ borderBottom: "2px solid #ddd", paddingBottom: "5px" }}>الصور</h3>
+              <h3 style={{ borderBottom: "2px solid #ddd", paddingBottom: "5px" }}>{isArabic ? "الصور" : "Images"}</h3>
               <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
                 {course?.images?.map((img, index) => (
                   <img
@@ -140,8 +117,7 @@ const ExportCoursesToPDF = ({ courses }) => {
         ))}
       </div>
 
-      {/* Button to trigger PDF generation */}
-      <Button onClick={generatePDF}>Convert All To Pdf</Button>
+      <Button onClick={generatePDF}>{isArabic ? "تحويل الكل إلى PDF" : "Convert All To PDF"}</Button>
     </div>
   );
 };
