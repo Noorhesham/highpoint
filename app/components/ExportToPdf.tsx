@@ -8,6 +8,8 @@ import Logo from "./Logo";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { getGenralSettings } from "../queries";
+import { MdEmail } from "react-icons/md";
+import { PhoneIcon } from "lucide-react";
 
 const ExportToPdf = ({
   course,
@@ -335,8 +337,35 @@ const ExportToPdf = ({
             ))}
           </div>
         </section>
-
-        <footer style={{ textAlign: "center", marginTop: "40px", color: "#666" }}>
+        <footer
+          style={{
+            fontFamily: "'Times New Roman', serif",
+            padding: "20px",
+            backgroundColor: "#f8f9fa",
+            borderTop: "2px solid #2B4B8C",
+            textAlign: isArabic ? "right" : "left",
+            direction: isArabic ? "rtl" : "ltr",
+            marginTop: "40px",
+          }}
+        >
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap" }}>
+            <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+              <PhoneIcon className="w-5 h-5" />
+              <span>00971566356223 : Mobile | 00971563356098 : Mobile | 00971566356223 : Phone</span>
+            </div>
+            <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+              <MdEmail className="w-5 h-5" />
+              <span>
+                <a href="mailto:info@highpointtc.com">info@highpointtc.com</a>
+              </span>
+            </div>
+            <div>
+              <span>U.A.E </span>
+            </div>
+            <div>
+              <a href="https://highpointtc.com/en">https://highpointtc.com/en</a>
+            </div>
+          </div>{" "}
           <p>&copy; 2025 High Point. {isArabic ? t("allRightsReservedAr") : t("allRightsReservedEn")}</p>
         </footer>
       </div>
