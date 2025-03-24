@@ -1,60 +1,112 @@
 "use client";
-import React, { useEffect, useTransition } from "react";
-import { cn, formatPrice } from "@/lib/utils";
-import ImageSlider from "./ImageSlider";
-import { ProductLoader } from "./ProductReel";
 
+import React, { useEffect } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
-import Paragraph from "./defaults/Paragraph";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import ImageSlider from "./ImageSlider";
+import ModalCustom from "./defaults/ModalCustom";
+import ApplicantForm from "./forms/ApplicantForm";
 
-const ProductCard = ({ product, index, category = false }: { product: any; index: number; category?: boolean }) => {
+export const ProductLoader = () => {
+  return (
+    <div className="w-full h-[400px] bg-white rounded-xl animate-pulse">
+      <div className="h-[180px] bg-gray-200 rounded-t-xl"></div>
+      <div className="p-4">
+        <div className="h-4 bg-gray-200 rounded w-3/4 mb-4"></div>
+        <div className="h-6 bg-gray-200 rounded w-1/2 mb-4"></div>
+        <div className="h-4 bg-gray-200 rounded w-full mb-2"></div>
+        <div className="h-4 bg-gray-200 rounded w-5/6"></div>
+      </div>
+    </div>
+  );
+};
+
+interface ProductCardProps {
+  product: any;
+  index: number;
+  category?: boolean;
+  registerNow?: boolean;
+}
+
+export default function ProductCard({ product, index, category = false, registerNow = true }: ProductCardProps) {
   const [isVisible, setIsVisible] = React.useState(false);
   const locale = useLocale();
   const t = useTranslations();
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsVisible(true);
     }, index * 75);
     return () => clearTimeout(timer);
   }, [index]);
+
+  // Format date to display in a readable format
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
+  };
+
+  const startDate = product.startDate ? formatDate(product.startDate) : "";
+  const endDate = product.endDate ? formatDate(product.endDate) : "";
+  const dateRange = startDate && endDate ? `${startDate} - ${endDate}` : "";
+
   return isVisible ? (
-    <Link className=" bg-white h-full" href={category ? `/courses?category=${product._id}` : `/course/${product._id}`}>
+    <div className="block h-full" href={category ? `/courses?category=${product._id}` : `/course/${product._id}`}>
       <div
-        className={`${cn(" opacity-0  bg-white h-full h-full relative w-full cursor-pointer group-main ", {
-          " opacity-100 animate-in duration-200 fade-in-5 shadow-md  rounded-xl": isVisible,
-        })} self-stretch flex flex-col `}
+        className={cn(
+          "opacity-0 h-full relative w-full cursor-pointer overflow-hidden border-0  rounded-2xl shadow-lg  overflow-hidden",
+          {
+            "opacity-100 animate-in duration-200 fade-in-5": isVisible,
+          }
+        )}
       >
-        <ImageSlider
-          stock={product.stock}
-          productId={product._id}
-          urls={product.images.map((image: any) => image.secure_url || "/default.jpg")}
-        />
-        <div className=" flex flex-col self-stretch justify-between py-2 px-4 w-full">
-          <div className="flex items-start flex-col justify-between">
-            {!category && (
-              <div className=" flex items-start flex-col ">
-                <p className=" mt-1 text-main font-semibold text-sm ">
-                  {t("category.title")} : {product.category?.name[locale || "en"]}
-                </p>
-              </div>
+        {/* Blue header with circular logo */}
+        <ImageSlider urls={product.images.map((image: any) => image.secure_url)} productId={product._id} />
+        <h3 className="text-start p-1 text-base line-clamp-1 font-bold text-black">
+          {product.name?.[locale || "en"] || ""}
+        </h3>
+        {/* Course details with orange bullet points */}
+        <div className="bg-white p-4">
+          <ul className=" my-4">
+            {dateRange && (
+              <li className="flex items-start gap-2">
+                <div className="mt-1 h-4 w-4 min-w-4 rounded-sm bg-[#e67e22]"></div>
+                <span className="text-sm">{dateRange}</span>
+              </li>
             )}
-            <h3 className="font-medium text-base  ">
-              {product?.name?.length > 20
-                ? product?.name?.substring(0, 20) + "..."
-                : product.name?.[locale || "en" || "ar"] || ""}
-            </h3>{" "}
-          </div>
-          {product.price && <p className=" mt-1 font-medium text-sm ">{product.price}$</p>}
-          {product.shortDescription && (
-            <Paragraph description={product.shortDescription[locale || "en"]} className="!line-clamp-2" />
+
+            {product.city && (
+              <li className="flex items-start gap-2">
+                <div className="mt-1 h-4 w-4 min-w-4 rounded-sm bg-[#e67e22]"></div>
+                <span className="text-sm">{product.city.name[locale || "en"]}</span>
+              </li>
+            )}
+
+            {!category && product.category && (
+              <li className="flex items-start gap-2">
+                <div className="mt-1 h-4 w-4 min-w-4 rounded-sm bg-[#e67e22]"></div>
+                <span className="text-sm">{product.category?.name[locale || "en"]}</span>
+              </li>
+            )}
+          </ul>{" "}
+          {registerNow && (
+            <Link className=" mt-5 pt-5 w-[80%] mx-auto" href={`/course/${product._id}`}>
+              <Button className="text-gray-50 bg-main hover:bg-main/80 w-full duration-150" size={"sm"}>
+                {t("registerNow")}
+              </Button>
+            </Link>
           )}
         </div>
       </div>
-    </Link>
+    </div>
   ) : (
     <ProductLoader />
   );
-};
-
-export default ProductCard;
+}

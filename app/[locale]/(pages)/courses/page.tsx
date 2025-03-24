@@ -58,7 +58,7 @@ const Page = async ({
             </div>
           }
         >
-          <ProductReelFetch filter={filters} page={parseInt(page) || 1} locale={locale} />
+          <ProductReelFetch registerNow={false} filter={filters} page={parseInt(page) || 1} locale={locale} />
         </Suspense>
         <div className="  order-1 col-span-full relative lg:col-span-3">
           <div className=" sticky top-0 lg:block hidden ">

@@ -19,6 +19,7 @@ import Head from "@/app/components/Head";
 import connect from "@/lib/clientPromise";
 import GridContainer from "@/app/components/defaults/GridContainer";
 import { getDayOrdinal } from "@/app/utils/fn";
+import { ExportPdfModal } from "@/app/components/ExportPdfModel";
 
 const page = async ({ params: { locale, id } }: { params: { locale: string; id: string } }) => {
   await connect();
@@ -41,12 +42,23 @@ const page = async ({ params: { locale, id } }: { params: { locale: string; id: 
   console.log(course);
   return (
     <section className={styles.course}>
-      <HomeCover
-        className=" w-full "
-        image={images[0]?.secure_url || "/default.jpg"}
-        mainTitle={name?.[locale] || ""}
-        mainDesc={course.shortDescription?.[locale] || ""}
-      />
+      <div className="bg-blue-500 text-white py-8 md:py-12">
+        <MaxWidthWrapper className="container gap-6 flex !pt-24 justify-between items-start lg:flex-row flex-col mx-auto px-4">
+          <div className=" mt-5">
+            <h1 className="text-2xl md:text-3xl font-bold mb-4">{name?.[locale] || ""}</h1>
+
+            <div className="mb-6">
+              <Paragraph
+                className="text-sm md:text-base text-white/90 space-y-2"
+                description={course.shortDescription?.[locale] || ""}
+              />
+            </div>
+          </div>
+          <div className=" relative h-64 mt-5  w-full rounded-2xl overflow-hidden">
+            <Image alt={name.en} src={images?.[0].secure_url} fill className=" object-cover" />
+          </div>
+        </MaxWidthWrapper>{" "}
+      </div>
       <div className=" relative">
         <MaxWidthWrapper>
           <Tabing
@@ -60,9 +72,12 @@ const page = async ({ params: { locale, id } }: { params: { locale: string; id: 
                   <Paragraph full description={t("noDescriptionAvailable")} />
                 ),
                 href: "info",
+                icon: "overview",
               },
               {
                 label: t("courseContent"),
+                icon: "outline",
+
                 content: course.courseContent?.[locale] ? (
                   <div className=" w-full">
                     <Paragraph
@@ -94,30 +109,11 @@ const page = async ({ params: { locale, id } }: { params: { locale: string; id: 
                 ),
                 href: "content",
               },
-              {
-                label: t("certificate"),
-                content:
-                  course.certificate?.image?.secure_url && course.certificate?.name?.[locale] ? (
-                    <div className="flex items-center gap-3">
-                      <div className="w-40 p-5 h-40 relative">
-                        <Image
-                          src={course.certificate.image.secure_url}
-                          alt={course.certificate.name[locale]}
-                          fill
-                          className="object-contain"
-                        />
-                      </div>
-                      <div>
-                        <Head text={course.name[locale]} />
-                      </div>
-                    </div>
-                  ) : (
-                    <Paragraph description={t("noCertificateAvailable")} />
-                  ),
-                href: "certificate",
-              },
+
               {
                 label: t("timeTable"),
+                icon: "schedule",
+
                 content:
                   Array.isArray(operations) && operations.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -129,6 +125,30 @@ const page = async ({ params: { locale, id } }: { params: { locale: string; id: 
                     <Paragraph description={t("noOperationsAvailable")} />
                   ),
                 href: "timeTable",
+              },
+              {
+                label: t("certificate"),
+                icon: "npc",
+
+                content:
+                  course.certificate?.image?.secure_url && course.certificate?.name?.[locale] ? (
+                    <div className="flex items-center gap-3">
+                      <div className="w-full  h-40 relative">
+                        <Image
+                          src={course.certificate.image.secure_url}
+                          alt={course.certificate.name[locale]}
+                          fill
+                          className="object-contain"
+                        />
+                      </div>
+                      <div>
+                        <Head className=" !max-w-2xl !text-lg" text={course.name[locale]} />
+                      </div>
+                    </div>
+                  ) : (
+                    <Paragraph description={t("noCertificateAvailable")} />
+                  ),
+                href: "certificate",
               },
             ]}
           />

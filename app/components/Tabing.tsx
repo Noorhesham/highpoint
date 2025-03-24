@@ -1,18 +1,27 @@
 "use client";
-import React, { ReactNode, useEffect, useState } from "react";
+
+import { type ReactNode, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { AnimatePresence, motion } from "framer-motion";
+import { FileText, Calendar, Users, Info } from "lucide-react";
+
 interface TabingProps {
   defaultValue: string;
-  options: { label: string; content: ReactNode; href: string }[];
+  options: {
+    label: string;
+    content: ReactNode;
+    href: string;
+    icon?: "overview" | "outline" | "npc" | "schedule" | string;
+  }[];
 }
-import { AnimatePresence, motion } from "framer-motion";
+
 const Tabing = ({ defaultValue, options }: TabingProps) => {
   const searchParams = useSearchParams();
-
   const category = searchParams.get("section");
   const router = useRouter();
   const [currentPath, setCurrentPath] = useState("");
+
   useEffect(() => {
     if (category && window.location.search.includes(category)) setCurrentPath(category);
     else setCurrentPath(defaultValue);
@@ -20,29 +29,46 @@ const Tabing = ({ defaultValue, options }: TabingProps) => {
 
   const handleClick = (href: string) => {
     const currentParams = new URLSearchParams(searchParams.toString());
-    currentParams.set("section", href); // Update or add the "section" parameter
+    currentParams.set("section", href);
     router.push(`${window.location.pathname}?${currentParams.toString()}`, { scroll: false });
     setCurrentPath(href);
   };
+
+  const getIcon = (iconName: string) => {
+    switch (iconName) {
+      case "overview":
+        return <Info className="w-4 h-4 mr-2" />;
+      case "outline":
+        return <FileText className="w-4 h-4 mr-2" />;
+      case "npc":
+        return <Users className="w-4 h-4 mr-2" />;
+      case "schedule":
+        return <Calendar className="w-4 h-4 mr-2" />;
+      default:
+        return null;
+    }
+  };
+
   return (
-    <div className="w-full  ">
-      <div className="flex flex-wrap w-full   items-center gap-3">
+    <div className="w-full">
+      <div className="flex w-full border-b border-gray-200">
         {options.map((option, i) => (
-          <Button
+          <button
             key={i}
-            size={"lg"}
             onClick={() => handleClick(option.href)}
-            className={` ${
-              currentPath === option.href
-                ? " bg-main hover:bg-white hover:main/60  text-gray-50"
-                : "bg-white text-main main/60"
-            } text-sm  md:text-base flex-1  hover:bg-main  hover:text-white border border-blue-600 w-fit duration-150`}
+            className={cn(
+              "flex items-center w-full justify-center py-3 px-4 text-sm font-medium transition-colors relative",
+              "focus:outline-none hover:bg-[#2980b9]",
+              currentPath === option.href ? "bg-[#3498db] text-white" : "bg-[#2c3e50] text-white/80 hover:text-white"
+            )}
           >
-            <div>{option.label.length > 20 ? option.label.slice(0, 20) + "..." : option.label}</div>
-          </Button>
+            {option.icon && getIcon(option.icon)}
+            <span>{option.label.length > 20 ? option.label.slice(0, 20) + "..." : option.label}</span>
+            {currentPath === option.href && <div className="absolute bottom-0 left-0 w-full h-1 bg-white"></div>}
+          </button>
         ))}
       </div>
-      <div className="overflow-hidden h-full min-h-[8vh]   mt-8">
+      <div className="overflow-hidden h-full min-h-[8vh] mt-8">
         <AnimatePresence mode="wait">
           {options.map(
             (option) =>

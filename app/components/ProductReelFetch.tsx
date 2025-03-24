@@ -21,10 +21,12 @@ const ProductReelFetch = async ({
   page = 1,
   filter = {},
   locale = "en",
+  registerNow,
 }: {
   page: number;
   filter: any;
   locale?: string;
+  registerNow?: boolean;
 }) => {
   // Use the cached function to fetch products with the specific page and filter,
   const res = await cachedFetchProducts(page, filter, locale)();
@@ -47,11 +49,11 @@ const ProductReelFetch = async ({
             {courses.length > 0 ? (
               <>
                 {courses.map((product: any, i: number) => (
-                  <ProductCard index={i} key={product.id} product={product} />
+                  <ProductCard registerNow={false} index={i} key={product.id} product={product} />
                 ))}
               </>
             ) : (
-              <Empty  message={t("empty")}/>
+              <Empty message={t("empty")} />
             )}
             <PaginationDemo totalPages={totalPages} />
           </GridContainer>
