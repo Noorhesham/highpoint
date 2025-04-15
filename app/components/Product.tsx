@@ -83,7 +83,7 @@ export default function ProductCard({ product, index, category = false, register
             {dateRange && (
               <li className="flex items-center gap-2">
                 <div className="mt-1 flex items-center   justify-center h-6 w-6 min-w-4 rounded-sm bg-[#e67e22]">
-                  <Calendar className="h-4 w-4 " />
+                  <Calendar className="h-4 w-4 text-blue-200 " />
                 </div>
                 <span className="text-xs">{dateRange}</span>
               </li>
@@ -92,7 +92,7 @@ export default function ProductCard({ product, index, category = false, register
             {product.city && (
               <li className="flex items-center gap-2">
                 <div className="mt-1 flex items-center   justify-center h-6 w-6 min-w-6 rounded-sm bg-[#e67e22]">
-                  <PlaneIcon className="h-4 w-4 " />
+                  <PlaneIcon className="h-4 w-4  text-blue-200" />
                 </div>
                 <span className="text-xs">{product.city.name[locale || "en"]}</span>
               </li>
@@ -101,7 +101,7 @@ export default function ProductCard({ product, index, category = false, register
             {!category && product.category && (
               <li className="flex items-center gap-2">
                 <div className="mt-1 flex items-center   justify-center h-6 w-6 min-w-6 rounded-sm bg-[#e67e22]">
-                  <DashboardIcon className="h-4 w-4 " />
+                  <DashboardIcon className="h-4 w-4 text-blue-200 " />
                 </div>
                 <span className="text-xs">{product.category?.name[locale || "en"]}</span>
               </li>

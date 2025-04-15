@@ -63,7 +63,7 @@ const SearchBox = ({
 
   const search = React.useCallback(
     debounce((newsearch) => {
-      setQuery(newsearch);
+      setQuery(newsearch.trim());
     }, 500),
     [query]
   );
@@ -152,7 +152,7 @@ const SearchBox = ({
                   href={`/course/${item._id}`}
                   className={`${
                     selectedResult === index ? "bg-gray-100" : ""
-                  }  hover:bg-gray-100 rounded-xl lg:py-2 text-base lg:px-4 duration-150 w-fullflex items-center gap-2`}
+                  }  hover:bg-gray-100 rounded-xl lg:py-2 text-base lg:px-4 duration-150 w-full flex items-center gap-2`}
                 >
                   {item.images?.[0]?.secure_url && (
                     <div className=" w-14 h-14  rounded-xl overflow-hidden relative">

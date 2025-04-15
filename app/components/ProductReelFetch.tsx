@@ -29,7 +29,7 @@ const ProductReelFetch = async ({
   registerNow?: boolean;
 }) => {
   // Use the cached function to fetch products with the specific page and filter,
-  const res = await cachedFetchProducts(page, filter, locale)();
+  const res = await fetchProducts(page, filter, locale);
   const t = await getTranslations();
   console.log(res.data?.data);
   if (!res || !res.data) {
