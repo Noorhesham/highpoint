@@ -1,0 +1,11 @@
+.course h2,
+.course h3,
+.course strong {
+  @apply font-bold  rounded-2xl text-lg;
+}
+.course h3 {
+  @apply mt-4;
+}
+.course{
+  list-style-type: disc;
+}

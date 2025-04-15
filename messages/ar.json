@@ -1,0 +1,279 @@
+{
+  "searchsm": "البحث ",
+  "Categoriestext": "الفئات",
+  "subCategories": "الفئات الفرعية",
+  "days": "الائام",
+  "duration": "المدة",
+  "hours": "ساعات",
+  "price": "السعر",
+  "nav": {
+    "aboutus": "عن هاي بوينت للتدريب ؟",
+    "contactus": {
+      "text": "تواصل معنا",
+      "sublinks": {
+        "inquiry": "للاستعلام عن دورة تدريبية",
+        "hotelbooking": "حجز الفندق",
+        "mailinglist": "القائمة البريدية",
+        "careers": "وظائف"
+      }
+    },
+    "home": "الصفحة الرئيسية",
+    "courses": "الدورات التعاقدية",
+    "english": "Training in English",
+    "who-we-are": "من نحن",
+    "certificates": "الشهادات",
+    "clients": "العملاء",
+    "opinions": "الآراء",
+    "blogs": "المدونات",
+    "faq": "الأسئلة الشائعة"
+  },
+  "nav2": {
+    "search": "البحث عن دورة تدريبية",
+    "guide": "دليل الدورات",
+    "places": "أماكن الانعقاد",
+    "certificates": "الشهادات المعتمدة",
+    "train-tech": "تقنية التدريب"
+  },
+  "heroHead": "مرحبًا بك في منصتنا التدريبية",
+  "heroDescription": "اكتشف أفضل الدورات لتطوير مسارك المهني.",
+  "searchPlaceholder": "ابحث عن دورتك التدريبية",
+  "featureAboutUsTitle": "من نحن",
+  "featureAboutUsDescription": "سنساعدك في العثور على الدورة التدريبية المناسبة وبناء مسيرة مهنية ناجحة.",
+  "featureCoursesTitle": "دوراتنا",
+  "featureCoursesDescription": "نقدم مجموعة واسعة من الدورات لمساعدتك على التفوق في مجالك.",
+  "featureGlobalReachTitle": "انتشار عالمي",
+  "featureGlobalReachDescription": "انضم إلى مجتمعنا من أي مكان في العالم.",
+  "valuePropositionTitle": "عرض القيمة",
+  "valuePropositionText": "في مركز هايبوانت للتدريب، نحن لا نقدم التعليم فقط — نحن شركاء في نجاحكم. شغفنا يكمن في تطوير المواهب...",
+  "whyChooseTitle": "لماذا مركز هايبوانت للتدريب؟",
+  "whyChooseText": "مدربون رواد في الصناعة، حلول تدريبية مخصصة...",
+  "features": {
+    "expertInstructors": "مدربون خبراء",
+    "expertInstructorsdesc": "تعلم من محترفين رائدين في الصناعة ذوي خبرة عملية.",
+    "customSolutions": "حلول مخصصة",
+    "customSolutionsdesc": "برامج تدريب مصممة خصيصًا لتلبية احتياجات مؤسستك الفريدة.",
+    "innovativeLearning": "تعلم مبتكر",
+    "innovativeLearningdesc": "طرق تدريب تفاعلية وجذابة تعزز من الاحتفاظ والتطبيق.",
+    "flexibleDelivery": "تسليم مرن",
+    "flexibleDeliverydesc": "اختر من بين تنسيقات تسليم متنوعة تناسب جدولك.",
+    "resultsOriented": "نهج موجه نحو النتائج",
+    "resultsOrienteddesc": "تم تصميم تدريبنا لتقديم نتائج قابلة للقياس تعزز النجاح."
+  },
+  "Carousel": {
+    "title": "ماذا سنقدم لك ؟  ",
+    "businessTitle1": "استراتيجيات النجاح",
+    "marketingTitle": "إتقان استراتيجيات التسويق",
+    "leadershipTitle": "تطوير مهارات القيادة",
+    "financeTitle": "فهم أساسيات المالية",
+    "entrepreneurshipTitle": "بناء إمبراطورية أعمالك"
+  },
+  "DummyContent": {
+    "businessContent": {
+      "headline": "افتح إمكانيات الأعمال",
+      "description": "اكتشف استراتيجيات مبتكرة تعزز نمو المؤسسات وكفاءتها."
+    },
+    "marketingContent": {
+      "headline": "ارفع مستوى تسويقك",
+      "description": "تعلم تقنيات تسويقية متطورة لتعزيز الوعي بالعلامة التجارية وتفاعل العملاء."
+    },
+    "leadershipContent": {
+      "headline": "الالهام من خلال القيادة",
+      "description": "طور مهارات القيادة الأساسية التي تحفز الفرق وتدعم ثقافة التميز."
+    },
+    "financeContent": {
+      "headline": "التنقل في المشهد المالي",
+      "description": "احصل على المعرفة المالية اللازمة لاتخاذ قرارات استراتيجية مستنيرة وتعظيم الموارد."
+    },
+    "entrepreneurshipContent": {
+      "headline": "ابتكر وتفوق",
+      "description": "ازرع عقلية ريادة الأعمال لتحويل الأفكار إلى مشاريع تجارية مؤثرة."
+    }
+  },
+  "contact": {
+    "headline": "تواصل مع فريق إند بوينت بسهولة",
+    "subText": "أخبرنا كيف يمكننا مساعدتك",
+    "salesTitle": "الدردشة مع المبيعات",
+    "salesDescription": "تحدث مع فريقنا الودود",
+    "visitTitle": "قم بزيارتنا",
+    "visitDescription": "مكتبنا مفتوح دائمًا لك",
+    "emailTitle": "أرسل لنا بريدًا إلكترونيًا",
+    "emailDescription": "أرسل لنا بريدًا إلكترونيًا سريعًا",
+    "phoneTitle": "اتصل بنا",
+    "phoneDescription": "يمكنك الاتصال بنا في أي وقت"
+  },
+  "languageSwitcher": {
+    "selectLanguage": "اختر اللغة"
+  },
+  "category": {
+    "title": "التصنيف",
+    "description": "اختر تصنيفا",
+    "select": "اختر"
+  },
+  "placeholder": "ابحث عن دورة تدريبية معينة",
+  "mainCover": "صورة الغلاف الرئيسية",
+  "mainTitle": "العنوان الرئيسي",
+  "mainDesc": "الوصف الرئيسي",
+  "secondaryCover": "صورة الغلاف الثانوي",
+  "companies": {
+    "title": "عنوان الشركة {index}",
+    "image": "صورة الشركة {index}"
+  },
+  "sections": {
+    "title": "عنوان القسم {index}",
+    "desc": "وصف القسم {index}"
+  },
+  "whoWeAre": {
+    "title": "عنوان من نحن",
+    "desc": "وصف من نحن"
+  },
+  "partners": {
+    "title": "عنوان الشركاء",
+    "desc": "وصف الشركاء",
+    "image": "صورة الشريك {index}"
+  },
+  "buttons": {
+    "addSection": "إضافة قسم",
+    "removeSection": "إزالة القسم",
+    "addCompany": "إضافة شركة",
+    "removeCompany": "إزالة الشركة",
+    "addPartnerImage": "إضافة صورة شريك",
+    "submit": "إرسال"
+  },
+  "messages": {
+    "required": "الحقل مطلوب"
+  },
+  "Sub Categories": {
+    "TEXT": "الفئات الفرعية"
+  },
+  "Dubai": "دبي",
+  "Riyadh": "الرياض",
+  "Abu Dhabi": "ابوظبي",
+  "Jeddah": "جدة",
+  "Cities": { "TEXT": "المدن" },
+  "Sidebar": {
+    "application": "التطبيق",
+    "menu": {
+      "users": "المستخدمين",
+
+      "categories": "الفئات",
+      "courses": "الدورات",
+      "cities": "المدن",
+      "applicants": "المتقدمين",
+      "homePage": "الصفحة الرئيسية",
+      "createPage": "إنشاء صفحة جديدة",
+      "myPages": "صفحاتي",
+      "highpoint": "الصفحة الرئيسية",
+      "text": " "
+    },
+    "pages": "الصفحات"
+  },
+  "Categories": {
+    "TEXT": "الفئات",
+    "name": "الاسم",
+    "description": "الوصف",
+    "status": "الحالة",
+    "statuses": {
+      "active": "نشط",
+      "inactive": "غير نشط"
+    },
+    "subCategories": "الفئات الفرعية"
+  },
+  "openMenu": "افتح القائمة",
+  "actionsLabel": "الإجراءات",
+  "editCourse": "تعديل الدورة",
+  "updateTitle": "تحديث بيانات المستخدم",
+  "edit": "تعديل",
+  "deleteTitle": "حذف بيانات المستخدم",
+  "delete": "حذف",
+  "imageUploadDesc": "قم باختيار صورة من جهازك",
+  "deleteConfirmation": "هل أنت متأكد أنك تريد حذف هذا {entity}؟",
+  "cancel": "إلغاء",
+  "reset": " اعادة تعيين",
+  "empty": "لا يوجد كورسات بالفلاتر التي تم اختيارها",
+  "deleteEntity": "احذف هذا {entity}؟",
+  "Courses": "دورات التدريب",
+  "cityTitle": "إختر مدينتك المفضلة و إبدأ رحلة التعلم اليوم",
+  "viewAllcities": "استكشف جميع المدن",
+  "courseInfo": "معلومات عن الدورة",
+  "timeTable": "الجدول الزمني ",
+  "courseInfoTitle": "معلومات عن الدورة",
+  "date": "التاريخ",
+  "duration": "المدة",
+  "fees": "الرسوم",
+  "ApplicantForm": {
+    "firstName": "الاسم الأول *",
+    "firstNamePlaceholder": "ادخل الاسم الأول",
+    "lastName": "اسم العائلة *",
+    "lastNamePlaceholder": "ادخل اسم العائلة",
+    "jobTitle": "المسمى الوظيفي *",
+    "jobTitlePlaceholder": "ادخل المسمى الوظيفي",
+    "email": "البريد الإلكتروني *",
+    "emailPlaceholder": "ادخل البريد الإلكتروني",
+    "address": "العنوان *",
+    "addressPlaceholder": "ادخل العنوان",
+    "company": "الشركة *",
+    "companyPlaceholder": "ادخل اسم الشركة",
+    "city": "المدينة *",
+    "cityPlaceholder": "ادخل المدينة",
+    "country": "البلد *",
+    "countryPlaceholder": "ادخل البلد",
+    "phone": "رقم الهاتف *",
+    "phonePlaceholder": "ادخل رقم الهاتف",
+    "postalBox": "صندوق البريد",
+    "postalBoxPlaceholder": "ادخل صندوق البريد",
+    "agreeToTerms": "أوافق على الشروط والأحكام",
+    "addButton": "إضافة متقدم",
+    "updateButton": "تحديث المتقدم"
+  },
+  "Select Category": "اختر القسم",
+  "selectCity": "اختر المدينة",
+  "Select": "اختر",
+  "registerNow": "سجل الآن",
+  "search": "البحث عن دورة تدريبية",
+  "stayConnected": "ابق على تواصل",
+  "downloadBrochure": "تنزيل النشرة",
+  "months": "شهر",
+  "weeks": "أسبوع",
+  "day": "اليوم",
+  "noDescriptionAvailable": "الوصف غير متوفر.",
+  "noCourseContentAvailable": "محتوى الدورة غير متوفر.",
+  "noDaysAvailable": "لا توجد أيام متاحة لهذه الدورة.",
+  "noContentForDay": "لا يوجد محتوى متوفر لهذا اليوم.",
+  "noCertificateAvailable": "معلومات الشهادة غير متوفرة.",
+  "subCategoriesEn": "Subcategories",
+  "subCategoriesAr": "الفئات الفرعية",
+  "daysEn": "Days",
+  "daysAr": "الأيام",
+  "descriptionEn": "Description",
+  "descriptionAr": "الوصف",
+  "courseDetailsEn": "Course Details",
+  "courseDetailsAr": "تفاصيل الدورة",
+  "durationEn": "Duration",
+  "durationAr": "المدة",
+  "hoursEn": "hours",
+  "hoursAr": "ساعات",
+  "priceEn": "Price",
+  "exportPdfArabic": "تصدير PDF باللغة العربية",
+  "exportPdfEnglish": "تصدير PDF باللغة الانجليزية",
+  "priceAr": "السعر",
+  "serialNumberEn": "Serial Number",
+  "serialNumberAr": "الرقم التسلسلي",
+  "startDateEn": "Start Date",
+  "startDateAr": "تاريخ البدء",
+  "endDateEn": "End Date",
+  "endDateAr": "تاريخ الانتهاء",
+  "operationsWithoutCityEn": "Operations (without city)",
+  "operationsWithoutCityAr": "العمليات (بدون المدينة)",
+  "noOperationsAvailable": "لا توجد عمليات أو جداول متوفرة.",
+  "Short Description": "لمحة عامة",
+  "contnetcourse": "محتوى الدورة",
+  "days": "أيام",
+  "certificate": "شهادة",
+  "courseContent": "محتوى الدورة",
+  "otherCourses": "دورات اخرى",
+  "general look": "نظرة عامة",
+  "pluralSuffix": "",
+  "SELECT_DATE": "اختر التاريخ",
+  "cityDesc": "تُعد هاي بوينت من أوائل مزودي خدمات التدريب في العالم، حيث توفر دورات و برامج التطوير المهني في أكثر من 10 مدن في أوروبا و آسيا و الشرق الأوسط.",
+  "coursesDesc": "تمّ إدراج قائمة مختصرة من بين مئات الدورات التدريبية التفاعلية ذات الصلة، و التي من شأنها أن تساعد في توسيع آفاق مسيرتك المهنية و صقل مهاراتك."
+}
