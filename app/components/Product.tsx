@@ -78,12 +78,12 @@ export default function ProductCard({ product, index, category = false, register
           {product.name?.[locale || "en"] || ""}
         </h3>
         {/* Course details with orange bullet points */}
-        <div className="bg-white py-2 px-4">
-          <ul className=" my-1">
+        <div className="bg-white  py-2 px-4">
+          <ul className="mb-6 my-1">
             {dateRange && (
               <li className="flex items-center gap-2">
-                <div className="mt-1 flex items-center   justify-center h-6 w-6 min-w-4 rounded-sm bg-[#e67e22]">
-                  <Calendar className="h-4 w-4 text-blue-200 " />
+                <div className="mt-1 flex items-center   justify-center h-6 w-6 min-w-4 rounded-sm bg-blue-600">
+                  <Calendar className="h-4 w-4 text-white " />
                 </div>
                 <span className="text-xs">{dateRange}</span>
               </li>
@@ -91,8 +91,8 @@ export default function ProductCard({ product, index, category = false, register
 
             {product.city && (
               <li className="flex items-center gap-2">
-                <div className="mt-1 flex items-center   justify-center h-6 w-6 min-w-6 rounded-sm bg-[#e67e22]">
-                  <PlaneIcon className="h-4 w-4  text-blue-200" />
+                <div className="mt-1 flex items-center   justify-center h-6 w-6 min-w-6 rounded-sm bg-blue-600">
+                  <PlaneIcon className="h-4 w-4  text-white" />
                 </div>
                 <span className="text-xs">{product.city.name[locale || "en"]}</span>
               </li>
@@ -100,20 +100,20 @@ export default function ProductCard({ product, index, category = false, register
 
             {!category && product.category && (
               <li className="flex items-center gap-2">
-                <div className="mt-1 flex items-center   justify-center h-6 w-6 min-w-6 rounded-sm bg-[#e67e22]">
-                  <DashboardIcon className="h-4 w-4 text-blue-200 " />
+                <div className="mt-1 flex items-center   justify-center h-6 w-6 min-w-6 rounded-sm bg-blue-600">
+                  <DashboardIcon className="h-4 w-4 text-white " />
                 </div>
                 <span className="text-xs">{product.category?.name[locale || "en"]}</span>
               </li>
             )}
           </ul>{" "}
-          {registerNow && (
-            <Link className=" mt-5 pt-5 w-[80%] mx-auto" href={`/course/${product._id}`}>
-              <Button className="text-gray-50 bg-main hover:bg-main/80 w-full duration-150" size={"sm"}>
+          {
+            <Link className=" !mt-5  w-[80%] mx-auto" href={`/course/${product._id}?section=timeTable`}>
+              <Button size="sm" className="text-gray-50 bg-main hover:bg-main/80 w-full duration-150" size={"sm"}>
                 {t("registerNow")}
               </Button>
             </Link>
-          )}
+          }
         </div>
       </div>
     </Link>
