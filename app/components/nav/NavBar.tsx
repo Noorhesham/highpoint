@@ -112,7 +112,7 @@ const NavBar = () => {
           isHome
             ? "text-gray-900 font-semibold placeholder:text-gray-800 "
             : `    font-semibold placeholder:text-gray-50"  ${isScrollingDown && "bg-white"}`
-        } fixed inset-0 z-50 max-h-[5rem] lg:max-h-[8.5rem]  bg-white flex flex-col gap-2   transition-all duration-300 ${
+        } fixed inset-0 z-50 max-h-[5rem] lg:max-h-[10.5rem]  bg-white flex flex-col gap-2   transition-all duration-300 ${
           isScrollingDown
             ? "translate-y-[-110%]"
             : !isTopPage && !isScrollingDown
@@ -133,14 +133,17 @@ const NavBar = () => {
                   <NavLink isHome={isHome} key={link.text} href={link.href} text={link.text} subLinks={link.subLinks} />
                 ))}
               </div>
-              <div className="  flex items-center gap-2 ">
+              <div className="  flex  w-full lg:w-fit items-center gap-2 ">
                 <div className={`z-[999] duration-150 h-full  relative lg:hidden block`}>
                   <PhoneNav navigation={links} />
                   <div className=" flex ">
-                    <Logo size="sm" isdark={isHome ? false : true} />
+                    <Logo isdark={isHome ? false : true} />
                   </div>
                 </div>
-                {isInDashboard && <User />} <Language />
+                {isInDashboard && <User />}{" "}
+                <div className=" ml-auto">
+                  <Language />
+                </div>
               </div>
             </MaxWidthWrapper>
           </div>

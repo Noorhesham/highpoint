@@ -45,11 +45,14 @@ const Page = async ({
     { Cities: cities.data?.data || [], filter: "city" },
   ];
   return (
-    <MaxWidthWrapper className="  mt-32 lg:mt-40" noPadding>
+    <MaxWidthWrapper className="  mt-32 lg:mt-44" noPadding>
       {" "}
-      <GridContainer className=" gap-5" cols={10}>
-        <div className=" col-span-full lg:hidden   block">
-          <FilterMobile filters={filterss} />
+      <div className=" flex flex-col gap-5">
+        {" "}
+        <div className="   relative  z-50">
+          <div className=" z-50 sticky top-0  ">
+            <Filters filters={filterss} />
+          </div>
         </div>
         <Suspense
           fallback={
@@ -60,12 +63,7 @@ const Page = async ({
         >
           <ProductReelFetch registerNow={false} filter={filters} page={parseInt(page) || 1} locale={locale} />
         </Suspense>
-        <div className="  order-1 col-span-full relative lg:col-span-3">
-          <div className=" sticky top-0 lg:block hidden ">
-            <Filters filters={filterss} />
-          </div>
-        </div>
-      </GridContainer>
+      </div>
     </MaxWidthWrapper>
   );
 };

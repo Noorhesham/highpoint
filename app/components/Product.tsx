@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import ImageSlider from "./ImageSlider";
 import ModalCustom from "./defaults/ModalCustom";
 import ApplicantForm from "./forms/ApplicantForm";
-import { Calendar, PlaneIcon } from "lucide-react";
+import { Calendar, MapPin, Info, SendHorizonalIcon } from "lucide-react";
 import { DashboardIcon } from "@radix-ui/react-icons";
 
 export const ProductLoader = () => {
@@ -59,6 +59,18 @@ export default function ProductCard({ product, index, category = false, register
   const endDate = product.endDate ? formatDate(product.endDate) : "";
   const dateRange = startDate && endDate ? `${startDate} - ${endDate}` : "";
 
+  // Calculate number of days
+  const calculateDays = () => {
+    if (!product.startDate || !product.endDate) return "";
+    const start = new Date(product.startDate);
+    const end = new Date(product.endDate);
+    const diffTime = Math.abs(end.getTime() - start.getTime());
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return `/ ${diffDays} Days`;
+  };
+
+  const daysCount = calculateDays();
+
   return isVisible ? (
     <Link
       className="block !rounded-2xl h-full"
@@ -92,7 +104,7 @@ export default function ProductCard({ product, index, category = false, register
             {product.city && (
               <li className="flex items-center gap-2">
                 <div className="mt-1 flex items-center   justify-center h-6 w-6 min-w-6 rounded-sm bg-blue-600">
-                  <PlaneIcon className="h-4 w-4  text-white" />
+                  <MapPin className="h-4 w-4  text-white" />
                 </div>
                 <span className="text-xs">{product.city.name[locale || "en"]}</span>
               </li>
@@ -107,13 +119,13 @@ export default function ProductCard({ product, index, category = false, register
               </li>
             )}
           </ul>{" "}
-          {
+          {registerNow && (
             <Link className=" !mt-5  w-[80%] mx-auto" href={`/course/${product._id}?section=timeTable`}>
-              <Button size="sm" className="text-gray-50 bg-main hover:bg-main/80 w-full duration-150" size={"sm"}>
-                {t("registerNow")}
+              <Button className="text-gray-50 bg-main hover:bg-main/80 w-full duration-150" size="sm">
+                <SendHorizonalIcon className="h-4 w-4" /> {t("registerNow")}
               </Button>
             </Link>
-          }
+          )}
         </div>
       </div>
     </Link>

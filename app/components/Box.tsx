@@ -1,12 +1,14 @@
 "use client";
 
-import React, { useEffect, useState, useTransition } from "react";
+import React, { useEffect, useState, useTransition, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
-import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import { useLoading } from "../constant/LoadingContext";
 import { useTranslations } from "next-intl";
+import { FaChevronDown } from "react-icons/fa";
+import { AnimatePresence, motion } from "framer-motion";
+import { XIcon } from "lucide-react";
 
 interface Filters {
   [key: string]: string[];
@@ -30,24 +32,27 @@ const Box = ({
   const router = useRouter();
   const [filters, setFilters] = useState<Filters>({});
   const [isMobile, setIsMobile] = useState<boolean>(false);
-  const [accordionValue, setAccordionValue] = useState<string | undefined>("");
+  const [isOpen, setIsOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
   const { setIsLoading } = useLoading();
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const t = useTranslations();
 
   useEffect(() => {
     setIsLoading(isPending);
   }, [isPending]);
+
   const WrapperFn = (fn: any) => {
     startTransition(() => {
       fn();
     });
   };
+
   // Determine if the viewport is mobile
   useEffect(() => {
     const handleResize = () => {
       const mobile = window.innerWidth < 768;
       setIsMobile(mobile);
-      setAccordionValue(mobile ? undefined : "item-1");
     };
 
     if (typeof window !== "undefined") {
@@ -55,6 +60,18 @@ const Box = ({
       window.addEventListener("resize", handleResize);
       return () => window.removeEventListener("resize", handleResize);
     }
+  }, []);
+
+  // Handle clicks outside dropdown
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   // Parse existing filters from the URL when the component mounts
@@ -69,6 +86,7 @@ const Box = ({
       setFilters(newFilters);
     }
   }, []);
+
   useEffect(() => {
     if (del) resetFilters();
   }, [del]);
@@ -90,6 +108,7 @@ const Box = ({
       router.push(`?${params.toString()}`, { scroll: false });
     }
   };
+
   useEffect(() => {
     if (!btn) return;
     WrapperFn(update);
@@ -110,98 +129,141 @@ const Box = ({
       if (isFilterSelected && isCareerType) {
         setDelete(true);
       }
-      // } else
       return {
         ...prevFilters,
         [filterName]: updatedFilters,
       };
     });
   };
+
   const resetFilters = () => {
     const params = new URLSearchParams(window.location.search);
     params.delete(filter);
     params.delete("career_specialty_id");
     router.push(`?${params.toString()}`, { scroll: false });
   };
-  const t = useTranslations();
+
+  // Get active filters count for this filter type
+  const activeFilterCount = filters[filter]?.length || 0;
+
   return (
-    <div className="flex px-3 py-1.5 font-medium text-sm bg-white   capitalize flex-col">
-      <Accordion
-        type="single"
-        value={accordionValue} // Control the accordion value
-        onValueChange={setAccordionValue} // Update the state when it changes
-        collapsible
-        className="w-full"
+    <div ref={dropdownRef} className="relative my-1">
+      {/* Dropdown Toggle Button */}
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className={cn(
+          "w-full flex items-center justify-between p-3 rounded-lg border bg-white transition-colors duration-200 font-medium text-sm",
+          isOpen ? "border-main text-main shadow-sm" : "border-gray-300 text-gray-700",
+          activeFilterCount > 0 ? "border-main" : ""
+        )}
       >
-        <AccordionItem value="item-1">
-          <AccordionTrigger>
-            <h2 className="text-base font-semibold text-main2">{t(`${text}.TEXT`)}</h2>
-          </AccordionTrigger>{" "}
-          <AccordionContent className=" max-h-[10rem] overflow-auto flex flex-col gap-2">
-            <ul className="pb-3 grid   grid-cols-1 lg:grid-cols-2 gap-2 border-b border-b-gray-400">
-              {!btn
-                ? options?.map((option, i) => (
+        <div className="flex items-center gap-2">
+          <span className="text-base font-medium">{t(`${text}.TEXT`)}</span>
+          {activeFilterCount > 0 && (
+            <span className="bg-main text-white px-2 py-0.5 rounded-full text-xs">{activeFilterCount}</span>
+          )}
+        </div>
+        <FaChevronDown className={`transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`} />
+      </button>
+
+      {/* Dropdown Content */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.15 }}
+            className="absolute z-50 mt-1 w-full min-w-[29rem] bg-white border border-gray-200 rounded-md shadow-lg p-3"
+          >
+            <div className="flex justify-between items-center mb-2">
+              <h3 className="font-medium text-gray-800">{t(`${text}.TEXT`)}</h3>
+              <button
+                onClick={() => setIsOpen(false)}
+                className="p-1 text-gray-500 hover:text-gray-700 rounded-full hover:bg-gray-100"
+              >
+                <XIcon className="w-4 h-4" />
+              </button>
+            </div>
+
+            <div className="max-h-[12rem] overflow-y-auto">
+              {!btn ? (
+                <ul className="space-y-2 mb-3">
+                  {options?.map((option, i) => (
                     <li
-                      onClick={() => handleFilter(option.id.toString(), filter)}
                       key={i}
-                      className="flex items-center text-xs w-full gap-2 cursor-pointer"
+                      onClick={() => handleFilter(option.id.toString(), filter)}
+                      className="flex items-center gap-2 hover:bg-gray-50 p-1 rounded cursor-pointer"
                     >
                       <input
                         type="checkbox"
                         name={filter}
-                        id={option}
+                        id={`${filter}-${option.id}`}
                         checked={filters[filter]?.includes(option.id.toString()) || false}
+                        className="rounded border-gray-300 text-main focus:ring-main"
                       />
-                      <label className="text-main2  line-clamp-2  text-xs w-full" htmlFor={option.name}>
+                      <label
+                        className="text-sm text-gray-700 text-nowrap cursor-pointer flex-1"
+                      >
                         {t(`${option.name}`)}
                       </label>
                     </li>
-                  ))
-                : options?.map((option, i) => {
-                    return (
-                      <Button
-                        size={"lg"}
-                        className={cn(
-                          "w-full lg:text-[10px] text-wrap line-clamp-2 !px-3  col-span-2 xl:col-span-1 bg-gray-100 text-main2 ",
-                          filters[filter]?.includes(option.id.toString())
-                            ? "bg-main2 hover:bg-main2  hover:text-white text-gray-50"
-                            : ""
-                        )}
-                        variant={"outline"}
-                        key={i}
-                        onClick={() => {
-                          handleFilter(option.id.toString(), filter);
-                        }}
-                      >
-                       {option.name}
-                      </Button>
-                    );
-                  })}
-            </ul>
-          </AccordionContent>{" "}
-          {!btn && (
-            <div className="flex gap-2 items-center mb-2 mt-5  ml-auto">
-              <button className=" py-1 text-white  px-4 bg-main  rounded-full" onClick={() => WrapperFn(update)}>
-                Filter
-              </button>
-              {filters[filter]?.length > 0 && (
-                <button
-                  className=" py-1 text-white  px-4 bg-gray-300  rounded-full"
-                  onClick={() => {
-                    setFilters((prevFilters) => ({
-                      ...prevFilters,
-                      [filter]: [],
-                    }));
-                    WrapperFn(resetFilters);
-                  }}
-                >
-                  {t("reset")}
-                </button>
+                  ))}
+                </ul>
+              ) : (
+                <div className="grid grid-cols-1 gap-2 mb-3">
+                  {options?.map((option, i) => (
+                    <Button
+                      key={i}
+                      variant="outline"
+                      size="sm"
+                      className={cn(
+                        "text-sm justify-start font-normal",
+                        filters[filter]?.includes(option.id.toString())
+                          ? "bg-main hover:bg-main/90 text-white border-main"
+                          : "bg-gray-50 hover:bg-gray-100 text-gray-700"
+                      )}
+                      onClick={() => handleFilter(option.id.toString(), filter)}
+                    >
+                      {option.name}
+                    </Button>
+                  ))}
+                </div>
               )}
             </div>
-          )}
-        </AccordionItem>
-      </Accordion>
+
+            {/* Action Buttons */}
+            {!btn && (
+              <div className="flex justify-end gap-2 mt-3 pt-2 border-t border-gray-200">
+                <button
+                  className="px-3 py-1.5 bg-main text-white text-xs rounded-md hover:bg-main/90 transition-colors"
+                  onClick={() => {
+                    WrapperFn(update);
+                    setIsOpen(false);
+                  }}
+                >
+                  {t("Apply")}
+                </button>
+
+                {filters[filter]?.length > 0 && (
+                  <button
+                    className="px-3 py-1.5 bg-gray-200 text-gray-700 text-xs rounded-md hover:bg-gray-300 transition-colors"
+                    onClick={() => {
+                      setFilters((prevFilters) => ({
+                        ...prevFilters,
+                        [filter]: [],
+                      }));
+                      WrapperFn(resetFilters);
+                    }}
+                  >
+                    {t("reset")}
+                  </button>
+                )}
+              </div>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

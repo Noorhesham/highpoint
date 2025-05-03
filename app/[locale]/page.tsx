@@ -57,9 +57,9 @@ export default async function Home({ params: { locale } }: { params: { locale: s
     page.data.data[0] || {};
   console.log(page.data.data[0], cities.data.data);
   return (
-    <section className=" pt-5">
-      <HomeCover image={"/hero.jpg"} mainTitle={mainTitle[locale]} mainDesc={mainDesc[locale]}>
-        <div className=" py-4 px-4 lg:px-8 bg-main/60 rounded-2xl flex-col flex w-full">
+    <section className=" pt-14">
+      <HomeCover image={"/hero.jpg"} className="" mainTitle={mainTitle[locale]} mainDesc={mainDesc[locale]}>
+        <div className=" py-4  px-4 lg:px-8 bg-gray-100 rounded-2xl flex-col flex w-full">
           {" "}
           <SearchBox />
           <ChooseCourse />
@@ -146,7 +146,7 @@ export default async function Home({ params: { locale } }: { params: { locale: s
         <div className="flex bg-main  justify-between lg:flex-row flex-col items-center gap-2">
           <div
             style={{
-              backgroundImage: `url("${secondaryCover.secure_url}")`,
+              backgroundImage: `url("${secondaryCover?.secure_url || ""}")`,
               backgroundSize: "cover",
               backgroundPosition: "center",
               backgroundRepeat: "no-repeat",
@@ -304,7 +304,7 @@ export default async function Home({ params: { locale } }: { params: { locale: s
 
       <div
         style={{
-          backgroundImage: `url("${secondaryCover.secure_url}")`,
+          backgroundImage: `url("${secondaryCover?.secure_url}")`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",

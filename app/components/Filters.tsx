@@ -40,8 +40,8 @@ const Filters = ({ colseBtn, filters, from_years }: { colseBtn?: ReactNode; filt
   };
 
   return (
-    <div className="max-h-screen rounded-2xl border bg-white shadow-sm border-gray-400 overflow-y-auto lg:max-h-full col-span-full">
-      <div className="flex flex-col py-4 px-3">
+    <div className=" lg:max-h-full col-span-full">
+      <div className="flex  gap-10 lf py-4 px-3">
         {colseBtn}
         {renderFilterBoxes()}
       </div>

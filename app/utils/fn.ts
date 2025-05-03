@@ -168,33 +168,33 @@ export function getDayOrdinal(index: number, locale = "en") {
   if (locale === "ar") {
     // Arabic ordinals array (you can extend this as needed)
     const arabicOrdinals = [
-      "الاول",
-      "التاني",
-      "التالت",
-      "الرابع",
-      "الخامس",
-      "السادس",
-      "السابع",
-      "الثامن",
-      "التاسع",
-      "العاشر",
+      "اليوم الأول",
+      "اليوم الثاني",
+      "اليوم الثالث",
+      "اليوم الرابع",
+      "اليوم الخامس",
+      "اليوم السادس",
+      "اليوم السابع",
+      "اليوم الثامن",
+      "اليوم التاسع",
+      "اليوم العاشر",
     ];
     // Return the Arabic ordinal or fallback to the number if index is out of bounds
-    return arabicOrdinals[index] || dayNumber;
+    return arabicOrdinals[index] || `اليوم ${dayNumber}`;
   } else {
     // English ordinals array (extend as needed)
     const englishOrdinals = [
-      "First",
-      "Second",
-      "Third",
-      "Fourth",
-      "Fifth",
-      "Sixth",
-      "Seventh",
-      "Eighth",
-      "Ninth",
-      "Tenth",
+      "Day One",
+      "Day Two",
+      "Day Three",
+      "Day Four",
+      "Day Five",
+      "Day Six",
+      "Day Seven",
+      "Day Eight",
+      "Day Nine",
+      "Day Ten",
     ];
-    return englishOrdinals[index] || dayNumber;
+    return englishOrdinals[index] || `Day ${dayNumber}`;
   }
 }

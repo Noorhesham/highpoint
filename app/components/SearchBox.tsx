@@ -142,7 +142,7 @@ const SearchBox = ({
             exit={{ opacity: 0, height: 0 }}
             className={`${
               locale === "ar" ? "right-0" : "left-0"
-            } flex w-full  bg-white items-start  xl:w-full  absolute gap-2  top-[104%] py-4  px-2 lg:px-8 rounded-md  max-h-[14rem] overflow-y-scroll flex-col `}
+            } flex w-full  bg-white z-40 items-start  xl:w-full  absolute gap-2  top-[104%] py-4  px-2 lg:px-8 rounded-md  max-h-[14rem] overflow-y-scroll flex-col `}
           >
             {jobs && jobs.length > 0 ? (
               jobs?.map((item: CourseProps, index: number) => (

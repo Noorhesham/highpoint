@@ -14,6 +14,7 @@ const page = async ({ searchParams: { page } }: { searchParams: { page: string }
       <GridContainer className=" mt-20 lg:mt-40" cols={4}>
         {categories?.map((category: CategoryProps, i: number) => (
           <ProductCard
+            registerNow={false}
             index={i}
             category
             key={category._id}

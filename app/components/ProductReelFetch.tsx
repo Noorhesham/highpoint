@@ -49,7 +49,7 @@ const ProductReelFetch = async ({
             {courses.length > 0 ? (
               <>
                 {courses.map((product: any, i: number) => (
-                  <ProductCard registerNow={false} index={i} key={product.id} product={product} />
+                  <ProductCard registerNow={true} index={i} key={product.id} product={product} />
                 ))}
               </>
             ) : (

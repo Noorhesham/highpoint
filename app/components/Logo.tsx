@@ -8,7 +8,7 @@ const Logo = ({ size = "sm", isdark }: { size?: "sm" | "lg"; isdark?: boolean })
   return (
     <Link
       href={"/"}
-      className={` rounded-full aspect-square overflow-hidden relative ${size === "sm" ? "h-16 w-fit " : "w-52 h-52"}`}
+      className={` rounded-full  overflow-hidden relative ${size === "sm" ? "lg:h-24 w-16 lg:w-24 h-16 " : "w-52 h-52"}`}
     >
       <Image
         src={!isLoading && !data ? "/photo_2024-12-03_13-07-38-removebg-preview.png" : data?.data.logo}

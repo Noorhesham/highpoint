@@ -21,12 +21,12 @@ const FilterMobile = ({ from_years, filters }: { from_years?: any; filters?: any
     };
   });
   return (
-    <div className=" lg:hidden col-span-full z-50 relative block">
+    <div className=" col-span-full z-50 relative block">
       <div className="flex items-center gap-2  self-end  justify-end ml-auto">
         {" "}
         <button
           onClick={() => setFilterMobile(!filterMobile)}
-          className=" lg:hidden z-50 relative block text-gray-400 text-xl hover:text-main duration-150 "
+          className=" z-50 relative block text-gray-400 text-xl hover:text-main duration-150 "
         >
           <FaFilter />
         </button>

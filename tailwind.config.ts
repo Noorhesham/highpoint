@@ -53,7 +53,7 @@ const config: Config = {
           "4": "hsl(var(--chart-4))",
           "5": "hsl(var(--chart-5))",
         },
-        main: "#151b54",
+        main: "#264bad",
         main2: "#151b54",
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
