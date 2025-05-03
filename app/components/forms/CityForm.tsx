@@ -20,6 +20,10 @@ const CitySchema = z.object({
     en: z.string().min(1, { message: "City name in English is required" }),
   }),
   image: z.any().optional(),
+  hotel: z.object({
+    ar: z.string().min(1, { message: "Hotel name in Arabic is required" }),
+    en: z.string().min(1, { message: "Hotel name in English is required" }),
+  }),
 });
 
 const CityForm = ({ city }: { city?: CityProps }) => {
@@ -30,6 +34,7 @@ const CityForm = ({ city }: { city?: CityProps }) => {
     defaultValues: {
       name: city?.name || { ar: "", en: "" },
       image: city?.image || null,
+      hotel: city?.hotel || "",
     },
     resolver: zodResolver(CitySchema),
   });
@@ -61,6 +66,7 @@ const CityForm = ({ city }: { city?: CityProps }) => {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6">
         <ArabicEnglishForm nodesc name="name" label="City Name" descName={undefined} />
+        <ArabicEnglishForm nodesc name="hotel" label="hotel Name" descName={undefined} />
         <FileUpload name="image" label="City Image" />
 
         <Button disabled={isPending} type="submit">

@@ -4,6 +4,7 @@ export interface CityProps {
   name: { en: string; ar: string };
   image: { secure_url: string; public_id: string }[];
   _id: string;
+  hotel: { en: string; ar: string };
 }
 const imageSchema = new Schema({
   secure_url: { type: String, required: true },
@@ -12,6 +13,7 @@ const imageSchema = new Schema({
 const citySchema = new Schema({
   name: localizedStringSchema,
   image: imageSchema,
+  hotel: localizedStringSchema,
 });
 
 const City = mongoose.models.City || mongoose.model("City", citySchema);

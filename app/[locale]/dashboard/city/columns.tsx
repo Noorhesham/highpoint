@@ -13,6 +13,11 @@ export const columns: ColumnDef<CityProps>[] = [
     cell: ({ row }) => <LocaleData data={row.original.name} />,
   },
   {
+    accessorKey: "hotel",
+    header: "Hotel",
+    cell: ({ row }) => <LocaleData data={row.original.hotel} />,
+  },
+  {
     accessorKey: "mainImage",
     header: "",
     cell: ({ row }) => (

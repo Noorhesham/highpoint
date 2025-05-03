@@ -1,6 +1,6 @@
 "use client";
 import { createEntity, updateEntity } from "@/app/actions/actions";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -24,6 +24,8 @@ import FormTitle from "../FormTitle";
 import OperationForm from "./OperationForm";
 import DescInput from "./DescInput";
 import { uploadImageToCloudinary } from "@/app/utils/fn";
+import { Calendar, CalendarRange, Check, ListPlus, Plus, Save } from "lucide-react";
+
 const CoursesSchema = z.object({
   name: z.object({
     ar: z.string().min(1, { message: "Required" }),
@@ -62,15 +64,27 @@ const CoursesSchema = z.object({
   }),
   status: z.string().min(1, { message: "Required" }),
 });
+
 const formatDateForInput = (date?: Date) => {
   if (!date) return "";
   return new Date(date).toISOString().slice(0, 16);
 };
 
+// Function to generate a random integer between min and max (inclusive)
+const getRandomInt = (min: number, max: number) => {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
 const CoursesForm = ({ course }: { course?: CourseProps | null }) => {
-  console.log(course);
   const { data: cities, isLoading } = useGetEntity({ entityName: "City", key: "city" });
   const locale = useLocale();
+  const t = useTranslations();
+  const [isPending, startTransition] = useTransition();
+  const router = useRouter();
+  const [operations, setOperations] = useState<any[]>(course?.operations || []);
+  const [generatedOperations, setGeneratedOperations] = useState<any[]>([]);
+  const [isSubmittingAll, setIsSubmittingAll] = useState(false);
+
   const form = useForm<z.infer<typeof CoursesSchema>>({
     defaultValues: {
       name: { ar: course?.name?.ar || "", en: course?.name?.en || "" },
@@ -78,33 +92,26 @@ const CoursesForm = ({ course }: { course?: CourseProps | null }) => {
       images: course?.images || [{}],
       category: course?.category || "",
       price: course?.price || 0,
-      serialNumber: course?.serialNumber || 0,
-      duration: course?.duration || 0,
+      serialNumber: course?.serialNumber || getRandomInt(1000, 9999),
+      duration: course?.duration || 5,
       startDate: formatDateForInput(course?.startDate) || new Date(),
       endDate: formatDateForInput(course?.endDate) || new Date(),
       subCategories: course?.subCategories || [],
       city: course?.city || "",
       days: course?.days || [{}],
-      shortDescription: course?.shortDescription || "",
-      certificate: course?.certificate || "",
-      courseContent: course?.courseContent || "",
+      shortDescription: course?.shortDescription || { ar: "", en: "" },
+      certificate: course?.certificate || { image: null },
+      courseContent: course?.courseContent || { ar: "", en: "" },
       status: course?.status || "draft",
     },
     resolver: zodResolver(CoursesSchema),
   });
-  const [isPending, startTransition] = useTransition();
-  const router = useRouter();
+
   const { fields, append } = useFieldArray({
     control: form.control,
     name: "images",
   });
-  const [operations, setOperations] = React.useState(course?.operations || [1]);
-  const removeOperation = (index: number) => {
-    setOperations((prevOperations) => prevOperations.filter((_, i) => i !== index));
-  };
-  const addOperation = () => {
-    setOperations((prevOperations) => [...prevOperations, {}]);
-  };
+
   const {
     fields: days,
     append: appendDay,
@@ -113,9 +120,83 @@ const CoursesForm = ({ course }: { course?: CourseProps | null }) => {
     control: form.control,
     name: "days",
   });
+
+  const removeOperation = (index: number) => {
+    setOperations((prevOperations) => prevOperations.filter((_, i) => i !== index));
+  };
+
+  const addOperation = () => {
+    setOperations((prevOperations) => [...prevOperations, {}]);
+  };
+
+  // Handle bulk operations generated from the OperationForm component
+  const handleGeneratedOperations = (newOperations: any[]) => {
+    setGeneratedOperations(newOperations);
+    toast.success(`Generated ${newOperations.length} operations for a full year`);
+  };
+
+  // Submit all generated operations to the database
+  const submitAllOperations = async () => {
+    if (!course || !course._id || generatedOperations.length === 0) {
+      toast.error("No operations to submit or course not saved");
+      return;
+    }
+
+    setIsSubmittingAll(true);
+    let successCount = 0;
+    let errorCount = 0;
+
+    try {
+      const operationsWithCourse = generatedOperations.map((op) => ({
+        ...op,
+        course: course._id,
+      }));
+
+      // Process operations in batches to avoid overwhelming the server
+      const batchSize = 5;
+      for (let i = 0; i < operationsWithCourse.length; i += batchSize) {
+        const batch = operationsWithCourse.slice(i, i + batchSize);
+
+        // Submit operations in parallel
+        const results = await Promise.all(
+          batch.map((operation) =>
+            createEntity("Operation", operation)
+              .then((res) => {
+                if (res?.success) successCount++;
+                return res;
+              })
+              .catch((err) => {
+                errorCount++;
+                console.error("Error creating operation:", err);
+                return { error: err.message };
+              })
+          )
+        );
+      }
+
+      if (successCount > 0) {
+        toast.success(`Successfully created ${successCount} operations`);
+        if (errorCount > 0) {
+          toast.warning(`Failed to create ${errorCount} operations`);
+        }
+        router.refresh();
+
+        // Update operations list with newly created ones
+        setOperations((prev) => [...prev, ...generatedOperations]);
+        setGeneratedOperations([]);
+      } else {
+        toast.error("Failed to create any operations");
+      }
+    } catch (error) {
+      console.error("Error submitting operations:", error);
+      toast.error("Failed to submit operations. Please try again.");
+    } finally {
+      setIsSubmittingAll(false);
+    }
+  };
+
   useEffect(() => {
     const errors = form.formState.errors;
-    console.log(errors);
     if (Object.keys(errors).length > 0) {
       const errorMessages = Object.values(errors)
         .map((error) => error.message)
@@ -123,16 +204,15 @@ const CoursesForm = ({ course }: { course?: CourseProps | null }) => {
       toast.error(`Please fix the following errors: ${errorMessages}`);
     }
   }, [form.formState.errors]);
+
   const onSubmit = async (data: any) => {
     startTransition(async () => {
       try {
-        // Filter and process valid images  console.log(course);
-        console.log(data);
+        // Filter and process valid images
         const filteredImages =
           Array.isArray(data?.images) &&
           data.images?.some((image) => image !== null && (image instanceof File || Object.keys(image).length > 0))
             ? data.images?.filter((image: any) => {
-                console.log(image);
                 if (image?.secure_url !== "" || image instanceof File) return image;
               })
             : [];
@@ -145,8 +225,7 @@ const CoursesForm = ({ course }: { course?: CourseProps | null }) => {
         }
         const uploadedImages = await Promise.all(
           filteredImages?.map(async (image: File | { secure_url: string; public_id: string }) => {
-            console.log(image, data);
-            if (image?.secure_url && image?.secure_url !== "") {
+            if ("secure_url" in image && image.secure_url !== "") {
               return image;
             }
             if (!(image instanceof File)) {
@@ -175,17 +254,16 @@ const CoursesForm = ({ course }: { course?: CourseProps | null }) => {
             };
           })
         );
-        console.log(uploadedImages, "Uploaded Images:");
+
         // Replace images in the data object
         data.images = uploadedImages;
-        console.log(data, "Form Data After Processing:", data);
+
         // Create or update the course entity
         const res = course ? await updateEntity("Course", course._id, data) : await createEntity("Course", data);
-        console.log(res);
+
         if (res?.success) {
           toast.success(res?.success);
           router.refresh();
-          // if (!course) router.push(`/dashboard/edit-Course/${res?.data?.[0]?._id}`);
         }
       } catch (error) {
         console.error("Error during submission:", error);
@@ -193,7 +271,7 @@ const CoursesForm = ({ course }: { course?: CourseProps | null }) => {
       }
     });
   };
-  const t = useTranslations();
+
   return (
     <div>
       <Form {...form}>
@@ -248,7 +326,7 @@ const CoursesForm = ({ course }: { course?: CourseProps | null }) => {
           <FormTitle text={t("days")} />
 
           {days.map((day, index) => (
-            <div className="flex  gap-2" key={day.id}>
+            <div className="flex gap-2" key={day.id}>
               <DescInput name={`days.${index}`} label={`Day ${index + 1}`} />
               <Button className="self-end w-fit" variant={"destructive"} onClick={() => removeDay(index)}>
                 Delete
@@ -256,7 +334,7 @@ const CoursesForm = ({ course }: { course?: CourseProps | null }) => {
             </div>
           ))}
           <Button
-            className=" mt-5 w-fit ml-auto"
+            className="mt-5 w-fit ml-auto"
             onClick={(e) => {
               e.stopPropagation();
               e.preventDefault();
@@ -270,28 +348,93 @@ const CoursesForm = ({ course }: { course?: CourseProps | null }) => {
             <FileUpload label="صورة الشهادة" name={`certificate.image`} />
           </div>
 
-          <Button disabled={isPending}>{course ? "Update" : "Add"} Course</Button>
+          <Button disabled={isPending} className="mb-8">
+            {course ? "Update" : "Add"} Course
+          </Button>
         </form>
       </Form>
+
       {course && (
-        <>
-          {" "}
-          <FormTitle text="Course Convening" />
-          {operations.map((operation, index) => (
-            <div key={index}>
-              <OperationForm
-                removeOperationn={() => removeOperation(index)}
-                courseId={course._id}
-                operation={operation}
-              />
+        <div className="border-t border-gray-200 pt-6 mt-4">
+          <div className="flex justify-between items-center mb-4">
+            <FormTitle text={t("Course Schedule")} />
+
+            <div className="flex gap-2">
+              <Button size="sm" variant="outline" className="flex items-center gap-1" onClick={addOperation}>
+                <Plus className="h-4 w-4" />
+                {t("Add Session")}
+              </Button>
+
+              {generatedOperations.length > 0 && (
+                <Button
+                  size="sm"
+                  variant="default"
+                  className="flex items-center gap-1 bg-green-600 hover:bg-green-700"
+                  onClick={submitAllOperations}
+                  disabled={isSubmittingAll}
+                >
+                  <Save className="h-4 w-4" />
+                  {isSubmittingAll ? t("Submitting...") : t("Submit All")}
+                  {isSubmittingAll && <span className="ml-1 inline-block animate-spin">⟳</span>}
+                </Button>
+              )}
             </div>
-          ))}
-          <Button className=" mt-5" onClick={() => addOperation()}>
-            Add Convening
-          </Button>
-        </>
+          </div>
+
+          {/* Display a summary of generated operations if any */}
+          {generatedOperations.length > 0 && (
+            <div className="mb-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
+              <h3 className="text-sm font-medium text-blue-800 flex items-center gap-2 mb-2">
+                <CalendarRange className="h-4 w-4" />
+                {t("Generated Operations")}
+              </h3>
+              <p className="text-xs text-blue-600 mb-2">
+                {t("Generated")} {generatedOperations.length} {t("sessions across")} {cities?.data?.data.length}{" "}
+                {t("cities")} {t("for a full year")}
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {cities?.data?.data.slice(0, 5).map((city: any) => (
+                  <span key={city._id} className="bg-white text-xs px-2 py-1 rounded border border-blue-200">
+                    {city.name[locale]}
+                  </span>
+                ))}
+                {cities?.data?.data.length > 5 && (
+                  <span className="bg-white text-xs px-2 py-1 rounded border border-blue-200">
+                    +{cities.data.data.length - 5} {t("more")}
+                  </span>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Display added operations */}
+          <div className="space-y-4">
+            {operations.length > 0 ? (
+              operations.map((operation, index) => (
+                <div key={index}>
+                  <OperationForm
+                    removeOperationn={() => removeOperation(index)}
+                    courseId={course._id}
+                    operation={operation}
+                    isNew={!operation._id}
+                    onGenerateAll={handleGeneratedOperations}
+                  />
+                </div>
+              ))
+            ) : (
+              <div className="bg-gray-50 p-8 rounded-lg border border-dashed border-gray-300 text-center">
+                <Calendar className="h-8 w-8 mx-auto opacity-40 mb-3" />
+                <p className="text-gray-500">{t("No sessions scheduled yet")}</p>
+                <Button onClick={addOperation} variant="outline" size="sm" className="mt-4">
+                  {t("Add Your First Session")}
+                </Button>
+              </div>
+            )}
+          </div>
+        </div>
       )}
     </div>
   );
 };
+
 export default CoursesForm;

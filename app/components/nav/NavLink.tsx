@@ -38,9 +38,9 @@ const NavLink = ({
         className={`${linkStyles} ${
           active
             ? `text-primary 
-       after:w-full after:h-[2px]  after:bg-main  after:absolute after:-bottom-1 w-fit after:left-0`
+       after:w-full after:h-[2px]  after:bg-main   after:absolute after:-bottom-1 w-fit after:left-0`
             : "after:w-0 "
-        } hover:after:bg-gray-200 hover:after:w-full after:duration-150 after:absolute after:-bottom-1  after:left-0 hover:after:h-[2px]`}
+        } hover:after:bg-yellow-500 hover:after:w-full after:duration-150 after:absolute after:-bottom-1  after:left-0 hover:after:h-[2px]`}
       >
         {text}
       </Link>

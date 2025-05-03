@@ -41,22 +41,23 @@ const page = async ({ params: { locale, id } }: { params: { locale: string; id: 
   console.log(course);
   return (
     <section className={styles.course}>
-      <div className="bg-[#264bad] text-white py-8 md:py-12">
-        <MaxWidthWrapper
-          className={` ${
-            locale === "ar" ? "flex-row-reverse" : ""
-          } container gap-6 flex !pt-32 justify-between items-start lg:flex-row flex-col mx-auto px-4`}
-        >
-          <div className=" relative h-44 mt-5  w-44 rounded-2xl overflow-hidden">
-            <Image alt={name.en} src={images?.[0].secure_url} fill className=" object-cover" />
-          </div>
-          <div className=" mt-10">
-            <div className="mb-6">
-              <h1 className="text-2xl md:text-3xl font-bold mb-4">{name?.[locale] || ""}</h1>
-              <Paragraph
-                className="text-sm md:text-base text-white/90 space-y-2"
-                description={course.shortDescription?.[locale] || ""}
-              />
+      <div className=" text-white py-8 md:py-12">
+        <MaxWidthWrapper className="!pt-32">
+          <div
+            className={` ${locale === "ar" ? "flex-row-reverse" : ""}  gap-6  flex   bg-[#264bad] 
+           mx-auto  justify-between items-start lg:flex-row flex-col  px-4 w-full `}
+          >
+            <div className=" relative h-44 mt-5  w-full lg:w-44 ml-4 lg:left-20 mb-5 rounded-2xl overflow-hidden">
+              <Image alt={name.en} src={images?.[0].secure_url} fill className=" object-cover" />
+            </div>
+            <div className=" mt-10">
+              <div className="mb-6">
+                <h1 className="text-2xl md:text-3xl font-bold mb-4">{name?.[locale] || ""}</h1>
+                <Paragraph
+                  className="text-sm md:text-base text-white/90 space-y-2"
+                  description={course.shortDescription?.[locale] || ""}
+                />
+              </div>
             </div>
           </div>
         </MaxWidthWrapper>{" "}

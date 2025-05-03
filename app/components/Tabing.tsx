@@ -57,14 +57,14 @@ const Tabing = ({ defaultValue, options }: TabingProps) => {
             key={i}
             onClick={() => handleClick(option.href)}
             className={cn(
-              "flex items-center w-full justify-center py-3 px-4 text-sm font-medium transition-colors relative",
+              "flex items-center  w-full justify-center py-3 px-4 text-sm font-medium transition-colors relative",
               "focus:outline-none hover:bg-[#2980b9]",
               currentPath === option.href ? "bg-[#3498db] text-white" : "bg-[#2c3e50] text-white/80 hover:text-white"
             )}
           >
             {option.icon && getIcon(option.icon)}
             <span>{option.label.length > 20 ? option.label.slice(0, 20) + "..." : option.label}</span>
-            {currentPath === option.href && <div className="absolute bottom-0 left-0 w-full h-1 bg-white"></div>}
+            {currentPath === option.href && <div className="absolute bottom-0 left-0 w-full h-1 bg-yellow-500"></div>}
           </button>
         ))}
       </div>
