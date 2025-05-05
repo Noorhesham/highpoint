@@ -86,7 +86,7 @@ export default function ProductCard({ product, index, category = false, register
       >
         {/* Blue header with circular logo */}
         <ImageSlider urls={product.images.map((image: any) => image.secure_url)} productId={product._id} />
-        <h3 className="text-start p-1 text-base line-clamp-1 font-bold text-black">
+        <h3 className="text-start p-1 text-sm line-clamp-1 font-bold text-black">
           {product.name?.[locale || "en"] || ""}
         </h3>
         {/* Course details with orange bullet points */}

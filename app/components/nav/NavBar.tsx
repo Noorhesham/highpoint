@@ -125,7 +125,7 @@ const NavBar = () => {
         "
         >
           <div className=" w-full bg-gray-100 py-3 ">
-            <MaxWidthWrapper noPadding className={`  flex justify-between `}>
+            <MaxWidthWrapper noPadding className={` flex justify-between `}>
               {" "}
               <div className=" ml-5 hidden lg:flex z-30 relative items-center  gap-4 xl:gap-8 ">
                 {links.map((link) => (
@@ -148,8 +148,10 @@ const NavBar = () => {
             </MaxWidthWrapper>
           </div>
 
-          <MaxWidthWrapper noPadding className="flex justify-between items-center">
-            {" "}
+          <MaxWidthWrapper
+            noPadding
+            className={`  ${locale === "ar" && "flex-row-reverse"}   flex justify-between items-center`}
+          >
             <div className=" hidden lg:flex z-30 relative items-center  gap-4 xl:gap-8 ">
               {links2.map((link) => (
                 //@ts-ignore

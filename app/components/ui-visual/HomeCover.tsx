@@ -24,7 +24,7 @@ const HomeCover = ({
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
       }}
-      className={` ${className || ""} h-full lg:h-[29rem] mt-10 lg:mt-16  xl:mt-18 relative`}
+      className={` ${className || ""} h-full lg:h-[32rem] mt-10 lg:mt-16  xl:mt-18 relative`}
     >
       {" "}
       <div className=" w-full  h-full absolute inset-0  bg-black/60"></div>
