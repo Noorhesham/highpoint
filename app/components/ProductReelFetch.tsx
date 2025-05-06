@@ -9,7 +9,7 @@ import { getEntities } from "../actions/actions";
 import { getTranslations } from "next-intl/server";
 
 const fetchProducts = async (page: number, filter: any) => {
-  return await getEntities("Course", page, filter || {}, false, "category", "", "", {}, {}, 9);
+  return await getEntities("Course", page, filter || {}, false, "category", "", "", {}, {}, 12);
 };
 
 const cachedFetchProducts = (page: number, filter: any, locale: string) =>

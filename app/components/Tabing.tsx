@@ -58,8 +58,8 @@ const Tabing = ({ defaultValue, options }: TabingProps) => {
             onClick={() => handleClick(option.href)}
             className={cn(
               "flex items-center  w-full justify-center py-3 px-4 text-sm font-medium transition-colors relative",
-              "focus:outline-none hover:bg-[#2980b9]",
-              currentPath === option.href ? "bg-primary text-white" : "bg-[#1ea5dd] text-white/80 hover:text-white"
+              "focus:outline-none hover:bg-[#d4ebf6]",
+              currentPath === option.href ? "bg-[#d4ebf6] text-black" : "bg-[#254bac] text-white/80 hover:text-white"
             )}
           >
             {option.icon && getIcon(option.icon)}

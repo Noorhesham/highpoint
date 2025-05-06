@@ -41,30 +41,42 @@ const page = async ({ params: { locale, id } }: { params: { locale: string; id: 
   console.log(course);
   return (
     <section className={styles.course}>
-      <div className=" text-white py-8 md:py-12">
+      <div className=" text-white pt-8 md:pt-12">
         <MaxWidthWrapper className="!pt-32">
-          <div
-            className={` ${locale === "ar" ? "flex-row-reverse" : ""}  rounded-2xl gap-6  flex   bg-[#264bad] 
-           mx-auto  justify-between items-start lg:flex-row flex-col  px-4 w-full `}
-          >
+          <div className={`rounded-lg  flex flex-col w-full bg-[#254bac]`}>
+            {/* Course Title Banner */}
+
+            {/* Course Content Area */}
             <div
-              className={` relative h-44 mt-5  w-full lg:w-44  ${
-                locale === "ar" ? "lg:right-20 " : "lg:left-20 "
-              } mb-5 rounded-2xl overflow-hidden`}
+              className={`w-full flex ${locale === "ar" ? "flex-row-reverse" : "flex-row"} flex-wrap md:flex-nowrap`}
             >
-              <Image alt={name.en} src={images?.[0]?.secure_url} fill className=" object-cover" />
-            </div>
-            <div className={`${locale === "ar" ? " lg:ml-auto lg:mr-20" : ""} mt-10`}>
-              <div className="mb-6">
-                <h1 className="text-2xl md:text-3xl font-bold mb-4">{name?.[locale] || ""}</h1>
+              {/* Left image column */}
+              <div className="w-full md:w-1/4 p-6">
+                <div className={`relative ${locale === "ar" ? "lg:ms-10" : "lg:-ms-10"} h-44 w-full rounded-md  bg-white/10`}>
+                  {images?.[0]?.secure_url && (
+                    <Image alt={name?.[locale] || ""} src={images[0].secure_url} fill className="object-cover" />
+                  )}
+                </div>
+              </div>
+
+              {/* Right content column */}
+              <div className={`w-full md:w-3/4 p-6 ${locale === "ar" ? "text-right" : "text-left"}`}>
+                <div className={`w-full py-4 flex ${locale === "ar" ? "justify-start" : "justify-start"}`}>
+                  <h1 className={`text-lg md:text-xl font-bold ${locale === "ar" ? "text-right" : "text-left"}`}>
+                    {name?.[locale] || ""}
+                  </h1>
+                </div>
+                <h2 className={`text-xl font-semibold mb-3 ${locale === "ar" ? "text-right" : "text-left"}`}>
+                  {t("Why Attend")}
+                </h2>
                 <Paragraph
-                  className="text-sm md:text-base text-white/90 space-y-2"
+                  className="text-sm md:text-base text-white/90"
                   description={course.shortDescription?.[locale] || ""}
                 />
               </div>
             </div>
           </div>
-        </MaxWidthWrapper>{" "}
+        </MaxWidthWrapper>
       </div>
       <div className=" relative">
         <MaxWidthWrapper>
